@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Habit Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #131313;
+      --border: #1c1c1c;
+      --border-hover: #2a2a2a;
+      --accent: #7c6af7;
+      --accent-light: #a89bf7;
+      --text: #e2e2e2;
+      --text-dim: #555;
+      --text-muted: #333;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 56px 16px 64px;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Progress ── */
+    .progress-section {
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 28px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .progress-track {
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      border-radius: 1px;
+      transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      width: 0%;
+    }
+
+    /* ── Habit list ── */
+    .habits {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ── Habit card ── */
+    .habit-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: border-color 0.25s, background 0.25s;
+      cursor: default;
+    }
+
+    .habit-card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .habit-card.done {
+      background: #111;
+      border-color: #1a1a1a;
+    }
+
+    /* bounce when checked */
+    @keyframes card-pop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.025); }
+      70%  { transform: scale(0.992); }
+      100% { transform: scale(1); }
+    }
+    .habit-card.popping {
+      animation: card-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* ── Checkbox ── */
+    .cb-wrap {
+      flex-shrink: 0;
+      position: relative;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+
+    .cb-wrap input {
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      cursor: pointer;
+      z-index: 1;
+      margin: 0;
+    }
+
+    .cb-face {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      border: 1.5px solid #2c2c2c;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  border-color 0.22s,
+                  transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cb-wrap:hover .cb-face {
+      border-color: #444;
+    }
+
+    .cb-wrap input:checked ~ .cb-face {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.12);
+    }
+
+    .check-icon {
+      opacity: 0;
+      transform: scale(0.4) rotate(-20deg);
+      transition: opacity 0.18s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cb-wrap input:checked ~ .cb-face .check-icon {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    /* ripple */
+    .ripple {
+      position: absolute;
+      inset: -50%;
+      border-radius: 50%;
+      background: rgba(124, 106, 247, 0.35);
+      transform: scale(0);
+      animation: ripple-out 0.55s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes ripple-out {
+      to { transform: scale(2.5); opacity: 0; }
+    }
+
+    /* ── Habit info ── */
+    .habit-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .habit-name {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.3s;
+    }
+
+    .habit-card.done .habit-name {
+      color: #444;
+    }
+
+    .habit-streak-label {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.3s;
+      letter-spacing: 0.02em;
+    }
+
+    .habit-card.done .habit-streak-label {
+      color: var(--accent);
+    }
+
+    /* ── 7-day dots ── */
+    .week-dots {
+      display: flex;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .dot.past {
+      background: #3a3270;
+    }
+
+    .dot.today-done {
+      background: var(--accent);
+      transform: scale(1.3);
+    }
+
+    .dot.today-empty {
+      background: #272727;
+      border: 1px solid #333;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 52px;
+      font-size: 0.68rem;
+      color: #252525;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="title">Daily Habits</div>
+  <div class="subtitle" id="date-label"></div>
+</header>
+
+<div class="progress-section">
+  <div class="progress-meta">
+    <span>Today</span>
+    <span id="progress-text">0 / 5</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+</div>
+
+<div class="habits" id="habits"></div>
+
+<footer>data saved locally</footer>
+
+<script>
+  const HABITS = [
+    { id: 'meditation', name: 'Morning meditation' },
+    { id: 'exercise',   name: 'Exercise'           },
+    { id: 'reading',    name: 'Read 30 minutes'    },
+    { id: 'water',      name: 'Drink 8 glasses of water' },
+    { id: 'nosocial',   name: 'No social media after 9 pm' },
+  ];
+
+  // ── Date helpers ──────────────────────────────────────────
+  const TODAY = (() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  })();
+
+  function prevDay(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    d.setDate(d.getDate() - 1);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function last7() {
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(TODAY + 'T00:00:00');
+      d.setDate(d.getDate() - i);
+      days.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`);
+    }
+    return days;
+  }
+
+  function calcStreak(dates) {
+    const set = new Set(dates);
+    // If today is done, streak includes today; otherwise start from yesterday
+    let cursor = set.has(TODAY) ? TODAY : prevDay(TODAY);
+    if (!set.has(cursor)) return 0;
+    let n = 0;
+    while (set.has(cursor)) { n++; cursor = prevDay(cursor); }
+    return n;
+  }
+
+  // ── Storage ───────────────────────────────────────────────
+  function load() {
+    try { return JSON.parse(localStorage.getItem('habitData') || '{}'); }
+    catch { return {}; }
+  }
+
+  function save(data) {
+    localStorage.setItem('habitData', JSON.stringify(data));
+  }
+
+  // ── UI helpers ────────────────────────────────────────────
+  function updateProgress() {
+    const data = load();
+    const done = HABITS.filter(h => (data[h.id]?.dates || []).includes(TODAY)).length;
+    const pct  = (done / HABITS.length) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent  = `${done} / ${HABITS.length}`;
+  }
+
+  function renderDots(dates, container) {
+    const days = last7();
+    const set  = new Set(dates);
+    container.innerHTML = '';
+    days.forEach(day => {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      if (day === TODAY) {
+        dot.classList.add(set.has(day) ? 'today-done' : 'today-empty');
+      } else if (set.has(day)) {
+        dot.classList.add('past');
+      }
+      container.appendChild(dot);
+    });
+  }
+
+  function streakLabel(streak) {
+    return `${streak > 0 ? '🔥' : '○'} ${streak} day streak`;
+  }
+
+  // ── Build ─────────────────────────────────────────────────
+  function build() {
+    const container = document.getElementById('habits');
+    const data = load();
+    container.innerHTML = '';
+
+    HABITS.forEach(habit => {
+      const hdata = data[habit.id] || { dates: [] };
+      const checked = hdata.dates.includes(TODAY);
+      const streak  = calcStreak(hdata.dates);
+
+      // Card
+      const card = document.createElement('div');
+      card.className = 'habit-card' + (checked ? ' done' : '');
+
+      // Checkbox
+      const cbWrap = document.createElement('label');
+      cbWrap.className = 'cb-wrap';
+      cbWrap.innerHTML = `
+        <input type="checkbox" ${checked ? 'checked' : ''} />
+        <div class="cb-face">
+          <svg class="check-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7.5L5.5 11L12 3" stroke="white" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>`;
+
+      const input   = cbWrap.querySelector('input');
+      const cbFace  = cbWrap.querySelector('.cb-face');
+
+      // Info
+      const info = document.createElement('div');
+      info.className = 'habit-info';
+      info.innerHTML = `
+        <div class="habit-name">${habit.name}</div>
+        <div class="habit-streak-label">${streakLabel(streak)}</div>`;
+
+      // Dots
+      const dots = document.createElement('div');
+      dots.className = 'week-dots';
+      renderDots(hdata.dates, dots);
+
+      card.appendChild(cbWrap);
+      card.appendChild(info);
+      card.appendChild(dots);
+      container.appendChild(card);
+
+      // ── Interaction ──
+      input.addEventListener('change', () => {
+        const storage = load();
+        const h = storage[habit.id] || { dates: [] };
+
+        if (input.checked) {
+          if (!h.dates.includes(TODAY)) h.dates.push(TODAY);
+          card.classList.add('done');
+
+          // ripple
+          const rip = document.createElement('span');
+          rip.className = 'ripple';
+          cbFace.appendChild(rip);
+          rip.addEventListener('animationend', () => rip.remove());
+
+          // card pop
+          card.classList.remove('popping');
+          void card.offsetWidth;
+          card.classList.add('popping');
+          card.addEventListener('animationend', () => card.classList.remove('popping'), { once: true });
+        } else {
+          h.dates = h.dates.filter(d => d !== TODAY);
+          card.classList.remove('done');
+        }
+
+        storage[habit.id] = h;
+        save(storage);
+
+        const newStreak = calcStreak(h.dates);
+        info.querySelector('.habit-streak-label').textContent = streakLabel(newStreak);
+        renderDots(h.dates, dots);
+        updateProgress();
+      });
+    });
+
+    updateProgress();
+  }
+
+  // ── Date label ────────────────────────────────────────────
+  document.getElementById('date-label').textContent =
+    new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+  build();
+</script>
+</body>
+</html>
