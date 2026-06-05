@@ -134,10 +134,10 @@
     .stat-value { font-size:.88rem; font-weight:700; color:var(--text); line-height:1.1; }
     .stat-label { font-size:.6rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em; }
 
-    /* ── XP bar ── */
-    .xp-track { height:2px; background:var(--border); border-radius:1px; overflow:hidden; margin-top:10px; }
-    .xp-fill  { height:100%; background:linear-gradient(90deg,#f0c040,#ffd700); border-radius:1px; transition:width .6s cubic-bezier(.22,1,.36,1); width:0%; }
-    .xp-meta  { display:flex; justify-content:space-between; margin-top:4px; font-size:.64rem; color:var(--text-dim); letter-spacing:.04em; }
+    /* ── H bar ── */
+    .h-track { height:2px; background:var(--border); border-radius:1px; overflow:hidden; margin-top:10px; }
+    .h-fill  { height:100%; background:linear-gradient(90deg,#f0c040,#ffd700); border-radius:1px; transition:width .6s cubic-bezier(.22,1,.36,1); width:0%; }
+    .h-meta  { display:flex; justify-content:space-between; margin-top:4px; font-size:.64rem; color:var(--text-dim); letter-spacing:.04em; font-variant-numeric:tabular-nums; }
 
     /* ── Recovery banner ── */
     .recovery-banner {
@@ -257,9 +257,9 @@
     .add-plus  { font-size:1.3rem; line-height:1; }
     .add-label { font-size:.76rem; letter-spacing:.07em; text-transform:uppercase; }
 
-    /* ── Floating XP ── */
-    .xp-float { position:fixed; font-size:.76rem; font-weight:700; color:#ffd700; pointer-events:none; z-index:700; white-space:nowrap; animation:xp-rise 1.1s ease-out forwards; text-shadow:0 1px 4px rgba(0,0,0,.5); }
-    @keyframes xp-rise { 0%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-44px)} }
+    /* ── Floating H ── */
+    .h-float { position:fixed; font-size:.76rem; font-weight:700; color:#ffd700; pointer-events:none; z-index:700; white-space:nowrap; animation:h-rise 1.1s ease-out forwards; text-shadow:0 1px 4px rgba(0,0,0,.5); }
+    @keyframes h-rise { 0%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-44px)} }
 
     /* ── Modal ── */
     .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; z-index:400; padding:16px; opacity:0; transition:opacity .2s; pointer-events:none; }
@@ -282,6 +282,27 @@
 
     /* ── Footer ── */
     footer { margin-top:52px; font-size:.68rem; color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase; }
+
+    /* ── User menu ── */
+    .user-menu-header { padding:10px 12px 8px; }
+    .user-menu-name   { font-size:.86rem; font-weight:600; color:var(--text); }
+    .user-menu-email  { font-size:.72rem; color:var(--text-dim); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:160px; }
+    .user-avatar-btn  { font-size:1.05rem; }
+
+    /* ── Page loading overlay ── */
+    #page-loading {
+      position:fixed; inset:0; background:var(--bg);
+      display:flex; align-items:center; justify-content:center;
+      z-index:500; transition:opacity .3s;
+    }
+    .page-ring {
+      width:32px; height:32px;
+      border:2.5px solid rgba(124,106,247,.2);
+      border-top-color:var(--accent);
+      border-radius:50%;
+      animation:spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
 
     /* ══════════════════════════════════════════
        Calendar View
@@ -427,6 +448,7 @@
     }
     .cal-legend-labels { display:flex; justify-content:space-between; flex:1; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body>
 
@@ -494,7 +516,30 @@
   <a class="toolbar-btn" href="https://github.com/Ghostwritten/Habit" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub repository">
     <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
   </a>
+
+  <!-- User account -->
+  <div class="picker-wrap" id="user-picker-wrap">
+    <button class="toolbar-btn user-avatar-btn" id="user-btn" title="Account" aria-label="Account">
+      <span id="user-avatar-display">😊</span>
+    </button>
+    <div class="picker-menu" id="user-menu" style="min-width:200px">
+      <div class="user-menu-header">
+        <div class="user-menu-name"  id="user-menu-name">—</div>
+        <div class="user-menu-email" id="user-menu-email">—</div>
+      </div>
+      <div class="settings-divider"></div>
+      <button class="picker-opt" id="sign-out-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="opacity:.7">
+          <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+        </svg>
+        Sign out
+      </button>
+    </div>
+  </div>
 </div>
+
+<!-- Page loading overlay -->
+<div id="page-loading"><div class="page-ring"></div></div>
 
 <header>
   <div class="title" id="page-title">Daily Habits</div>
@@ -524,10 +569,10 @@
       <span class="stat-label" id="label-freeze">Freeze</span>
     </div>
   </div>
-  <div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div>
-  <div class="xp-meta">
-    <span id="xp-text">0 XP</span>
-    <span id="xp-next">→ 100 XP</span>
+  <div class="h-track"><div class="h-fill" id="h-fill"></div></div>
+  <div class="h-meta">
+    <span id="h-text">0 H</span>
+    <span id="h-next">→ 100 H</span>
   </div>
 </div>
 
@@ -585,15 +630,15 @@ const I18N = {
     timeRange:'Time range', deleteHabit:'Delete habit',
     useFreeze: n => `❄️ Use Streak Freeze (×${n})`,
     perfectDay:'Perfect Day!',
-    perfectDaySub: bonus => `All habits done${bonus?' · +50 bonus XP':''}`,
+    perfectDaySub: bonus => `All habits done${bonus?' · +50 bonus H':''}`,
     levelUp:'Level Up!',
     freezeEarned:'Streak Freeze earned!',
     freezeEarnedSub: (d,t) => `${d} consecutive perfect days · ×${t}`,
     freezeUsed:'Streak Protected!',
     freezeUsedSub: r => `Freeze token used · ×${r} remaining`,
     milestone:'Milestone!',
-    milestoneMsg: (d,xp) => `${d}-day streak! +${xp} XP`,
-    maxLevel:'MAX LEVEL 👑', nextXP: n => `→ ${n} XP`,
+    milestoneMsg: (d,xp) => `${d}-day streak! +${xp} H`,
+    maxLevel:'MAX LEVEL 👑', nextH: n => `→ ${n} H`,
     levels:['Newcomer','Consistent','Dedicated','Focused','Master','Champion','Legend'],
     calTitle:'Calendar', calLess:'Less', calMore:'More',
     calNoData:'No habits yet',
@@ -610,15 +655,15 @@ const I18N = {
     timeRange:'时间范围', deleteHabit:'删除习惯',
     useFreeze: n => `❄️ 使用护盾 (×${n})`,
     perfectDay:'完美一天！',
-    perfectDaySub: bonus => `全部习惯完成${bonus?' · +50 bonus XP':''}`,
+    perfectDaySub: bonus => `全部习惯完成${bonus?' · +50 H 奖励':''}`,
     levelUp:'升级！',
     freezeEarned:'获得护盾！',
     freezeEarnedSub: (d,t) => `连续完美 ${d} 天 · 护盾 ×${t}`,
     freezeUsed:'Streak 已保护！',
     freezeUsedSub: r => `护盾消耗 · 剩余 ×${r}`,
     milestone:'里程碑！',
-    milestoneMsg: (d,xp) => `${d} 天达成！+${xp} XP`,
-    maxLevel:'最高等级 👑', nextXP: n => `→ ${n} XP`,
+    milestoneMsg: (d,xp) => `${d} 天达成！+${xp} H`,
+    maxLevel:'最高等级 👑', nextH: n => `→ ${n} H`,
     levels:['新手','稳定','专注','精进','大师','强者','传奇'],
     calTitle:'打卡日历', calLess:'少', calMore:'多', calNoData:'还没有习惯',
   },
@@ -634,15 +679,15 @@ const I18N = {
     timeRange:'Horario', deleteHabit:'Eliminar hábito',
     useFreeze: n => `❄️ Usar escudo (×${n})`,
     perfectDay:'¡Día perfecto!',
-    perfectDaySub: bonus => `Todos los hábitos hechos${bonus?' · +50 XP extra':''}`,
+    perfectDaySub: bonus => `Todos los hábitos hechos${bonus?' · +50 H extra':''}`,
     levelUp:'¡Subiste de nivel!',
     freezeEarned:'¡Escudo ganado!',
     freezeEarnedSub: (d,t) => `${d} días perfectos seguidos · ×${t}`,
     freezeUsed:'¡Racha protegida!',
     freezeUsedSub: r => `Escudo usado · ×${r} restantes`,
     milestone:'¡Hito!',
-    milestoneMsg: (d,xp) => `¡${d} días seguidos! +${xp} XP`,
-    maxLevel:'NIVEL MÁXIMO 👑', nextXP: n => `→ ${n} XP`,
+    milestoneMsg: (d,xp) => `¡${d} días seguidos! +${xp} H`,
+    maxLevel:'NIVEL MÁXIMO 👑', nextH: n => `→ ${n} H`,
     levels:['Novato','Constante','Dedicado','Enfocado','Maestro','Campeón','Leyenda'],
     calTitle:'Calendario', calLess:'Menos', calMore:'Más', calNoData:'Sin hábitos aún',
   },
@@ -658,15 +703,15 @@ const I18N = {
     timeRange:'시간 범위', deleteHabit:'습관 삭제',
     useFreeze: n => `❄️ 보호막 사용 (×${n})`,
     perfectDay:'완벽한 하루!',
-    perfectDaySub: bonus => `모든 습관 완료${bonus?' · +50 보너스 XP':''}`,
+    perfectDaySub: bonus => `모든 습관 완료${bonus?' · +50 보너스 H':''}`,
     levelUp:'레벨 업!',
     freezeEarned:'보호막 획득!',
     freezeEarnedSub: (d,t) => `${d}일 연속 완벽 · ×${t}`,
     freezeUsed:'스트릭 보호됨!',
     freezeUsedSub: r => `보호막 사용 · ×${r} 남음`,
     milestone:'마일스톤!',
-    milestoneMsg: (d,xp) => `${d}일 달성! +${xp} XP`,
-    maxLevel:'최고 레벨 👑', nextXP: n => `→ ${n} XP`,
+    milestoneMsg: (d,xp) => `${d}일 달성! +${xp} H`,
+    maxLevel:'최고 레벨 👑', nextH: n => `→ ${n} H`,
     levels:['초보자','꾸준함','헌신','집중','달인','챔피언','전설'],
     calTitle:'달력', calLess:'적음', calMore:'많음', calNoData:'아직 습관 없음',
   },
@@ -682,15 +727,15 @@ const I18N = {
     timeRange:'時間帯', deleteHabit:'習慣を削除',
     useFreeze: n => `❄️ シールドを使用 (×${n})`,
     perfectDay:'完璧な一日！',
-    perfectDaySub: bonus => `全習慣達成${bonus?' · +50 ボーナスXP':''}`,
+    perfectDaySub: bonus => `全習慣達成${bonus?' · +50 ボーナス H':''}`,
     levelUp:'レベルアップ！',
     freezeEarned:'シールド獲得！',
     freezeEarnedSub: (d,t) => `${d}日連続完璧 · ×${t}`,
     freezeUsed:'ストリーク保護！',
     freezeUsedSub: r => `シールド使用 · ×${r} 残り`,
     milestone:'マイルストーン！',
-    milestoneMsg: (d,xp) => `${d}日達成！+${xp} XP`,
-    maxLevel:'最高レベル 👑', nextXP: n => `→ ${n} XP`,
+    milestoneMsg: (d,xp) => `${d}日達成！+${xp} H`,
+    maxLevel:'最高レベル 👑', nextH: n => `→ ${n} H`,
     levels:['初心者','安定','専念','精進','達人','強者','伝説'],
     calTitle:'カレンダー', calLess:'少', calMore:'多', calNoData:'習慣がまだありません',
   },
@@ -706,15 +751,15 @@ const I18N = {
     timeRange:'Khoảng thời gian', deleteHabit:'Xóa thói quen',
     useFreeze: n => `❄️ Dùng bảo vệ (×${n})`,
     perfectDay:'Ngày hoàn hảo!',
-    perfectDaySub: bonus => `Hoàn thành tất cả${bonus?' · +50 XP thưởng':''}`,
+    perfectDaySub: bonus => `Hoàn thành tất cả${bonus?' · +50 H thưởng':''}`,
     levelUp:'Lên cấp!',
     freezeEarned:'Nhận bảo vệ!',
     freezeEarnedSub: (d,t_) => `${d} ngày hoàn hảo liên tiếp · ×${t_}`,
     freezeUsed:'Streak được bảo vệ!',
     freezeUsedSub: r => `Đã dùng bảo vệ · ×${r} còn lại`,
     milestone:'Cột mốc!',
-    milestoneMsg: (d,xp) => `${d} ngày liên tiếp! +${xp} XP`,
-    maxLevel:'CẤP TỐI ĐA 👑', nextXP: n => `→ ${n} XP`,
+    milestoneMsg: (d,xp) => `${d} ngày liên tiếp! +${xp} H`,
+    maxLevel:'CẤP TỐI ĐA 👑', nextH: n => `→ ${n} H`,
     levels:['Người mới','Kiên định','Chuyên tâm','Tập trung','Bậc thầy','Vô địch','Huyền thoại'],
     calTitle:'Lịch', calLess:'Ít', calMore:'Nhiều', calNoData:'Chưa có thói quen',
   },
@@ -730,15 +775,15 @@ const I18N = {
     timeRange:'ช่วงเวลา', deleteHabit:'ลบนิสัย',
     useFreeze: n => `❄️ ใช้โล่ (×${n})`,
     perfectDay:'วันสมบูรณ์แบบ!',
-    perfectDaySub: bonus => `ทำครบทุกนิสัย${bonus?' · +50 XP โบนัส':''}`,
+    perfectDaySub: bonus => `ทำครบทุกนิสัย${bonus?' · +50 H โบนัส':''}`,
     levelUp:'เลเวลอัพ!',
     freezeEarned:'ได้รับโล่!',
     freezeEarnedSub: (d,t_) => `${d} วันสมบูรณ์ต่อเนื่อง · ×${t_}`,
     freezeUsed:'ปกป้อง Streak แล้ว!',
     freezeUsedSub: r => `ใช้โล่แล้ว · เหลือ ×${r}`,
     milestone:'เหตุการณ์สำคัญ!',
-    milestoneMsg: (d,xp) => `${d} วันต่อเนื่อง! +${xp} XP`,
-    maxLevel:'เลเวลสูงสุด 👑', nextXP: n => `→ ${n} XP`,
+    milestoneMsg: (d,xp) => `${d} วันต่อเนื่อง! +${xp} H`,
+    maxLevel:'เลเวลสูงสุด 👑', nextH: n => `→ ${n} H`,
     levels:['มือใหม่','สม่ำเสมอ','ทุ่มเท','มุ่งมั่น','เชี่ยวชาญ','แชมป์','ตำนาน'],
     calTitle:'ปฏิทิน', calLess:'น้อย', calMore:'มาก', calNoData:'ยังไม่มีนิสัย',
   },
@@ -752,7 +797,16 @@ const LANGS = {
 };
 
 /* ════════════════════════════════════════════
-   Defaults & Storage
+   Supabase
+   ════════════════════════════════════════════ */
+const SUPABASE_URL      = 'https://gwxncicsscmaxjxolvwu.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_iuVW38hMMD6IHa1r0SAHbA_aQg3XnGv';
+const { createClient }  = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let currentUser = null;
+
+/* ════════════════════════════════════════════
+   Defaults & In-memory cache
    ════════════════════════════════════════════ */
 const DEFAULT_HABITS = [
   { id:'meditation', name:'Morning meditation' },
@@ -764,15 +818,95 @@ const DEFAULT_HABITS = [
 
 const LEVELS = [0,100,300,700,1500,3000,6000];
 
-function loadHabits(){ try{ const s=localStorage.getItem('habitList'); return s?JSON.parse(s):null; }catch{return null;} }
-function saveHabits(l){ localStorage.setItem('habitList',JSON.stringify(l)); }
-function loadData(){ try{return JSON.parse(localStorage.getItem('habitData')||'{}');}catch{return{};} }
-function saveData(d){ localStorage.setItem('habitData',JSON.stringify(d)); }
-function loadMeta(){ try{return JSON.parse(localStorage.getItem('habitMeta')||'null')||{xp:0,perfectDays:[],freezeTokens:0};}catch{return{xp:0,perfectDays:[],freezeTokens:0};} }
-function saveMeta(m){ localStorage.setItem('habitMeta',JSON.stringify(m)); }
+// In-memory caches (populated async at startup)
+let habits          = [];
+let _habitDataCache = {};
+let _metaCache      = { xp:0, perfectDays:[], freezeTokens:0 };
+let _profileCache   = null;
 
-let habits = loadHabits();
-if(!habits){ habits = DEFAULT_HABITS.slice(); saveHabits(habits); }
+// ── Sync wrappers (read/write cache; DB sync handled separately) ──
+function loadHabits()  { return habits; }
+function saveHabits(l) { habits = l; }
+function loadData()    { return _habitDataCache; }
+function saveData(d)   { _habitDataCache = d; }
+function loadMeta()    { return _metaCache; }
+function saveMeta(m)   {
+  _metaCache = m;
+  _dbSaveMeta(m).catch(e => console.warn('meta sync:', e));
+}
+
+// ── Supabase DB functions ─────────────────────────────────────────
+async function _dbLoadHabits() {
+  const { data } = await sb.from('habits').select('*').order('sort_order');
+  return (data||[]).map(r => ({
+    id:r.id, name:r.name,
+    timeStart:r.time_start||undefined,
+    timeEnd:r.time_end||undefined,
+  }));
+}
+
+async function _dbSaveHabit(habit, order) {
+  await sb.from('habits').upsert({
+    id:habit.id, user_id:currentUser.id, name:habit.name,
+    time_start:habit.timeStart||null, time_end:habit.timeEnd||null,
+    sort_order:order,
+  });
+}
+
+async function _dbDeleteHabit(id) {
+  await sb.from('habits').delete().eq('id', id);
+}
+
+async function _dbLoadData() {
+  const { data } = await sb.from('check_ins').select('habit_id,check_date');
+  const r = {};
+  (data||[]).forEach(row => {
+    if(!r[row.habit_id]) r[row.habit_id] = { dates:[] };
+    r[row.habit_id].dates.push(row.check_date);
+  });
+  return r;
+}
+
+async function _dbToggleCheckin(habitId, date, done) {
+  if(done){
+    await sb.from('check_ins').upsert(
+      { user_id:currentUser.id, habit_id:habitId, check_date:date },
+      { onConflict:'habit_id,check_date' }
+    );
+  } else {
+    await sb.from('check_ins').delete()
+      .eq('habit_id', habitId).eq('check_date', date);
+  }
+}
+
+async function _dbLoadMeta() {
+  const { data } = await sb.from('user_meta')
+    .select('*').eq('user_id', currentUser.id).single();
+  return data
+    ? { xp:data.xp, perfectDays:data.perfect_days||[], freezeTokens:data.freeze_tokens }
+    : { xp:0, perfectDays:[], freezeTokens:0 };
+}
+
+async function _dbSaveMeta(m) {
+  await sb.from('user_meta').upsert({
+    user_id:currentUser.id,
+    xp:m.xp, perfect_days:m.perfectDays, freeze_tokens:m.freezeTokens,
+    updated_at:new Date().toISOString(),
+  });
+}
+
+async function _dbLoadProfile() {
+  const { data } = await sb.from('profiles')
+    .select('*').eq('id', currentUser.id).single();
+  return data;
+}
+
+async function _seedDefaultHabits() {
+  for(let i=0; i<DEFAULT_HABITS.length; i++){
+    await _dbSaveHabit(DEFAULT_HABITS[i], i);
+  }
+  habits = await _dbLoadHabits();
+}
 
 /* ════════════════════════════════════════════
    Active state
@@ -884,7 +1018,7 @@ function calcPerfectStreak(pd){
 }
 
 /* ════════════════════════════════════════════
-   Level / XP
+   Level / H
    ════════════════════════════════════════════ */
 function getLevel(xp){
   let idx=0;
@@ -905,10 +1039,10 @@ function updateStats(){
   document.getElementById('level-display').textContent  = `Lv.${lvIdx+1}`;
   document.getElementById('level-title').textContent    = levelTitles[lvIdx] || levelTitles[0];
   document.getElementById('freeze-count').textContent   = `×${meta.freezeTokens}`;
-  document.getElementById('xp-fill').style.width        = getXpProgress(meta.xp)+'%';
-  document.getElementById('xp-text').textContent        = `${meta.xp} XP`;
+  document.getElementById('h-fill').style.width        = getXpProgress(meta.xp)+'%';
+  document.getElementById('h-text').textContent        = `${meta.xp.toLocaleString()} H`;
   const nxt=LEVELS[lvIdx+1];
-  document.getElementById('xp-next').textContent = nxt ? t('nextXP',nxt) : t('maxLevel');
+  document.getElementById('h-next').textContent = nxt ? t('nextH',nxt) : t('maxLevel');
 }
 
 /* ════════════════════════════════════════════
@@ -927,12 +1061,12 @@ function showNotif(emoji,title,sub,borderColor,duration=3500){
 }
 
 /* ════════════════════════════════════════════
-   Floating XP
+   Floating H
    ════════════════════════════════════════════ */
-function showFloatingXP(amount,targetEl){
+function showFloatingH(amount,targetEl){
   const r=targetEl.getBoundingClientRect(), el=document.createElement('div');
-  el.className='xp-float';
-  el.textContent=`+${amount} XP`;
+  el.className='h-float';
+  el.textContent=`+${amount} H`;
   el.style.left=(r.left+r.width/2-16)+'px';
   el.style.top=(r.top+window.scrollY-4)+'px';
   document.body.appendChild(el);
@@ -1058,7 +1192,13 @@ function buildTimeText(h){
    ════════════════════════════════════════════ */
 let openPop=null;
 function closeAllPops(){ if(openPop){openPop.classList.remove('open');openPop=null;} }
-function closeAll(){ themeMenu.classList.remove('open'); langMenu.classList.remove('open'); closeAllPops(); }
+const userMenu = document.getElementById('user-menu');
+function closeAll(){
+  themeMenu.classList.remove('open');
+  langMenu.classList.remove('open');
+  if(userMenu) userMenu.classList.remove('open');
+  closeAllPops();
+}
 
 /* ════════════════════════════════════════════
    Recovery banner
@@ -1185,11 +1325,12 @@ function build(){
       });
     }
 
-    pop.querySelector('.settings-delete').addEventListener('click',e=>{
+    pop.querySelector('.settings-delete').addEventListener('click',async e=>{
       e.stopPropagation();
       const idx=habits.findIndex(h=>h.id===habit.id);
-      if(idx!==-1){habits.splice(idx,1);saveHabits(habits);}
-      const d2=loadData(); delete d2[habit.id]; saveData(d2);
+      if(idx!==-1) habits.splice(idx,1);
+      delete _habitDataCache[habit.id];
+      _dbDeleteHabit(habit.id).catch(console.error);
       closeAllPops(); build();
     });
 
@@ -1206,10 +1347,11 @@ function build(){
     container.appendChild(card);
 
     /* Checkbox interaction */
-    input.addEventListener('change',()=>{
-      const storage=loadData(), hd=storage[habit.id]||{dates:[]};
+    input.addEventListener('change', async ()=>{
+      const hd = _habitDataCache[habit.id] || {dates:[]};
       if(input.checked){
         if(!hd.dates.includes(TODAY)) hd.dates.push(TODAY);
+        _habitDataCache[habit.id] = hd;
         card.classList.add('done'); card.classList.remove('missed-pulse');
 
         const rip=document.createElement('span'); rip.className='ripple';
@@ -1218,7 +1360,8 @@ function build(){
         card.classList.add('popping');
         card.addEventListener('animationend',()=>card.classList.remove('popping'),{once:true});
 
-        storage[habit.id]=hd; saveData(storage);
+        // Sync to Supabase (fire-and-forget)
+        _dbToggleCheckin(habit.id, TODAY, true).catch(console.error);
 
         const m=loadMeta(), prevXP=m.xp, prevLvIdx=getLevel(prevXP);
         let earned=10, milestoneDay=0, milestoneXP=0;
@@ -1230,7 +1373,7 @@ function build(){
         else if(ns===3){earned+=10;milestoneDay=3;milestoneXP=10;}
         m.xp+=earned; saveMeta(m);
 
-        showFloatingXP(earned,cbWrap);
+        showFloatingH(earned,cbWrap);
         if(milestoneDay) setTimeout(()=>showNotif('🏅',t('milestone'),t('milestoneMsg',milestoneDay,milestoneXP),'#ffd700',4000),400);
 
         const newLvIdx=getLevel(m.xp);
@@ -1240,8 +1383,9 @@ function build(){
         }
       } else {
         hd.dates=hd.dates.filter(d=>d!==TODAY);
+        _habitDataCache[habit.id]=hd;
         card.classList.remove('done'); perfectCelebrated=false;
-        storage[habit.id]=hd; saveData(storage);
+        _dbToggleCheckin(habit.id, TODAY, false).catch(console.error);
       }
 
       refreshInfo(habit); renderDots(hd.dates,dots);
@@ -1468,9 +1612,68 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape') closeCalendar
 document.addEventListener('click', closeAll);
 
 /* ════════════════════════════════════════════
-   Init
+   Auth & Init
    ════════════════════════════════════════════ */
-applyLanguage(currentLang); // sets date, static strings, calls build()
+function hideLoader() {
+  const el = document.getElementById('page-loading');
+  el.style.opacity = '0';
+  setTimeout(() => { el.style.display = 'none'; }, 300);
+}
+
+async function initApp() {
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.replace('auth.html'); return; }
+
+    currentUser = session.user;
+
+    const [dbHabits, dbData, dbMeta] = await Promise.all([
+      _dbLoadHabits(),
+      _dbLoadData(),
+      _dbLoadMeta(),
+    ]);
+
+    if (dbHabits.length === 0) {
+      await _seedDefaultHabits();
+    } else {
+      habits = dbHabits;
+    }
+    _habitDataCache = dbData;
+    _metaCache      = dbMeta;
+
+    // Populate user menu
+    const profile = await _dbLoadProfile();
+    document.getElementById('user-menu-name').textContent =
+      profile?.display_name || session.user.email?.split('@')[0] || '—';
+    document.getElementById('user-menu-email').textContent = session.user.email || '—';
+
+    applyLanguage(currentLang);
+    hideLoader();
+  } catch(e) {
+    console.error('initApp failed:', e);
+    hideLoader();
+  }
+}
+
+// User menu toggle
+document.getElementById('user-btn').addEventListener('click', e => {
+  e.stopPropagation();
+  closeAll();
+  document.getElementById('user-menu').classList.toggle('open');
+});
+
+// Sign out
+document.getElementById('sign-out-btn').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  window.location.replace('auth.html');
+});
+
+// Handle session expiry mid-session
+sb.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_OUT') window.location.replace('auth.html');
+});
+
+initApp();
 </script>
 </body>
 </html>

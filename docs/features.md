@@ -229,22 +229,38 @@ using `calcStreak()` (see Core Habit Tracking).
 Provide a long-term progression mechanic that rewards sustained engagement
 and gives users a sense of growing mastery.
 
+### H Currency Integration
+
+**H** is the product's native currency unit (H = Habit). XP and H share the
+same earning events and numeric values. They serve different roles:
+
+| Dimension | XP | H |
+|---|---|---|
+| Role | Level progression (honor) | Economic unit (spendable) |
+| Direction | Additive only, never decreases | Can be earned and spent |
+| Display | Level bar progress | Balance shown in stats row |
+| Phase 0 | Identical numeric value | Identical numeric value |
+| Phase 1+ | Decoupled — XP for levels only | H becomes rechargeable currency |
+
+In Phase 0 (current): treat XP and H as the same number stored in `habitMeta.xp`.
+UI gradually replaces "XP" label with "H" while keeping level logic unchanged.
+
 ### UX Behavior
 1. Below the progress bar, a stats row shows three cells:
    - 🔥 **Perfect** — consecutive perfect days count.
    - ⚡ **Lv.N Title** — current level number and title.
    - ❄️ **×N Freeze** — available streak-freeze tokens.
-2. Beneath the stats row, a thin gold progress bar shows XP progress toward
-   the next level. A small label shows `current XP` on the left and
-   `→ next threshold XP` on the right.
-3. When the user completes a habit check-in, a small `+N XP` text floats
+2. Beneath the stats row, a thin gold progress bar shows H progress toward
+   the next level. A small label shows `current H` on the left and
+   `→ next threshold` on the right.
+3. When the user completes a habit check-in, a small `+N H` text floats
    upward from the checkbox and fades out (1.1 s ease-out).
 4. On level-up, a "Level Up!" toast appears (see Notifications).
 
 ### Data Model
 ```
 habitMeta {
-  xp           : number   // total accumulated XP, never decreases
+  xp           : number   // total H balance (also used for level calc); never decreases on un-check
   perfectDays  : Array<string>  // ISO dates of perfect days
   freezeTokens : number   // available freeze tokens (see Streak Freeze)
 }
@@ -252,16 +268,23 @@ habitMeta {
 
 ### Business Logic
 
-**XP earnings**
-| Event | XP awarded |
+**H earnings**
+| Event | H awarded |
 |---|---|
-| Check in any habit | +10 |
-| Perfect day bonus | +50 (once per calendar day) |
-| 3-day streak milestone | +10 |
-| 7-day streak milestone | +30 |
-| 14-day streak milestone | +50 |
-| 30-day streak milestone | +100 |
-| 100-day streak milestone | +500 |
+| Check in any habit | +10 H |
+| Perfect day bonus | +50 H (once per calendar day) |
+| 3-day streak milestone | +10 H |
+| 7-day streak milestone | +30 H |
+| 14-day streak milestone | +50 H |
+| 30-day streak milestone | +100 H |
+| 100-day streak milestone | +500 H |
+
+**H costs (penalty mechanic)**
+| Event | H cost |
+|---|---|
+| Edit an active habit | −20 H |
+| Cancel a completed check-in | −10 H |
+| Force-delete an active habit | −30 H |
 
 **Level thresholds**
 | Level | Min XP | Title (EN) | Title (ZH) |
@@ -302,7 +325,8 @@ If they differ, trigger the Level Up toast.
   Floating text: `ViewModifier` with `offset` + `opacity` animation.
 - **Android**: `LinearProgressIndicator` for XP bar. `AnimatedVisibility`
   + `offset` modifier for floating text.
-- XP is **additive only** — never subtract XP on un-check.
+- H (stored as `xp`) is **additive only on un-check** — un-checking does NOT refund H.
+  Spending H (edits, cancels, deletes) is a separate deduction path.
 
 ---
 
