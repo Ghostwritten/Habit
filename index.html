@@ -12,6 +12,7 @@
       --bg:#0a0a0a; --surface:#131313; --surface-done:#111;
       --border:#1c1c1c; --border-hover:#2a2a2a; --border-done:#1a1a1a;
       --accent:#7c6af7; --accent-light:#a89bf7; --accent-subtle:rgba(124,106,247,.07);
+      --accent-rgb:124,106,247;
       --text:#e2e2e2; --text-dim:#555; --text-muted:#2a2a2a;
       --cb-border:#2c2c2c; --cb-border-hover:#444;
       --dot-past:#3a3270; --dot-empty-bg:#272727; --dot-empty-border:#333;
@@ -23,6 +24,7 @@
       --bg:#f5f7fa; --surface:#fff; --surface-done:#f0f0f5;
       --border:#e8eaed; --border-hover:#d0d3d8; --border-done:#e2e2e8;
       --accent:#6c5ce7; --accent-light:#a29bfe; --accent-subtle:rgba(108,92,231,.07);
+      --accent-rgb:108,92,231;
       --text:#1a1a2e; --text-dim:#8888aa; --text-muted:#ccc;
       --cb-border:#d0d0e0; --cb-border-hover:#aaa;
       --dot-past:#b4acf5; --dot-empty-bg:#ebebf5; --dot-empty-border:#d0d0e0;
@@ -34,6 +36,7 @@
       --bg:#0d1117; --surface:#161b22; --surface-done:#0d1117;
       --border:#30363d; --border-hover:#484f58; --border-done:#21262d;
       --accent:#238636; --accent-light:#3fb950; --accent-subtle:rgba(35,134,54,.08);
+      --accent-rgb:35,134,54;
       --text:#c9d1d9; --text-dim:#6e7681; --text-muted:#21262d;
       --cb-border:#30363d; --cb-border-hover:#484f58;
       --dot-past:#196c2e; --dot-empty-bg:#161b22; --dot-empty-border:#30363d;
@@ -45,6 +48,7 @@
       --bg:#1a1a2e; --surface:#16213e; --surface-done:#111827;
       --border:#0f3460; --border-hover:#1a5276; --border-done:#0d2a4a;
       --accent:#e94560; --accent-light:#ff6b81; --accent-subtle:rgba(233,69,96,.08);
+      --accent-rgb:233,69,96;
       --text:#eaeaea; --text-dim:#8892a4; --text-muted:#1a3a5c;
       --cb-border:#0f3460; --cb-border-hover:#1a5276;
       --dot-past:#7b2a3e; --dot-empty-bg:#111827; --dot-empty-border:#0f3460;
@@ -278,9 +282,167 @@
 
     /* ── Footer ── */
     footer { margin-top:52px; font-size:.68rem; color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase; }
+
+    /* ══════════════════════════════════════════
+       Calendar View
+       ══════════════════════════════════════════ */
+    .cal-view {
+      position:fixed; inset:0; z-index:150;
+      background:var(--bg);
+      transform:translateX(100%);
+      transition:transform .48s cubic-bezier(.22,1,.36,1);
+      display:flex; flex-direction:column;
+      will-change:transform;
+    }
+    .cal-view.open { transform:translateX(0); }
+
+    /* ── Cal header (sticky) ── */
+    .cal-header {
+      position:sticky; top:0; z-index:10;
+      background:var(--bg);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 20px 12px;
+      border-bottom:1px solid var(--border);
+    }
+    .cal-back-btn {
+      width:36px; height:36px; border-radius:10px; border:none;
+      background:transparent; color:var(--text-dim); cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:background .18s,color .18s;
+    }
+    .cal-back-btn:hover { background:var(--toolbar-hover); color:var(--text); }
+    .cal-back-btn svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .cal-header-title { font-size:.9rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text); }
+    .cal-header-right { width:36px; } /* spacer */
+
+    /* ── Scrollable area ── */
+    .cal-scroll {
+      flex:1; overflow-y:auto; padding:24px 20px 80px;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    /* ── Month block ── */
+    .cal-month { max-width:500px; margin:0 auto 48px; }
+
+    .cal-month-title {
+      font-size:1rem; font-weight:600; color:var(--text);
+      letter-spacing:.04em; margin-bottom:14px;
+      display:flex; align-items:baseline; gap:8px;
+    }
+    .cal-month-year { font-size:.78rem; color:var(--text-dim); font-weight:400; }
+
+    /* ── Day labels ── */
+    .cal-day-labels {
+      display:grid; grid-template-columns:repeat(7,1fr);
+      gap:4px; margin-bottom:6px;
+    }
+    .cal-day-label {
+      text-align:center; font-size:.65rem; color:var(--text-dim);
+      text-transform:uppercase; letter-spacing:.04em; padding:2px 0;
+    }
+
+    /* ── Day grid ── */
+    .cal-grid {
+      display:grid; grid-template-columns:repeat(7,1fr); gap:4px;
+    }
+
+    /* ── Day cell ── */
+    .cal-cell {
+      position:relative; aspect-ratio:1; border-radius:10px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      cursor:default; overflow:hidden;
+      background:var(--surface);
+      transition:transform .15s, background .3s;
+    }
+    .cal-cell:not(.cal-empty):not(.cal-future):hover {
+      transform:scale(1.08);
+    }
+
+    /* Color fill via ::before overlay */
+    .cal-cell::before {
+      content:''; position:absolute; inset:0; border-radius:inherit;
+      background:rgba(var(--accent-rgb),1);
+      opacity:var(--fill-opacity,0);
+      transition:opacity .3s;
+      pointer-events:none;
+    }
+
+    .cal-cell.cal-empty { background:transparent; cursor:default; }
+    .cal-cell.cal-empty::before { display:none; }
+
+    .cal-cell.cal-future { opacity:.25; }
+    .cal-cell.cal-future::before { display:none; }
+
+    /* Today ring */
+    .cal-cell.cal-today {
+      box-shadow:0 0 0 2px var(--accent);
+    }
+
+    /* Day number */
+    .cal-day-num {
+      position:relative; z-index:1;
+      font-size:.8rem; font-weight:500; color:var(--text-dim);
+      line-height:1; transition:color .3s;
+    }
+    .cal-cell.cal-mid .cal-day-num  { color:var(--text); }
+    .cal-cell.cal-high .cal-day-num { color:#fff; }
+    .cal-cell.cal-today .cal-day-num { color:var(--text); font-weight:700; }
+    .cal-cell.cal-today.cal-high .cal-day-num { color:#fff; }
+
+    /* Perfect day marker */
+    .cal-perfect-mark {
+      position:absolute; z-index:2;
+      top:3px; right:4px;
+      font-size:.5rem; line-height:1;
+      color:rgba(255,255,255,.9);
+      pointer-events:none;
+    }
+
+    /* Completion count dots (bottom) */
+    .cal-dots {
+      position:absolute; bottom:4px; left:0; right:0;
+      display:flex; justify-content:center; gap:2px; z-index:1;
+    }
+    .cal-dot {
+      width:3px; height:3px; border-radius:50%;
+      background:rgba(255,255,255,.5);
+    }
+    .cal-dot.dim { background:rgba(var(--accent-rgb),.4); }
+
+    /* ── Legend ── */
+    .cal-legend {
+      max-width:500px; margin:0 auto 32px;
+      display:flex; align-items:center; gap:10px;
+      font-size:.66rem; color:var(--text-dim); letter-spacing:.04em;
+    }
+    .cal-legend-cells { display:flex; gap:3px; }
+    .cal-legend-cell {
+      width:14px; height:14px; border-radius:4px;
+      background:var(--surface);
+    }
+    .cal-legend-cell::before {
+      content:''; display:block; width:100%; height:100%; border-radius:inherit;
+      background:rgba(var(--accent-rgb),1);
+      opacity:var(--fill-opacity,0);
+    }
+    .cal-legend-labels { display:flex; justify-content:space-between; flex:1; }
   </style>
 </head>
 <body>
+
+<!-- ── Calendar view ── -->
+<div id="cal-view" class="cal-view" aria-hidden="true">
+  <div class="cal-header">
+    <button class="cal-back-btn" id="cal-back-btn" aria-label="Back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span class="cal-header-title" id="cal-header-title">Calendar</span>
+    <div class="cal-header-right"></div>
+  </div>
+  <div class="cal-scroll" id="cal-scroll">
+    <!-- months built by JS -->
+  </div>
+</div>
 
 <!-- Confetti canvas -->
 <canvas id="confetti-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:1000;display:none"></canvas>
@@ -322,6 +484,11 @@
       <button class="picker-opt" data-lang="th"><span class="lang-short">TH</span><span class="lang-name">ภาษาไทย</span></button>
     </div>
   </div>
+
+  <!-- Calendar -->
+  <button class="toolbar-btn" id="cal-open-btn" title="Calendar" aria-label="Open calendar">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5C3.9 3 3 3.9 3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zM9 14H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+  </button>
 
   <!-- GitHub -->
   <a class="toolbar-btn" href="https://github.com/Ghostwritten/Habit" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub repository">
@@ -428,6 +595,8 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d}-day streak! +${xp} XP`,
     maxLevel:'MAX LEVEL 👑', nextXP: n => `→ ${n} XP`,
     levels:['Newcomer','Consistent','Dedicated','Focused','Master','Champion','Legend'],
+    calTitle:'Calendar', calLess:'Less', calMore:'More',
+    calNoData:'No habits yet',
   },
   zh: {
     title:'每日习惯', today:'今日', footer:'数据已本地保存',
@@ -451,6 +620,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d} 天达成！+${xp} XP`,
     maxLevel:'最高等级 👑', nextXP: n => `→ ${n} XP`,
     levels:['新手','稳定','专注','精进','大师','强者','传奇'],
+    calTitle:'打卡日历', calLess:'少', calMore:'多', calNoData:'还没有习惯',
   },
   es: {
     title:'Hábitos Diarios', today:'Hoy', footer:'Datos guardados localmente',
@@ -474,6 +644,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `¡${d} días seguidos! +${xp} XP`,
     maxLevel:'NIVEL MÁXIMO 👑', nextXP: n => `→ ${n} XP`,
     levels:['Novato','Constante','Dedicado','Enfocado','Maestro','Campeón','Leyenda'],
+    calTitle:'Calendario', calLess:'Menos', calMore:'Más', calNoData:'Sin hábitos aún',
   },
   ko: {
     title:'매일 습관', today:'오늘', footer:'데이터가 로컬에 저장됩니다',
@@ -497,6 +668,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d}일 달성! +${xp} XP`,
     maxLevel:'최고 레벨 👑', nextXP: n => `→ ${n} XP`,
     levels:['초보자','꾸준함','헌신','집중','달인','챔피언','전설'],
+    calTitle:'달력', calLess:'적음', calMore:'많음', calNoData:'아직 습관 없음',
   },
   ja: {
     title:'毎日の習慣', today:'今日', footer:'データはローカルに保存されます',
@@ -520,6 +692,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d}日達成！+${xp} XP`,
     maxLevel:'最高レベル 👑', nextXP: n => `→ ${n} XP`,
     levels:['初心者','安定','専念','精進','達人','強者','伝説'],
+    calTitle:'カレンダー', calLess:'少', calMore:'多', calNoData:'習慣がまだありません',
   },
   vi: {
     title:'Thói Quen Hàng Ngày', today:'Hôm nay', footer:'Dữ liệu được lưu cục bộ',
@@ -543,6 +716,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d} ngày liên tiếp! +${xp} XP`,
     maxLevel:'CẤP TỐI ĐA 👑', nextXP: n => `→ ${n} XP`,
     levels:['Người mới','Kiên định','Chuyên tâm','Tập trung','Bậc thầy','Vô địch','Huyền thoại'],
+    calTitle:'Lịch', calLess:'Ít', calMore:'Nhiều', calNoData:'Chưa có thói quen',
   },
   th: {
     title:'นิสัยประจำวัน', today:'วันนี้', footer:'บันทึกข้อมูลในเครื่อง',
@@ -566,6 +740,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d} วันต่อเนื่อง! +${xp} XP`,
     maxLevel:'เลเวลสูงสุด 👑', nextXP: n => `→ ${n} XP`,
     levels:['มือใหม่','สม่ำเสมอ','ทุ่มเท','มุ่งมั่น','เชี่ยวชาญ','แชมป์','ตำนาน'],
+    calTitle:'ปฏิทิน', calLess:'น้อย', calMore:'มาก', calNoData:'ยังไม่มีนิสัย',
   },
 };
 
@@ -654,10 +829,14 @@ function applyLanguage(lang){
   document.getElementById('label-perfect').textContent = t('perfect');
   document.getElementById('label-freeze').textContent  = t('freeze');
   document.getElementById('recovery-sub').textContent  = t('recoverySub');
+  document.getElementById('cal-header-title').textContent = t('calTitle');
 
   // Date with locale
   document.getElementById('date-label').textContent =
     new Date().toLocaleDateString(LANGS[lang].locale, { weekday:'long', month:'long', day:'numeric' });
+
+  // Rebuild calendar if open
+  if (document.getElementById('cal-view').classList.contains('open')) buildCalendar();
 
   build(); // rebuild cards with new language
 }
@@ -1097,6 +1276,191 @@ document.getElementById('modal-cancel').addEventListener('click',closeModal);
 document.getElementById('modal-confirm').addEventListener('click',confirmAdd);
 backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal();});
 habitInput.addEventListener('keydown',e=>{if(e.key==='Enter')confirmAdd();if(e.key==='Escape')closeModal();});
+
+/* ════════════════════════════════════════════
+   Calendar
+   ════════════════════════════════════════════ */
+
+function openCalendar(){
+  closeAll();
+  const view = document.getElementById('cal-view');
+  view.classList.add('open');
+  view.removeAttribute('aria-hidden');
+  buildCalendar();
+  // Scroll to current month after render
+  setTimeout(()=>{
+    const scroll = document.getElementById('cal-scroll');
+    const cur = document.getElementById('cal-current-month');
+    if(cur && scroll) scroll.scrollTop = cur.offsetTop - 20;
+  }, 80);
+}
+
+function closeCalendar(){
+  const view = document.getElementById('cal-view');
+  view.classList.remove('open');
+  view.setAttribute('aria-hidden','true');
+}
+
+function buildCalendar(){
+  const locale  = LANGS[currentLang].locale;
+  const data    = loadData();
+  const total   = habits.length;
+  const scroll  = document.getElementById('cal-scroll');
+  scroll.innerHTML = '';
+
+  // Build a date → count map across all habits
+  const countMap = {}; // 'YYYY-MM-DD' → number of habits done
+  habits.forEach(h => {
+    (data[h.id]?.dates || []).forEach(d => {
+      countMap[d] = (countMap[d] || 0) + 1;
+    });
+  });
+
+  // Determine range: earliest recorded date or 12 months ago → today
+  const todayD   = new Date(TODAY + 'T00:00:00');
+  const cutoff   = new Date(todayD);
+  cutoff.setMonth(cutoff.getMonth() - 11);
+  cutoff.setDate(1);
+
+  let earliest = new Date(todayD);
+  Object.keys(countMap).forEach(d => {
+    const dd = new Date(d + 'T00:00:00');
+    if(dd < earliest) earliest = dd;
+  });
+  earliest.setDate(1);
+
+  const startMonth = new Date(Math.min(earliest.getTime(), cutoff.getTime()));
+
+  // Legend
+  const legend = document.createElement('div');
+  legend.className = 'cal-legend';
+  const fills = [0, 0.25, 0.5, 0.75, 1];
+  const legendCells = document.createElement('div');
+  legendCells.className = 'cal-legend-cells';
+  fills.forEach(f => {
+    const c = document.createElement('div');
+    c.className = 'cal-legend-cell';
+    c.style.setProperty('--fill-opacity', f * 0.88 + (f > 0 ? 0.08 : 0));
+    legendCells.appendChild(c);
+  });
+  const legendLabels = document.createElement('div');
+  legendLabels.className = 'cal-legend-labels';
+  [t('calLess'), t('calMore')].forEach(txt => {
+    const s = document.createElement('span'); s.textContent = txt;
+    legendLabels.appendChild(s);
+  });
+  legend.appendChild(legendCells);
+  legend.appendChild(legendLabels);
+  scroll.appendChild(legend);
+
+  // Generate months oldest → current (newest at bottom)
+  let cur = new Date(startMonth.getFullYear(), startMonth.getMonth(), 1);
+  const endMonth = new Date(todayD.getFullYear(), todayD.getMonth(), 1);
+
+  while(cur <= endMonth){
+    const monthEl = buildCalMonth(cur, countMap, total, locale, todayD);
+    const isCurrentMonth = cur.getFullYear() === todayD.getFullYear() && cur.getMonth() === todayD.getMonth();
+    if(isCurrentMonth) monthEl.id = 'cal-current-month';
+    scroll.appendChild(monthEl);
+    cur = new Date(cur.getFullYear(), cur.getMonth() + 1, 1);
+  }
+}
+
+function buildCalMonth(monthDate, countMap, total, locale, todayD){
+  const year  = monthDate.getFullYear();
+  const month = monthDate.getMonth();
+  const wrapper = document.createElement('div');
+  wrapper.className = 'cal-month';
+
+  // Month title
+  const titleEl = document.createElement('div');
+  titleEl.className = 'cal-month-title';
+  const monthName = monthDate.toLocaleDateString(locale, { month: 'long' });
+  const yearStr   = monthDate.toLocaleDateString(locale, { year: 'numeric' });
+  titleEl.innerHTML = `<span>${monthName}</span><span class="cal-month-year">${yearStr}</span>`;
+  wrapper.appendChild(titleEl);
+
+  // Weekday labels (Mon-first) using locale narrow format
+  const labels = document.createElement('div');
+  labels.className = 'cal-day-labels';
+  const monday = new Date(2024, 0, 1); // Jan 1 2024 = Monday
+  for(let i = 0; i < 7; i++){
+    const d = new Date(monday); d.setDate(d.getDate() + i);
+    const lab = document.createElement('div');
+    lab.className = 'cal-day-label';
+    lab.textContent = d.toLocaleDateString(locale, { weekday: 'narrow' });
+    labels.appendChild(lab);
+  }
+  wrapper.appendChild(labels);
+
+  // Grid
+  const grid = document.createElement('div');
+  grid.className = 'cal-grid';
+
+  // Offset: first day of month, Mon=0 .. Sun=6
+  const firstDayJS  = new Date(year, month, 1).getDay(); // 0=Sun
+  const offset      = (firstDayJS + 6) % 7; // convert to Mon-based
+
+  // Empty padding cells
+  for(let i = 0; i < offset; i++){
+    const empty = document.createElement('div');
+    empty.className = 'cal-cell cal-empty';
+    grid.appendChild(empty);
+  }
+
+  // Day cells
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for(let day = 1; day <= daysInMonth; day++){
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const done    = countMap[dateStr] || 0;
+    const pct     = total > 0 ? done / total : 0;
+    const isPerfect = total > 0 && done === total;
+    const isToday   = dateStr === TODAY;
+    const isFuture  = dateStr > TODAY;
+
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell';
+    if(isToday)   cell.classList.add('cal-today');
+    if(isFuture)  cell.classList.add('cal-future');
+
+    // Fill opacity: maps 0→0, 1→0.92, with a base of 0.08 for any done > 0
+    if(!isFuture && pct > 0){
+      const alpha = 0.08 + pct * 0.84;
+      cell.style.setProperty('--fill-opacity', alpha.toFixed(3));
+      if(pct >= 0.5)  cell.classList.add('cal-mid');
+      if(pct >= 0.75) cell.classList.add('cal-high');
+    }
+
+    const num = document.createElement('span');
+    num.className = 'cal-day-num';
+    num.textContent = day;
+    cell.appendChild(num);
+
+    // Perfect day marker
+    if(isPerfect){
+      const mark = document.createElement('span');
+      mark.className = 'cal-perfect-mark';
+      mark.textContent = '✦';
+      cell.appendChild(mark);
+    }
+
+    // Tooltip
+    if(!isFuture && total > 0){
+      const dateLabel = new Date(dateStr + 'T12:00:00').toLocaleDateString(locale, { month:'short', day:'numeric' });
+      cell.title = isPerfect ? `${dateLabel} · ✦ Perfect` : done > 0 ? `${dateLabel} · ${done}/${total}` : dateLabel;
+    }
+
+    grid.appendChild(cell);
+  }
+
+  wrapper.appendChild(grid);
+  return wrapper;
+}
+
+// Open/close wiring
+document.getElementById('cal-open-btn').addEventListener('click', e => { e.stopPropagation(); openCalendar(); });
+document.getElementById('cal-back-btn').addEventListener('click', closeCalendar);
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeCalendar(); });
 
 /* ════════════════════════════════════════════
    Global click → close menus
