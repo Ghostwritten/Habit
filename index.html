@@ -9,295 +9,275 @@
 
     /* ── Themes ── */
     :root {
-      --bg: #0a0a0a; --surface: #131313; --surface-done: #111;
-      --border: #1c1c1c; --border-hover: #2a2a2a; --border-done: #1a1a1a;
-      --accent: #7c6af7; --accent-light: #a89bf7; --accent-subtle: rgba(124,106,247,.07);
-      --text: #e2e2e2; --text-dim: #555; --text-muted: #2a2a2a;
-      --cb-border: #2c2c2c; --cb-border-hover: #444;
-      --dot-past: #3a3270; --dot-empty-bg: #272727; --dot-empty-border: #333;
-      --toolbar-hover: #1a1a1a; --modal-bg: #181818; --modal-border: #2a2a2a;
-      --input-bg: #111; --input-border: #2a2a2a; --ripple-color: rgba(124,106,247,.35);
-      --stat-bg: #131313; --stat-border: #1c1c1c;
+      --bg:#0a0a0a; --surface:#131313; --surface-done:#111;
+      --border:#1c1c1c; --border-hover:#2a2a2a; --border-done:#1a1a1a;
+      --accent:#7c6af7; --accent-light:#a89bf7; --accent-subtle:rgba(124,106,247,.07);
+      --text:#e2e2e2; --text-dim:#555; --text-muted:#2a2a2a;
+      --cb-border:#2c2c2c; --cb-border-hover:#444;
+      --dot-past:#3a3270; --dot-empty-bg:#272727; --dot-empty-border:#333;
+      --toolbar-hover:#1a1a1a; --modal-bg:#181818; --modal-border:#2a2a2a;
+      --input-bg:#111; --input-border:#2a2a2a; --ripple-color:rgba(124,106,247,.35);
+      --stat-bg:#131313; --stat-border:#1c1c1c;
     }
     :root[data-theme="light"] {
-      --bg: #f5f7fa; --surface: #fff; --surface-done: #f0f0f5;
-      --border: #e8eaed; --border-hover: #d0d3d8; --border-done: #e2e2e8;
-      --accent: #6c5ce7; --accent-light: #a29bfe; --accent-subtle: rgba(108,92,231,.07);
-      --text: #1a1a2e; --text-dim: #8888aa; --text-muted: #ccc;
-      --cb-border: #d0d0e0; --cb-border-hover: #aaa;
-      --dot-past: #b4acf5; --dot-empty-bg: #ebebf5; --dot-empty-border: #d0d0e0;
-      --toolbar-hover: #ebebeb; --modal-bg: #fff; --modal-border: #e8eaed;
-      --input-bg: #f5f5fa; --input-border: #ddd; --ripple-color: rgba(108,92,231,.3);
-      --stat-bg: #fff; --stat-border: #e8eaed;
+      --bg:#f5f7fa; --surface:#fff; --surface-done:#f0f0f5;
+      --border:#e8eaed; --border-hover:#d0d3d8; --border-done:#e2e2e8;
+      --accent:#6c5ce7; --accent-light:#a29bfe; --accent-subtle:rgba(108,92,231,.07);
+      --text:#1a1a2e; --text-dim:#8888aa; --text-muted:#ccc;
+      --cb-border:#d0d0e0; --cb-border-hover:#aaa;
+      --dot-past:#b4acf5; --dot-empty-bg:#ebebf5; --dot-empty-border:#d0d0e0;
+      --toolbar-hover:#ebebeb; --modal-bg:#fff; --modal-border:#e8eaed;
+      --input-bg:#f5f5fa; --input-border:#ddd; --ripple-color:rgba(108,92,231,.3);
+      --stat-bg:#fff; --stat-border:#e8eaed;
     }
     :root[data-theme="github"] {
-      --bg: #0d1117; --surface: #161b22; --surface-done: #0d1117;
-      --border: #30363d; --border-hover: #484f58; --border-done: #21262d;
-      --accent: #238636; --accent-light: #3fb950; --accent-subtle: rgba(35,134,54,.08);
-      --text: #c9d1d9; --text-dim: #6e7681; --text-muted: #21262d;
-      --cb-border: #30363d; --cb-border-hover: #484f58;
-      --dot-past: #196c2e; --dot-empty-bg: #161b22; --dot-empty-border: #30363d;
-      --toolbar-hover: #21262d; --modal-bg: #161b22; --modal-border: #30363d;
-      --input-bg: #0d1117; --input-border: #30363d; --ripple-color: rgba(35,134,54,.35);
-      --stat-bg: #161b22; --stat-border: #30363d;
+      --bg:#0d1117; --surface:#161b22; --surface-done:#0d1117;
+      --border:#30363d; --border-hover:#484f58; --border-done:#21262d;
+      --accent:#238636; --accent-light:#3fb950; --accent-subtle:rgba(35,134,54,.08);
+      --text:#c9d1d9; --text-dim:#6e7681; --text-muted:#21262d;
+      --cb-border:#30363d; --cb-border-hover:#484f58;
+      --dot-past:#196c2e; --dot-empty-bg:#161b22; --dot-empty-border:#30363d;
+      --toolbar-hover:#21262d; --modal-bg:#161b22; --modal-border:#30363d;
+      --input-bg:#0d1117; --input-border:#30363d; --ripple-color:rgba(35,134,54,.35);
+      --stat-bg:#161b22; --stat-border:#30363d;
     }
     :root[data-theme="classic"] {
-      --bg: #1a1a2e; --surface: #16213e; --surface-done: #111827;
-      --border: #0f3460; --border-hover: #1a5276; --border-done: #0d2a4a;
-      --accent: #e94560; --accent-light: #ff6b81; --accent-subtle: rgba(233,69,96,.08);
-      --text: #eaeaea; --text-dim: #8892a4; --text-muted: #1a3a5c;
-      --cb-border: #0f3460; --cb-border-hover: #1a5276;
-      --dot-past: #7b2a3e; --dot-empty-bg: #111827; --dot-empty-border: #0f3460;
-      --toolbar-hover: #0f3460; --modal-bg: #16213e; --modal-border: #0f3460;
-      --input-bg: #1a1a2e; --input-border: #0f3460; --ripple-color: rgba(233,69,96,.35);
-      --stat-bg: #16213e; --stat-border: #0f3460;
+      --bg:#1a1a2e; --surface:#16213e; --surface-done:#111827;
+      --border:#0f3460; --border-hover:#1a5276; --border-done:#0d2a4a;
+      --accent:#e94560; --accent-light:#ff6b81; --accent-subtle:rgba(233,69,96,.08);
+      --text:#eaeaea; --text-dim:#8892a4; --text-muted:#1a3a5c;
+      --cb-border:#0f3460; --cb-border-hover:#1a5276;
+      --dot-past:#7b2a3e; --dot-empty-bg:#111827; --dot-empty-border:#0f3460;
+      --toolbar-hover:#0f3460; --modal-bg:#16213e; --modal-border:#0f3460;
+      --input-bg:#1a1a2e; --input-border:#0f3460; --ripple-color:rgba(233,69,96,.35);
+      --stat-bg:#16213e; --stat-border:#0f3460;
     }
 
     body {
-      background: var(--bg); color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-      min-height: 100vh; display: flex; flex-direction: column; align-items: center;
-      padding: 56px 16px 64px; transition: background .3s, color .3s;
+      background:var(--bg); color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
+      min-height:100vh; display:flex; flex-direction:column; align-items:center;
+      padding:56px 16px 64px; transition:background .3s,color .3s;
     }
 
     /* ── Toolbar ── */
-    .toolbar { position: fixed; top: 14px; right: 18px; display: flex; align-items: center; gap: 2px; z-index: 200; }
+    .toolbar { position:fixed; top:14px; right:18px; display:flex; align-items:center; gap:2px; z-index:200; }
     .toolbar-btn {
-      width: 34px; height: 34px; border-radius: 10px; border: none; background: transparent;
-      color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: background .18s, color .18s; text-decoration: none; flex-shrink: 0;
+      height:34px; min-width:34px; border-radius:10px; border:none; background:transparent;
+      color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center;
+      padding:0 7px; transition:background .18s,color .18s; text-decoration:none; flex-shrink:0;
     }
-    .toolbar-btn:hover { background: var(--toolbar-hover); color: var(--text); }
-    .toolbar-btn svg { width: 17px; height: 17px; fill: currentColor; }
-    .theme-picker-wrap { position: relative; }
-    .theme-menu {
-      position: absolute; top: calc(100% + 8px); right: 0; background: var(--modal-bg);
-      border: 1px solid var(--modal-border); border-radius: 12px; padding: 5px; min-width: 128px;
-      opacity: 0; transform: translateY(-6px) scale(.96); pointer-events: none;
-      transition: opacity .16s, transform .16s; z-index: 300; box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    .toolbar-btn:hover { background:var(--toolbar-hover); color:var(--text); }
+    .toolbar-btn svg { width:17px; height:17px; fill:currentColor; }
+
+    /* ── Shared picker wrapper ── */
+    .picker-wrap { position:relative; }
+    .picker-menu {
+      position:absolute; top:calc(100% + 8px); right:0; background:var(--modal-bg);
+      border:1px solid var(--modal-border); border-radius:12px; padding:5px;
+      opacity:0; transform:translateY(-6px) scale(.96); pointer-events:none;
+      transition:opacity .16s,transform .16s; z-index:300; box-shadow:0 8px 24px rgba(0,0,0,.25);
     }
-    .theme-menu.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-    .theme-opt {
-      display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 10px;
-      border-radius: 8px; border: none; background: transparent; color: var(--text);
-      font-size: .8rem; font-family: inherit; cursor: pointer; text-align: left;
-      transition: background .14s; letter-spacing: .02em;
+    .picker-menu.open { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+    .picker-opt {
+      display:flex; align-items:center; gap:8px; width:100%; padding:7px 10px;
+      border-radius:8px; border:none; background:transparent; color:var(--text);
+      font-size:.8rem; font-family:inherit; cursor:pointer; text-align:left;
+      transition:background .14s; letter-spacing:.02em; white-space:nowrap;
     }
-    .theme-opt:hover { background: var(--toolbar-hover); }
-    .theme-opt.active { color: var(--accent); }
-    .theme-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .picker-opt:hover { background:var(--toolbar-hover); }
+    .picker-opt.active { color:var(--accent); }
+
+    /* ── Theme dot ── */
+    .theme-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+    /* ── Lang button & menu ── */
+    .lang-btn { font-size:.72rem; font-weight:700; letter-spacing:.04em; }
+    .lang-short { width:22px; text-align:center; font-weight:700; font-size:.78rem; color:var(--accent); flex-shrink:0; }
+    .lang-name  { font-size:.8rem; }
 
     /* ── Toast ── */
     .toast {
-      position: fixed; top: 20px; left: 50%;
-      transform: translateX(-50%) translateY(-120px);
-      background: var(--modal-bg); border: 1px solid var(--modal-border);
-      border-radius: 18px; padding: 14px 20px;
-      display: flex; align-items: center; gap: 12px;
-      z-index: 600; transition: transform .45s cubic-bezier(.34,1.56,.64,1);
-      box-shadow: 0 12px 40px rgba(0,0,0,.35); min-width: 240px; pointer-events: none;
+      position:fixed; top:20px; left:50%;
+      transform:translateX(-50%) translateY(-120px);
+      background:var(--modal-bg); border:1px solid var(--modal-border);
+      border-radius:18px; padding:14px 20px;
+      display:flex; align-items:center; gap:12px;
+      z-index:600; transition:transform .45s cubic-bezier(.34,1.56,.64,1);
+      box-shadow:0 12px 40px rgba(0,0,0,.35); min-width:240px; pointer-events:none;
     }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-    .toast-emoji { font-size: 1.8rem; line-height: 1; }
-    .toast-title { font-size: .9rem; font-weight: 600; color: var(--text); }
-    .toast-sub { font-size: .74rem; color: var(--text-dim); margin-top: 2px; }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+    .toast-emoji { font-size:1.8rem; line-height:1; }
+    .toast-title { font-size:.9rem; font-weight:600; color:var(--text); }
+    .toast-sub   { font-size:.74rem; color:var(--text-dim); margin-top:2px; }
 
     /* ── Header ── */
-    header { text-align: center; margin-bottom: 32px; }
-    .title { font-size: 1.1rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--text); margin-bottom: 6px; }
-    .subtitle { font-size: .8rem; color: var(--text-dim); letter-spacing: .04em; }
+    header { text-align:center; margin-bottom:32px; }
+    .title    { font-size:1.1rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--text); margin-bottom:6px; }
+    .subtitle { font-size:.8rem; color:var(--text-dim); letter-spacing:.04em; }
 
     /* ── Progress ── */
-    .progress-section { width: 100%; max-width: 500px; margin-bottom: 16px; }
-    .progress-meta { display: flex; justify-content: space-between; font-size: .72rem; color: var(--text-dim); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 10px; }
-    .progress-track { height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light)); border-radius: 1px; transition: width .5s cubic-bezier(.22,1,.36,1); width: 0%; }
+    .progress-section { width:100%; max-width:500px; margin-bottom:16px; }
+    .progress-meta { display:flex; justify-content:space-between; font-size:.72rem; color:var(--text-dim); letter-spacing:.06em; text-transform:uppercase; margin-bottom:10px; }
+    .progress-track { height:2px; background:var(--border); border-radius:1px; overflow:hidden; }
+    .progress-fill  { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-light)); border-radius:1px; transition:width .5s cubic-bezier(.22,1,.36,1); width:0%; }
 
     /* ── Stats row ── */
-    .stats-row {
-      display: flex; margin-top: 14px;
-      background: var(--stat-bg); border: 1px solid var(--stat-border);
-      border-radius: 14px; overflow: hidden;
-    }
-    .stat-item {
-      flex: 1; display: flex; flex-direction: column; align-items: center;
-      padding: 10px 6px; gap: 2px; cursor: default;
-    }
-    .stat-item + .stat-item { border-left: 1px solid var(--stat-border); }
-    .stat-icon { font-size: .95rem; line-height: 1; }
-    .stat-value { font-size: .88rem; font-weight: 700; color: var(--text); line-height: 1.1; }
-    .stat-label { font-size: .6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; }
+    .stats-row { display:flex; margin-top:14px; background:var(--stat-bg); border:1px solid var(--stat-border); border-radius:14px; overflow:hidden; }
+    .stat-item { flex:1; display:flex; flex-direction:column; align-items:center; padding:10px 6px; gap:2px; }
+    .stat-item + .stat-item { border-left:1px solid var(--stat-border); }
+    .stat-icon  { font-size:.95rem; line-height:1; }
+    .stat-value { font-size:.88rem; font-weight:700; color:var(--text); line-height:1.1; }
+    .stat-label { font-size:.6rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em; }
 
     /* ── XP bar ── */
-    .xp-track { height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; margin-top: 10px; }
-    .xp-fill { height: 100%; background: linear-gradient(90deg,#f0c040,#ffd700); border-radius: 1px; transition: width .6s cubic-bezier(.22,1,.36,1); width: 0%; }
-    .xp-meta { display: flex; justify-content: space-between; margin-top: 4px; font-size: .64rem; color: var(--text-dim); letter-spacing: .04em; }
+    .xp-track { height:2px; background:var(--border); border-radius:1px; overflow:hidden; margin-top:10px; }
+    .xp-fill  { height:100%; background:linear-gradient(90deg,#f0c040,#ffd700); border-radius:1px; transition:width .6s cubic-bezier(.22,1,.36,1); width:0%; }
+    .xp-meta  { display:flex; justify-content:space-between; margin-top:4px; font-size:.64rem; color:var(--text-dim); letter-spacing:.04em; }
 
     /* ── Recovery banner ── */
     .recovery-banner {
-      width: 100%; max-width: 500px;
-      background: rgba(255,155,30,.07); border: 1px solid rgba(255,155,30,.2);
-      border-radius: 13px; padding: 11px 14px;
-      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
-      opacity: 0; transform: translateY(-8px); pointer-events: none;
-      transition: opacity .3s, transform .3s;
+      width:100%; max-width:500px;
+      background:rgba(255,155,30,.07); border:1px solid rgba(255,155,30,.2);
+      border-radius:13px; padding:11px 14px;
+      display:flex; align-items:center; gap:10px; margin-bottom:10px;
+      opacity:0; transform:translateY(-8px); pointer-events:none;
+      transition:opacity .3s,transform .3s;
     }
-    .recovery-banner.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .recovery-icon { font-size: 1.15rem; flex-shrink: 0; }
-    .recovery-text { flex: 1; display: flex; flex-direction: column; gap: 1px; }
-    .recovery-msg { font-size: .8rem; color: #ffaa30; font-weight: 500; }
-    .recovery-sub { font-size: .68rem; color: var(--text-dim); }
-    .recovery-close { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 1.1rem; padding: 4px; line-height: 1; transition: color .15s; }
-    .recovery-close:hover { color: var(--text); }
+    .recovery-banner.show { opacity:1; transform:translateY(0); pointer-events:auto; }
+    .recovery-icon { font-size:1.15rem; flex-shrink:0; }
+    .recovery-text { flex:1; display:flex; flex-direction:column; gap:1px; }
+    .recovery-msg  { font-size:.8rem; color:#ffaa30; font-weight:500; }
+    .recovery-sub  { font-size:.68rem; color:var(--text-dim); }
+    .recovery-close { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:1.1rem; padding:4px; line-height:1; transition:color .15s; }
+    .recovery-close:hover { color:var(--text); }
 
     /* ── Habit list ── */
-    .habits { width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 10px; }
+    .habits { width:100%; max-width:500px; display:flex; flex-direction:column; gap:10px; }
 
     /* ── Habit card ── */
     .habit-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 18px; padding: 18px 14px 18px 22px;
-      display: flex; align-items: center; gap: 14px;
-      transition: border-color .25s, background .25s; cursor: default; position: relative;
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:18px; padding:18px 14px 18px 22px;
+      display:flex; align-items:center; gap:14px;
+      transition:border-color .25s,background .25s; cursor:default; position:relative;
     }
-    .habit-card:hover { border-color: var(--border-hover); }
-    .habit-card.done { background: var(--surface-done); border-color: var(--border-done); }
-    .habit-card.missed-pulse { border-color: rgba(255,155,30,.25); }
-
+    .habit-card:hover         { border-color:var(--border-hover); }
+    .habit-card.done          { background:var(--surface-done); border-color:var(--border-done); }
+    .habit-card.missed-pulse  { border-color:rgba(255,155,30,.25); }
     @keyframes card-pop { 0%{transform:scale(1)} 40%{transform:scale(1.025)} 70%{transform:scale(.992)} 100%{transform:scale(1)} }
-    .habit-card.popping { animation: card-pop .35s cubic-bezier(.34,1.56,.64,1) forwards; }
+    .habit-card.popping { animation:card-pop .35s cubic-bezier(.34,1.56,.64,1) forwards; }
 
     /* ── Checkbox ── */
-    .cb-wrap { flex-shrink: 0; position: relative; width: 30px; height: 30px; cursor: pointer; }
-    .cb-wrap input { position: absolute; opacity: 0; inset: 0; cursor: pointer; z-index: 1; margin: 0; }
+    .cb-wrap { flex-shrink:0; position:relative; width:30px; height:30px; cursor:pointer; }
+    .cb-wrap input { position:absolute; opacity:0; inset:0; cursor:pointer; z-index:1; margin:0; }
     .cb-face {
-      width: 30px; height: 30px; border-radius: 9px; border: 1.5px solid var(--cb-border);
-      background: transparent; display: flex; align-items: center; justify-content: center;
-      transition: background .22s cubic-bezier(.34,1.56,.64,1), border-color .22s, transform .22s cubic-bezier(.34,1.56,.64,1);
-      position: relative; overflow: hidden;
+      width:30px; height:30px; border-radius:9px; border:1.5px solid var(--cb-border);
+      background:transparent; display:flex; align-items:center; justify-content:center;
+      transition:background .22s cubic-bezier(.34,1.56,.64,1),border-color .22s,transform .22s cubic-bezier(.34,1.56,.64,1);
+      position:relative; overflow:hidden;
     }
-    .cb-wrap:hover .cb-face { border-color: var(--cb-border-hover); }
-    .cb-wrap input:checked ~ .cb-face { background: var(--accent); border-color: var(--accent); transform: scale(1.12); }
-    .check-icon { opacity: 0; transform: scale(.4) rotate(-20deg); transition: opacity .18s ease, transform .25s cubic-bezier(.34,1.56,.64,1); }
-    .cb-wrap input:checked ~ .cb-face .check-icon { opacity: 1; transform: scale(1) rotate(0deg); }
-    .ripple { position: absolute; inset: -50%; border-radius: 50%; background: var(--ripple-color); transform: scale(0); animation: ripple-out .55s ease-out forwards; pointer-events: none; }
-    @keyframes ripple-out { to { transform: scale(2.5); opacity: 0; } }
+    .cb-wrap:hover .cb-face { border-color:var(--cb-border-hover); }
+    .cb-wrap input:checked ~ .cb-face { background:var(--accent); border-color:var(--accent); transform:scale(1.12); }
+    .check-icon { opacity:0; transform:scale(.4) rotate(-20deg); transition:opacity .18s ease,transform .25s cubic-bezier(.34,1.56,.64,1); }
+    .cb-wrap input:checked ~ .cb-face .check-icon { opacity:1; transform:scale(1) rotate(0deg); }
+    .ripple { position:absolute; inset:-50%; border-radius:50%; background:var(--ripple-color); transform:scale(0); animation:ripple-out .55s ease-out forwards; pointer-events:none; }
+    @keyframes ripple-out { to { transform:scale(2.5); opacity:0; } }
 
     /* ── Habit info ── */
-    .habit-info { flex: 1; min-width: 0; }
-    .habit-name { font-size: .92rem; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .3s; }
-    .habit-card.done .habit-name { color: var(--text-dim); }
-    .habit-streak-label { font-size: .72rem; color: var(--text-dim); margin-top: 3px; display: flex; align-items: center; gap: 4px; transition: color .3s; letter-spacing: .02em; flex-wrap: wrap; }
-    .habit-card.done .habit-streak-label { color: var(--accent); }
-    .habit-time-label { font-size: .68rem; color: var(--text-dim); margin-top: 2px; opacity: .6; }
+    .habit-info { flex:1; min-width:0; }
+    .habit-name  { font-size:.92rem; font-weight:500; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:color .3s; }
+    .habit-card.done .habit-name { color:var(--text-dim); }
+    .habit-streak-label { font-size:.72rem; color:var(--text-dim); margin-top:3px; display:flex; align-items:center; gap:4px; transition:color .3s; letter-spacing:.02em; flex-wrap:wrap; }
+    .habit-card.done .habit-streak-label { color:var(--accent); }
+    .habit-time-label { font-size:.68rem; color:var(--text-dim); margin-top:2px; opacity:.6; }
 
     /* ── Streak badge ── */
-    .streak-badge {
-      display: inline-flex; align-items: center; font-size: .62rem;
-      padding: 1px 6px; border-radius: 5px; font-weight: 600; letter-spacing: .02em;
-      animation: badge-pop .4s cubic-bezier(.34,1.56,.64,1);
-    }
+    .streak-badge { display:inline-flex; align-items:center; font-size:.62rem; padding:1px 6px; border-radius:5px; font-weight:600; letter-spacing:.02em; animation:badge-pop .4s cubic-bezier(.34,1.56,.64,1); }
     @keyframes badge-pop { 0%{transform:scale(0)} 100%{transform:scale(1)} }
-    .streak-badge.s3   { background: rgba(107,203,119,.15); color: #6bcb77; }
-    .streak-badge.s7   { background: rgba(255,165,0,.15);   color: #ffa020; }
-    .streak-badge.s14  { background: rgba(255,215,0,.15);   color: #ffd700; }
-    .streak-badge.s30  { background: rgba(100,216,255,.15); color: #64d8ff; }
-    .streak-badge.s100 { background: rgba(255,215,0,.2); color: #ffd700; border: 1px solid rgba(255,215,0,.3); }
+    .streak-badge.s3   { background:rgba(107,203,119,.15); color:#6bcb77; }
+    .streak-badge.s7   { background:rgba(255,165,0,.15);   color:#ffa020; }
+    .streak-badge.s14  { background:rgba(255,215,0,.15);   color:#ffd700; }
+    .streak-badge.s30  { background:rgba(100,216,255,.15); color:#64d8ff; }
+    .streak-badge.s100 { background:rgba(255,215,0,.2); color:#ffd700; border:1px solid rgba(255,215,0,.3); }
 
-    /* ── Missed yesterday ── */
-    .missed-label { font-size: .66rem; color: #ffa020; margin-top: 3px; display: flex; align-items: center; gap: 4px; }
+    /* ── Missed label ── */
+    .missed-label { font-size:.66rem; color:#ffa020; margin-top:3px; display:flex; align-items:center; gap:4px; }
 
     /* ── 7-day dots ── */
-    .week-dots { display: flex; gap: 5px; flex-shrink: 0; }
-    .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); transition: background .3s, transform .3s; }
-    .dot.past { background: var(--dot-past); }
-    .dot.today-done { background: var(--accent); transform: scale(1.3); }
-    .dot.today-empty { background: var(--dot-empty-bg); border: 1px solid var(--dot-empty-border); }
+    .week-dots { display:flex; gap:5px; flex-shrink:0; }
+    .dot { width:5px; height:5px; border-radius:50%; background:var(--border); transition:background .3s,transform .3s; }
+    .dot.past       { background:var(--dot-past); }
+    .dot.today-done { background:var(--accent); transform:scale(1.3); }
+    .dot.today-empty { background:var(--dot-empty-bg); border:1px solid var(--dot-empty-border); }
 
     /* ── Settings ── */
-    .settings-wrap { position: relative; flex-shrink: 0; }
+    .settings-wrap { position:relative; flex-shrink:0; }
     .settings-btn {
-      width: 28px; height: 28px; border-radius: 8px; border: none; background: transparent;
-      color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity .18s, background .18s, color .18s;
+      width:28px; height:28px; border-radius:8px; border:none; background:transparent;
+      color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center;
+      opacity:0; transition:opacity .18s,background .18s,color .18s;
     }
-    .settings-btn svg { width: 15px; height: 15px; fill: currentColor; pointer-events: none; }
-    .habit-card:hover .settings-btn { opacity: 1; }
-    .settings-btn:hover { background: var(--border-hover); color: var(--text); }
+    .settings-btn svg { width:15px; height:15px; fill:currentColor; pointer-events:none; }
+    .habit-card:hover .settings-btn { opacity:1; }
+    .settings-btn:hover { background:var(--border-hover); color:var(--text); }
     .settings-pop {
-      position: absolute; right: 0; top: calc(100% + 6px); background: var(--modal-bg);
-      border: 1px solid var(--modal-border); border-radius: 12px; padding: 6px;
-      min-width: 200px; z-index: 100; opacity: 0; transform: translateY(-4px) scale(.97);
-      pointer-events: none; transition: opacity .15s, transform .15s;
-      box-shadow: 0 8px 24px rgba(0,0,0,.2);
+      position:absolute; right:0; top:calc(100% + 6px); background:var(--modal-bg);
+      border:1px solid var(--modal-border); border-radius:12px; padding:6px;
+      min-width:200px; z-index:100; opacity:0; transform:translateY(-4px) scale(.97);
+      pointer-events:none; transition:opacity .15s,transform .15s;
+      box-shadow:0 8px 24px rgba(0,0,0,.2);
     }
-    .settings-pop.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-    .settings-section { padding: 6px 8px 4px; }
-    .settings-label { font-size: .66rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 7px; }
-    .time-row { display: flex; align-items: center; gap: 5px; }
-    .time-row span { color: var(--text-dim); font-size: .78rem; }
-    .time-input { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 7px; color: var(--text); font-size: .74rem; padding: 4px 6px; width: 76px; outline: none; font-family: inherit; transition: border-color .15s; }
-    .time-input:focus { border-color: var(--accent); }
-    .settings-divider { height: 1px; background: var(--border); margin: 6px 0; }
-    .settings-action {
-      width: 100%; padding: 7px 10px; border-radius: 8px; border: none; background: transparent;
-      font-size: .8rem; cursor: pointer; text-align: left; transition: background .14s;
-      font-family: inherit; display: flex; align-items: center; gap: 7px;
-    }
-    .settings-delete { color: #e05050; }
-    .settings-delete:hover { background: rgba(224,80,80,.1); }
-    .settings-freeze { color: #64d8ff; }
-    .settings-freeze:hover { background: rgba(100,216,255,.1); }
+    .settings-pop.open { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+    .settings-section { padding:6px 8px 4px; }
+    .settings-label { font-size:.66rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:.07em; margin-bottom:7px; }
+    .time-row { display:flex; align-items:center; gap:5px; }
+    .time-row span { color:var(--text-dim); font-size:.78rem; }
+    .time-input { background:var(--input-bg); border:1px solid var(--input-border); border-radius:7px; color:var(--text); font-size:.74rem; padding:4px 6px; width:76px; outline:none; font-family:inherit; transition:border-color .15s; }
+    .time-input:focus { border-color:var(--accent); }
+    .settings-divider { height:1px; background:var(--border); margin:6px 0; }
+    .settings-action { width:100%; padding:7px 10px; border-radius:8px; border:none; background:transparent; font-size:.8rem; cursor:pointer; text-align:left; transition:background .14s; font-family:inherit; display:flex; align-items:center; gap:7px; }
+    .settings-delete { color:#e05050; }
+    .settings-delete:hover { background:rgba(224,80,80,.1); }
+    .settings-freeze { color:#64d8ff; }
+    .settings-freeze:hover { background:rgba(100,216,255,.1); }
 
     /* ── Add button ── */
     .add-btn {
-      margin-top: 16px; width: 100%; max-width: 500px; height: 48px;
-      border-radius: 14px; border: 1.5px dashed var(--border-hover); background: transparent;
-      color: var(--text-dim); cursor: pointer; transition: border-color .2s, color .2s, background .2s;
-      display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit;
+      margin-top:16px; width:100%; max-width:500px; height:48px;
+      border-radius:14px; border:1.5px dashed var(--border-hover); background:transparent;
+      color:var(--text-dim); cursor:pointer; transition:border-color .2s,color .2s,background .2s;
+      display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit;
     }
-    .add-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-subtle); }
-    .add-plus { font-size: 1.3rem; line-height: 1; }
-    .add-label { font-size: .76rem; letter-spacing: .07em; text-transform: uppercase; }
+    .add-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-subtle); }
+    .add-plus  { font-size:1.3rem; line-height:1; }
+    .add-label { font-size:.76rem; letter-spacing:.07em; text-transform:uppercase; }
 
     /* ── Floating XP ── */
-    .xp-float {
-      position: fixed; font-size: .76rem; font-weight: 700; color: #ffd700;
-      pointer-events: none; z-index: 700; white-space: nowrap;
-      animation: xp-rise 1.1s ease-out forwards; text-shadow: 0 1px 4px rgba(0,0,0,.5);
-    }
+    .xp-float { position:fixed; font-size:.76rem; font-weight:700; color:#ffd700; pointer-events:none; z-index:700; white-space:nowrap; animation:xp-rise 1.1s ease-out forwards; text-shadow:0 1px 4px rgba(0,0,0,.5); }
     @keyframes xp-rise { 0%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-44px)} }
 
     /* ── Modal ── */
-    .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(0,0,0,.55);
-      display: flex; align-items: center; justify-content: center; z-index: 400;
-      padding: 16px; opacity: 0; transition: opacity .2s; pointer-events: none;
-    }
-    .modal-backdrop.open { opacity: 1; pointer-events: auto; }
-    .modal {
-      background: var(--modal-bg); border: 1px solid var(--modal-border);
-      border-radius: 20px; padding: 24px; width: 100%; max-width: 360px;
-      transform: translateY(10px) scale(.97); transition: transform .2s;
-      box-shadow: 0 16px 48px rgba(0,0,0,.3);
-    }
-    .modal-backdrop.open .modal { transform: translateY(0) scale(1); }
-    .modal-title { font-size: .88rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text); margin-bottom: 16px; }
-    .modal-input { width: 100%; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; color: var(--text); font-size: .88rem; padding: 10px 12px; outline: none; font-family: inherit; margin-bottom: 12px; transition: border-color .18s; }
-    .modal-input:focus { border-color: var(--accent); }
-    .modal-time-row { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
-    .modal-time-label { font-size: .7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .05em; }
-    .modal-time-input { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 8px; color: var(--text); font-size: .8rem; padding: 6px 8px; outline: none; font-family: inherit; transition: border-color .18s; }
-    .modal-time-input:focus { border-color: var(--accent); }
-    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
-    .modal-btn { padding: 8px 18px; border-radius: 10px; border: none; font-size: .82rem; font-weight: 500; cursor: pointer; font-family: inherit; transition: opacity .15s, background .15s; }
-    .modal-btn.secondary { background: var(--border-hover); color: var(--text-dim); }
-    .modal-btn.secondary:hover { opacity: .8; }
-    .modal-btn.primary { background: var(--accent); color: #fff; }
-    .modal-btn.primary:hover { opacity: .85; }
+    .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; z-index:400; padding:16px; opacity:0; transition:opacity .2s; pointer-events:none; }
+    .modal-backdrop.open { opacity:1; pointer-events:auto; }
+    .modal { background:var(--modal-bg); border:1px solid var(--modal-border); border-radius:20px; padding:24px; width:100%; max-width:360px; transform:translateY(10px) scale(.97); transition:transform .2s; box-shadow:0 16px 48px rgba(0,0,0,.3); }
+    .modal-backdrop.open .modal { transform:translateY(0) scale(1); }
+    .modal-title { font-size:.88rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text); margin-bottom:16px; }
+    .modal-input { width:100%; background:var(--input-bg); border:1px solid var(--input-border); border-radius:10px; color:var(--text); font-size:.88rem; padding:10px 12px; outline:none; font-family:inherit; margin-bottom:12px; transition:border-color .18s; }
+    .modal-input:focus { border-color:var(--accent); }
+    .modal-time-row { display:flex; align-items:center; gap:8px; margin-bottom:20px; }
+    .modal-time-label { font-size:.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:.05em; }
+    .modal-time-input { background:var(--input-bg); border:1px solid var(--input-border); border-radius:8px; color:var(--text); font-size:.8rem; padding:6px 8px; outline:none; font-family:inherit; transition:border-color .18s; }
+    .modal-time-input:focus { border-color:var(--accent); }
+    .modal-actions { display:flex; gap:8px; justify-content:flex-end; }
+    .modal-btn { padding:8px 18px; border-radius:10px; border:none; font-size:.82rem; font-weight:500; cursor:pointer; font-family:inherit; transition:opacity .15s,background .15s; }
+    .modal-btn.secondary { background:var(--border-hover); color:var(--text-dim); }
+    .modal-btn.secondary:hover { opacity:.8; }
+    .modal-btn.primary { background:var(--accent); color:#fff; }
+    .modal-btn.primary:hover { opacity:.85; }
 
     /* ── Footer ── */
-    footer { margin-top: 52px; font-size: .68rem; color: var(--text-muted); letter-spacing: .06em; text-transform: uppercase; }
+    footer { margin-top:52px; font-size:.68rem; color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase; }
   </style>
 </head>
 <body>
@@ -305,65 +285,78 @@
 <!-- Confetti canvas -->
 <canvas id="confetti-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:1000;display:none"></canvas>
 
-<!-- Toast notification (shared) -->
+<!-- Toast -->
 <div class="toast" id="notif-toast">
   <span class="toast-emoji" id="toast-emoji">🎉</span>
   <div>
-    <div class="toast-title" id="toast-title">Perfect Day!</div>
-    <div class="toast-sub" id="toast-sub">All habits done · +50 XP</div>
+    <div class="toast-title" id="toast-title"></div>
+    <div class="toast-sub"   id="toast-sub"></div>
   </div>
 </div>
 
 <!-- Toolbar -->
 <div class="toolbar">
-  <div class="theme-picker-wrap" id="theme-picker-wrap">
-    <button class="toolbar-btn" id="theme-btn" title="Choose theme">
+  <!-- Theme picker -->
+  <div class="picker-wrap" id="theme-picker-wrap">
+    <button class="toolbar-btn" id="theme-btn" title="Theme" aria-label="Choose theme">
       <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
     </button>
-    <div class="theme-menu" id="theme-menu">
-      <button class="theme-opt" data-theme="dark"><span class="theme-dot" style="background:#7c6af7"></span>Dark</button>
-      <button class="theme-opt" data-theme="light"><span class="theme-dot" style="background:#6c5ce7;opacity:.5"></span>Light</button>
-      <button class="theme-opt" data-theme="github"><span class="theme-dot" style="background:#238636"></span>GitHub</button>
-      <button class="theme-opt" data-theme="classic"><span class="theme-dot" style="background:#e94560"></span>Classic</button>
+    <div class="picker-menu" id="theme-menu">
+      <button class="picker-opt" data-theme="dark"><span class="theme-dot" style="background:#7c6af7"></span>Dark</button>
+      <button class="picker-opt" data-theme="light"><span class="theme-dot" style="background:#6c5ce7;opacity:.5"></span>Light</button>
+      <button class="picker-opt" data-theme="github"><span class="theme-dot" style="background:#238636"></span>GitHub</button>
+      <button class="picker-opt" data-theme="classic"><span class="theme-dot" style="background:#e94560"></span>Classic</button>
     </div>
   </div>
-  <a class="toolbar-btn" href="https://github.com/Ghostwritten/Habit" target="_blank" rel="noopener" title="GitHub">
+
+  <!-- Language picker -->
+  <div class="picker-wrap" id="lang-picker-wrap">
+    <button class="toolbar-btn lang-btn" id="lang-btn" title="Language" aria-label="Choose language">EN</button>
+    <div class="picker-menu" id="lang-menu" style="min-width:160px">
+      <button class="picker-opt" data-lang="en"><span class="lang-short">EN</span><span class="lang-name">English</span></button>
+      <button class="picker-opt" data-lang="zh"><span class="lang-short">中</span><span class="lang-name">中文</span></button>
+      <button class="picker-opt" data-lang="es"><span class="lang-short">ES</span><span class="lang-name">Español</span></button>
+      <button class="picker-opt" data-lang="ko"><span class="lang-short">한</span><span class="lang-name">한국어</span></button>
+      <button class="picker-opt" data-lang="ja"><span class="lang-short">日</span><span class="lang-name">日本語</span></button>
+      <button class="picker-opt" data-lang="vi"><span class="lang-short">VI</span><span class="lang-name">Tiếng Việt</span></button>
+      <button class="picker-opt" data-lang="th"><span class="lang-short">TH</span><span class="lang-name">ภาษาไทย</span></button>
+    </div>
+  </div>
+
+  <!-- GitHub -->
+  <a class="toolbar-btn" href="https://github.com/Ghostwritten/Habit" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub repository">
     <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
   </a>
 </div>
 
 <header>
-  <div class="title">Daily Habits</div>
+  <div class="title" id="page-title">Daily Habits</div>
   <div class="subtitle" id="date-label"></div>
 </header>
 
 <div class="progress-section">
   <div class="progress-meta">
-    <span>Today</span>
+    <span id="label-today">Today</span>
     <span id="progress-text">0 / 0</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-
-  <!-- Stats row -->
   <div class="stats-row">
     <div class="stat-item" title="Consecutive perfect days">
       <span class="stat-icon">🔥</span>
       <span class="stat-value" id="perfect-count">0</span>
-      <span class="stat-label">Perfect</span>
+      <span class="stat-label" id="label-perfect">Perfect</span>
     </div>
-    <div class="stat-item" title="Your level">
+    <div class="stat-item">
       <span class="stat-icon">⚡</span>
       <span class="stat-value" id="level-display">Lv.1</span>
-      <span class="stat-label" id="level-title">新手</span>
+      <span class="stat-label" id="level-title">Newcomer</span>
     </div>
-    <div class="stat-item" title="Streak freeze tokens · Earned every 7 perfect days">
+    <div class="stat-item" title="Streak freeze tokens">
       <span class="stat-icon">❄️</span>
       <span class="stat-value" id="freeze-count">×0</span>
-      <span class="stat-label">Freeze</span>
+      <span class="stat-label" id="label-freeze">Freeze</span>
     </div>
   </div>
-
-  <!-- XP bar -->
   <div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div>
   <div class="xp-meta">
     <span id="xp-text">0 XP</span>
@@ -375,8 +368,8 @@
 <div class="recovery-banner" id="recovery-banner">
   <span class="recovery-icon">💫</span>
   <div class="recovery-text">
-    <span class="recovery-msg" id="recovery-msg">昨日有 N 项习惯未完成</span>
-    <span class="recovery-sub">今天重新出发，你可以的 💪</span>
+    <span class="recovery-msg" id="recovery-msg"></span>
+    <span class="recovery-sub" id="recovery-sub"></span>
   </div>
   <button class="recovery-close" id="recovery-close">×</button>
 </div>
@@ -385,600 +378,735 @@
 
 <button class="add-btn" id="add-btn">
   <span class="add-plus">+</span>
-  <span class="add-label">Add habit</span>
+  <span class="add-label" id="add-label">Add Habit</span>
 </button>
 
-<footer>data saved locally</footer>
+<footer id="page-footer">data saved locally</footer>
 
 <!-- Add habit modal -->
 <div class="modal-backdrop" id="modal-backdrop">
   <div class="modal">
-    <div class="modal-title">New Habit</div>
+    <div class="modal-title" id="modal-title">New Habit</div>
     <input class="modal-input" type="text" id="habit-input" placeholder="e.g. Read 30 minutes" maxlength="60" autocomplete="off" />
     <div class="modal-time-row">
-      <span class="modal-time-label">From</span>
+      <span class="modal-time-label" id="modal-from">From</span>
       <input class="modal-time-input" type="time" id="habit-start" />
-      <span class="modal-time-label" style="margin-left:4px">To</span>
+      <span class="modal-time-label" id="modal-to" style="margin-left:4px">To</span>
       <input class="modal-time-input" type="time" id="habit-end" />
     </div>
     <div class="modal-actions">
       <button class="modal-btn secondary" id="modal-cancel">Cancel</button>
-      <button class="modal-btn primary" id="modal-confirm">Add</button>
+      <button class="modal-btn primary"   id="modal-confirm">Add</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ── Default habits ── */
+/* ════════════════════════════════════════════
+   i18n — 7 languages
+   ════════════════════════════════════════════ */
+const I18N = {
+  en: {
+    title:'Daily Habits', today:'Today', footer:'Data saved locally',
+    newHabit:'New Habit', habitPlaceholder:'e.g. Read 30 minutes',
+    from:'From', to:'To', cancel:'Cancel', add:'Add', addLabel:'Add Habit',
+    perfect:'Perfect', freeze:'Freeze',
+    dayStreak: n => `${n>0?'🔥':'○'} ${n} day streak`,
+    missedYesterday:'⚡ Streak broken',
+    recoveryMsg: n => `You missed ${n} habit${n>1?'s':''} yesterday`,
+    recoverySub:"Start fresh today, you've got this! 💪",
+    timeRange:'Time range', deleteHabit:'Delete habit',
+    useFreeze: n => `❄️ Use Streak Freeze (×${n})`,
+    perfectDay:'Perfect Day!',
+    perfectDaySub: bonus => `All habits done${bonus?' · +50 bonus XP':''}`,
+    levelUp:'Level Up!',
+    freezeEarned:'Streak Freeze earned!',
+    freezeEarnedSub: (d,t) => `${d} consecutive perfect days · ×${t}`,
+    freezeUsed:'Streak Protected!',
+    freezeUsedSub: r => `Freeze token used · ×${r} remaining`,
+    milestone:'Milestone!',
+    milestoneMsg: (d,xp) => `${d}-day streak! +${xp} XP`,
+    maxLevel:'MAX LEVEL 👑', nextXP: n => `→ ${n} XP`,
+    levels:['Newcomer','Consistent','Dedicated','Focused','Master','Champion','Legend'],
+  },
+  zh: {
+    title:'每日习惯', today:'今日', footer:'数据已本地保存',
+    newHabit:'新建习惯', habitPlaceholder:'例如：阅读 30 分钟',
+    from:'从', to:'到', cancel:'取消', add:'添加', addLabel:'添加习惯',
+    perfect:'完美天', freeze:'护盾',
+    dayStreak: n => `${n>0?'🔥':'○'} ${n} 天连续`,
+    missedYesterday:'⚡ 昨日中断',
+    recoveryMsg: n => `昨日 ${n} 项习惯未完成`,
+    recoverySub:'今天重新出发，你可以的 💪',
+    timeRange:'时间范围', deleteHabit:'删除习惯',
+    useFreeze: n => `❄️ 使用护盾 (×${n})`,
+    perfectDay:'完美一天！',
+    perfectDaySub: bonus => `全部习惯完成${bonus?' · +50 bonus XP':''}`,
+    levelUp:'升级！',
+    freezeEarned:'获得护盾！',
+    freezeEarnedSub: (d,t) => `连续完美 ${d} 天 · 护盾 ×${t}`,
+    freezeUsed:'Streak 已保护！',
+    freezeUsedSub: r => `护盾消耗 · 剩余 ×${r}`,
+    milestone:'里程碑！',
+    milestoneMsg: (d,xp) => `${d} 天达成！+${xp} XP`,
+    maxLevel:'最高等级 👑', nextXP: n => `→ ${n} XP`,
+    levels:['新手','稳定','专注','精进','大师','强者','传奇'],
+  },
+  es: {
+    title:'Hábitos Diarios', today:'Hoy', footer:'Datos guardados localmente',
+    newHabit:'Nuevo hábito', habitPlaceholder:'Ej. Leer 30 minutos',
+    from:'De', to:'A', cancel:'Cancelar', add:'Añadir', addLabel:'Añadir hábito',
+    perfect:'Perfecto', freeze:'Escudo',
+    dayStreak: n => `${n>0?'🔥':'○'} ${n} día${n!==1?'s':''} seguido${n!==1?'s':''}`,
+    missedYesterday:'⚡ Racha rota',
+    recoveryMsg: n => `Ayer fallaste ${n} hábito${n>1?'s':''}`,
+    recoverySub:'¡Empieza de nuevo hoy, tú puedes! 💪',
+    timeRange:'Horario', deleteHabit:'Eliminar hábito',
+    useFreeze: n => `❄️ Usar escudo (×${n})`,
+    perfectDay:'¡Día perfecto!',
+    perfectDaySub: bonus => `Todos los hábitos hechos${bonus?' · +50 XP extra':''}`,
+    levelUp:'¡Subiste de nivel!',
+    freezeEarned:'¡Escudo ganado!',
+    freezeEarnedSub: (d,t) => `${d} días perfectos seguidos · ×${t}`,
+    freezeUsed:'¡Racha protegida!',
+    freezeUsedSub: r => `Escudo usado · ×${r} restantes`,
+    milestone:'¡Hito!',
+    milestoneMsg: (d,xp) => `¡${d} días seguidos! +${xp} XP`,
+    maxLevel:'NIVEL MÁXIMO 👑', nextXP: n => `→ ${n} XP`,
+    levels:['Novato','Constante','Dedicado','Enfocado','Maestro','Campeón','Leyenda'],
+  },
+  ko: {
+    title:'매일 습관', today:'오늘', footer:'데이터가 로컬에 저장됩니다',
+    newHabit:'새 습관', habitPlaceholder:'예: 30분 독서',
+    from:'시작', to:'종료', cancel:'취소', add:'추가', addLabel:'습관 추가',
+    perfect:'완벽', freeze:'보호막',
+    dayStreak: n => `${n>0?'🔥':'○'} ${n}일 연속`,
+    missedYesterday:'⚡ 어제 중단',
+    recoveryMsg: n => `어제 ${n}개 습관을 놓쳤어요`,
+    recoverySub:'오늘 다시 시작해요, 할 수 있어요! 💪',
+    timeRange:'시간 범위', deleteHabit:'습관 삭제',
+    useFreeze: n => `❄️ 보호막 사용 (×${n})`,
+    perfectDay:'완벽한 하루!',
+    perfectDaySub: bonus => `모든 습관 완료${bonus?' · +50 보너스 XP':''}`,
+    levelUp:'레벨 업!',
+    freezeEarned:'보호막 획득!',
+    freezeEarnedSub: (d,t) => `${d}일 연속 완벽 · ×${t}`,
+    freezeUsed:'스트릭 보호됨!',
+    freezeUsedSub: r => `보호막 사용 · ×${r} 남음`,
+    milestone:'마일스톤!',
+    milestoneMsg: (d,xp) => `${d}일 달성! +${xp} XP`,
+    maxLevel:'최고 레벨 👑', nextXP: n => `→ ${n} XP`,
+    levels:['초보자','꾸준함','헌신','집중','달인','챔피언','전설'],
+  },
+  ja: {
+    title:'毎日の習慣', today:'今日', footer:'データはローカルに保存されます',
+    newHabit:'新しい習慣', habitPlaceholder:'例：30分読書',
+    from:'開始', to:'終了', cancel:'キャンセル', add:'追加', addLabel:'習慣を追加',
+    perfect:'完璧', freeze:'シールド',
+    dayStreak: n => `${n>0?'🔥':'○'} ${n}日連続`,
+    missedYesterday:'⚡ 昨日中断',
+    recoveryMsg: n => `昨日${n}個の習慣を達成できませんでした`,
+    recoverySub:'今日また頑張りましょう 💪',
+    timeRange:'時間帯', deleteHabit:'習慣を削除',
+    useFreeze: n => `❄️ シールドを使用 (×${n})`,
+    perfectDay:'完璧な一日！',
+    perfectDaySub: bonus => `全習慣達成${bonus?' · +50 ボーナスXP':''}`,
+    levelUp:'レベルアップ！',
+    freezeEarned:'シールド獲得！',
+    freezeEarnedSub: (d,t) => `${d}日連続完璧 · ×${t}`,
+    freezeUsed:'ストリーク保護！',
+    freezeUsedSub: r => `シールド使用 · ×${r} 残り`,
+    milestone:'マイルストーン！',
+    milestoneMsg: (d,xp) => `${d}日達成！+${xp} XP`,
+    maxLevel:'最高レベル 👑', nextXP: n => `→ ${n} XP`,
+    levels:['初心者','安定','専念','精進','達人','強者','伝説'],
+  },
+  vi: {
+    title:'Thói Quen Hàng Ngày', today:'Hôm nay', footer:'Dữ liệu được lưu cục bộ',
+    newHabit:'Thói quen mới', habitPlaceholder:'VD: Đọc sách 30 phút',
+    from:'Từ', to:'Đến', cancel:'Hủy', add:'Thêm', addLabel:'Thêm thói quen',
+    perfect:'Hoàn hảo', freeze:'Bảo vệ',
+    dayStreak: n => `${n>0?'🔥':'○'} ${n} ngày liên tiếp`,
+    missedYesterday:'⚡ Bị gián đoạn',
+    recoveryMsg: n => `Hôm qua bạn bỏ lỡ ${n} thói quen`,
+    recoverySub:'Bắt đầu lại hôm nay, bạn làm được! 💪',
+    timeRange:'Khoảng thời gian', deleteHabit:'Xóa thói quen',
+    useFreeze: n => `❄️ Dùng bảo vệ (×${n})`,
+    perfectDay:'Ngày hoàn hảo!',
+    perfectDaySub: bonus => `Hoàn thành tất cả${bonus?' · +50 XP thưởng':''}`,
+    levelUp:'Lên cấp!',
+    freezeEarned:'Nhận bảo vệ!',
+    freezeEarnedSub: (d,t_) => `${d} ngày hoàn hảo liên tiếp · ×${t_}`,
+    freezeUsed:'Streak được bảo vệ!',
+    freezeUsedSub: r => `Đã dùng bảo vệ · ×${r} còn lại`,
+    milestone:'Cột mốc!',
+    milestoneMsg: (d,xp) => `${d} ngày liên tiếp! +${xp} XP`,
+    maxLevel:'CẤP TỐI ĐA 👑', nextXP: n => `→ ${n} XP`,
+    levels:['Người mới','Kiên định','Chuyên tâm','Tập trung','Bậc thầy','Vô địch','Huyền thoại'],
+  },
+  th: {
+    title:'นิสัยประจำวัน', today:'วันนี้', footer:'บันทึกข้อมูลในเครื่อง',
+    newHabit:'นิสัยใหม่', habitPlaceholder:'เช่น อ่านหนังสือ 30 นาที',
+    from:'เริ่ม', to:'สิ้นสุด', cancel:'ยกเลิก', add:'เพิ่ม', addLabel:'เพิ่มนิสัย',
+    perfect:'สมบูรณ์', freeze:'โล่',
+    dayStreak: n => `${n>0?'🔥':'○'} ${n} วันต่อเนื่อง`,
+    missedYesterday:'⚡ หยุดเมื่อวาน',
+    recoveryMsg: n => `เมื่อวานพลาด ${n} นิสัย`,
+    recoverySub:'เริ่มใหม่วันนี้ คุณทำได้! 💪',
+    timeRange:'ช่วงเวลา', deleteHabit:'ลบนิสัย',
+    useFreeze: n => `❄️ ใช้โล่ (×${n})`,
+    perfectDay:'วันสมบูรณ์แบบ!',
+    perfectDaySub: bonus => `ทำครบทุกนิสัย${bonus?' · +50 XP โบนัส':''}`,
+    levelUp:'เลเวลอัพ!',
+    freezeEarned:'ได้รับโล่!',
+    freezeEarnedSub: (d,t_) => `${d} วันสมบูรณ์ต่อเนื่อง · ×${t_}`,
+    freezeUsed:'ปกป้อง Streak แล้ว!',
+    freezeUsedSub: r => `ใช้โล่แล้ว · เหลือ ×${r}`,
+    milestone:'เหตุการณ์สำคัญ!',
+    milestoneMsg: (d,xp) => `${d} วันต่อเนื่อง! +${xp} XP`,
+    maxLevel:'เลเวลสูงสุด 👑', nextXP: n => `→ ${n} XP`,
+    levels:['มือใหม่','สม่ำเสมอ','ทุ่มเท','มุ่งมั่น','เชี่ยวชาญ','แชมป์','ตำนาน'],
+  },
+};
+
+const LANGS = {
+  en:{ short:'EN', locale:'en-US' }, zh:{ short:'中', locale:'zh-CN' },
+  es:{ short:'ES', locale:'es-ES' }, ko:{ short:'한', locale:'ko-KR' },
+  ja:{ short:'日', locale:'ja-JP' }, vi:{ short:'VI', locale:'vi-VN' },
+  th:{ short:'TH', locale:'th-TH' },
+};
+
+/* ════════════════════════════════════════════
+   Defaults & Storage
+   ════════════════════════════════════════════ */
 const DEFAULT_HABITS = [
-  { id: 'meditation', name: 'Morning meditation' },
-  { id: 'exercise',   name: 'Exercise' },
-  { id: 'reading',    name: 'Read 30 minutes' },
-  { id: 'water',      name: 'Drink 8 glasses of water' },
-  { id: 'nosocial',   name: 'No social media after 9 pm' },
+  { id:'meditation', name:'Morning meditation' },
+  { id:'exercise',   name:'Exercise' },
+  { id:'reading',    name:'Read 30 minutes' },
+  { id:'water',      name:'Drink 8 glasses of water' },
+  { id:'nosocial',   name:'No social media after 9 pm' },
 ];
 
-/* ── Level table ── */
-const LEVELS = [
-  { min: 0,    title: '新手',  label: 'Newcomer'   },
-  { min: 100,  title: '稳定',  label: 'Consistent' },
-  { min: 300,  title: '专注',  label: 'Dedicated'  },
-  { min: 700,  title: '精进',  label: 'Focused'    },
-  { min: 1500, title: '大师',  label: 'Master'     },
-  { min: 3000, title: '强者',  label: 'Champion'   },
-  { min: 6000, title: '传奇',  label: 'Legend'     },
-];
+const LEVELS = [0,100,300,700,1500,3000,6000];
 
-/* ── Storage ── */
-function loadHabits() {
-  try { const s = localStorage.getItem('habitList'); return s ? JSON.parse(s) : null; }
-  catch { return null; }
-}
-function saveHabits(list) { localStorage.setItem('habitList', JSON.stringify(list)); }
-
-function loadData() {
-  try { return JSON.parse(localStorage.getItem('habitData') || '{}'); }
-  catch { return {}; }
-}
-function saveData(data) { localStorage.setItem('habitData', JSON.stringify(data)); }
-
-function loadMeta() {
-  try {
-    return JSON.parse(localStorage.getItem('habitMeta') || 'null') ||
-      { xp: 0, perfectDays: [], freezeTokens: 0 };
-  } catch { return { xp: 0, perfectDays: [], freezeTokens: 0 }; }
-}
-function saveMeta(m) { localStorage.setItem('habitMeta', JSON.stringify(m)); }
+function loadHabits(){ try{ const s=localStorage.getItem('habitList'); return s?JSON.parse(s):null; }catch{return null;} }
+function saveHabits(l){ localStorage.setItem('habitList',JSON.stringify(l)); }
+function loadData(){ try{return JSON.parse(localStorage.getItem('habitData')||'{}');}catch{return{};} }
+function saveData(d){ localStorage.setItem('habitData',JSON.stringify(d)); }
+function loadMeta(){ try{return JSON.parse(localStorage.getItem('habitMeta')||'null')||{xp:0,perfectDays:[],freezeTokens:0};}catch{return{xp:0,perfectDays:[],freezeTokens:0};} }
+function saveMeta(m){ localStorage.setItem('habitMeta',JSON.stringify(m)); }
 
 let habits = loadHabits();
-if (!habits) { habits = DEFAULT_HABITS.slice(); saveHabits(habits); }
+if(!habits){ habits = DEFAULT_HABITS.slice(); saveHabits(habits); }
 
-/* ── Theme ── */
+/* ════════════════════════════════════════════
+   Active state
+   ════════════════════════════════════════════ */
 let currentTheme = localStorage.getItem('habitTheme') || 'dark';
-function applyTheme(theme) {
+let currentLang  = localStorage.getItem('habitLang')  || 'en';
+
+function t(key, ...args){
+  const d = I18N[currentLang] || I18N.en;
+  const v = d[key] ?? I18N.en[key];
+  return typeof v === 'function' ? v(...args) : (v ?? key);
+}
+
+/* ════════════════════════════════════════════
+   Theme
+   ════════════════════════════════════════════ */
+function applyTheme(theme){
   currentTheme = theme;
   document.documentElement.dataset.theme = theme;
   localStorage.setItem('habitTheme', theme);
-  document.querySelectorAll('.theme-opt').forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+  document.querySelectorAll('#theme-menu .picker-opt').forEach(b =>
+    b.classList.toggle('active', b.dataset.theme === theme));
 }
 applyTheme(currentTheme);
 
 const themeBtn  = document.getElementById('theme-btn');
 const themeMenu = document.getElementById('theme-menu');
-themeBtn.addEventListener('click', e => { e.stopPropagation(); themeMenu.classList.toggle('open'); });
-themeMenu.querySelectorAll('.theme-opt').forEach(b => {
-  b.addEventListener('click', () => { applyTheme(b.dataset.theme); themeMenu.classList.remove('open'); });
-});
+themeBtn.addEventListener('click', e => { e.stopPropagation(); closeAll(); themeMenu.classList.toggle('open'); });
+themeMenu.querySelectorAll('.picker-opt').forEach(b =>
+  b.addEventListener('click', () => { applyTheme(b.dataset.theme); themeMenu.classList.remove('open'); }));
 
-/* ── Date helpers ── */
+/* ════════════════════════════════════════════
+   Language
+   ════════════════════════════════════════════ */
+function applyLanguage(lang){
+  currentLang = lang;
+  localStorage.setItem('habitLang', lang);
+
+  document.getElementById('lang-btn').textContent = LANGS[lang].short;
+  document.querySelectorAll('#lang-menu .picker-opt').forEach(b =>
+    b.classList.toggle('active', b.dataset.lang === lang));
+
+  // Static strings
+  document.getElementById('page-title').textContent    = t('title');
+  document.getElementById('label-today').textContent   = t('today');
+  document.getElementById('page-footer').textContent   = t('footer');
+  document.getElementById('modal-title').textContent   = t('newHabit');
+  document.getElementById('habit-input').placeholder   = t('habitPlaceholder');
+  document.getElementById('modal-from').textContent    = t('from');
+  document.getElementById('modal-to').textContent      = t('to');
+  document.getElementById('modal-cancel').textContent  = t('cancel');
+  document.getElementById('modal-confirm').textContent = t('add');
+  document.getElementById('add-label').textContent     = t('addLabel');
+  document.getElementById('label-perfect').textContent = t('perfect');
+  document.getElementById('label-freeze').textContent  = t('freeze');
+  document.getElementById('recovery-sub').textContent  = t('recoverySub');
+
+  // Date with locale
+  document.getElementById('date-label').textContent =
+    new Date().toLocaleDateString(LANGS[lang].locale, { weekday:'long', month:'long', day:'numeric' });
+
+  build(); // rebuild cards with new language
+}
+
+const langBtn  = document.getElementById('lang-btn');
+const langMenu = document.getElementById('lang-menu');
+langBtn.addEventListener('click', e => { e.stopPropagation(); closeAll(); langMenu.classList.toggle('open'); });
+langMenu.querySelectorAll('.picker-opt').forEach(b =>
+  b.addEventListener('click', () => { applyLanguage(b.dataset.lang); langMenu.classList.remove('open'); }));
+
+/* ════════════════════════════════════════════
+   Date helpers
+   ════════════════════════════════════════════ */
 const TODAY = (() => {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 })();
 
-function prevDay(s) {
-  const d = new Date(s + 'T00:00:00');
-  d.setDate(d.getDate() - 1);
+function prevDay(s){
+  const d = new Date(s+'T00:00:00'); d.setDate(d.getDate()-1);
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-function last7() {
-  const days = [];
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(TODAY + 'T00:00:00');
-    d.setDate(d.getDate() - i);
+function last7(){
+  const days=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(TODAY+'T00:00:00'); d.setDate(d.getDate()-i);
     days.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`);
   }
   return days;
 }
 
-function calcStreak(dates) {
-  const set = new Set(dates);
-  let cursor = set.has(TODAY) ? TODAY : prevDay(TODAY);
-  if (!set.has(cursor)) return 0;
-  let n = 0;
-  while (set.has(cursor)) { n++; cursor = prevDay(cursor); }
-  return n;
+function calcStreak(dates){
+  const set=new Set(dates);
+  let cursor=set.has(TODAY)?TODAY:prevDay(TODAY);
+  if(!set.has(cursor))return 0;
+  let n=0; while(set.has(cursor)){n++;cursor=prevDay(cursor);} return n;
 }
 
-function calcPerfectStreak(perfectDays) {
-  const set = new Set(perfectDays);
-  let cursor = set.has(TODAY) ? TODAY : prevDay(TODAY);
-  if (!set.has(cursor)) return 0;
-  let n = 0;
-  while (set.has(cursor)) { n++; cursor = prevDay(cursor); }
-  return n;
+function calcPerfectStreak(pd){
+  const set=new Set(pd);
+  let cursor=set.has(TODAY)?TODAY:prevDay(TODAY);
+  if(!set.has(cursor))return 0;
+  let n=0; while(set.has(cursor)){n++;cursor=prevDay(cursor);} return n;
 }
 
-/* ── Level & XP helpers ── */
-function getLevel(xp) {
-  let idx = 0;
-  for (let i = LEVELS.length - 1; i >= 0; i--) { if (xp >= LEVELS[i].min) { idx = i; break; } }
-  return { level: idx + 1, ...LEVELS[idx] };
+/* ════════════════════════════════════════════
+   Level / XP
+   ════════════════════════════════════════════ */
+function getLevel(xp){
+  let idx=0;
+  for(let i=LEVELS.length-1;i>=0;i--){ if(xp>=LEVELS[i]){idx=i;break;} }
+  return idx;
 }
 
-function getXpProgress(xp) {
-  const { level } = getLevel(xp);
-  const idx = level - 1;
-  const cur  = LEVELS[idx].min;
-  const next = LEVELS[idx + 1]?.min;
-  if (!next) return 100;
-  return Math.min(100, ((xp - cur) / (next - cur)) * 100);
+function getXpProgress(xp){
+  const idx=getLevel(xp), cur=LEVELS[idx], nxt=LEVELS[idx+1];
+  if(!nxt) return 100;
+  return Math.min(100,((xp-cur)/(nxt-cur))*100);
 }
 
-/* ── Update stats display ── */
-function updateStats() {
-  const meta = loadMeta();
-  const lv   = getLevel(meta.xp);
-  const ps   = calcPerfectStreak(meta.perfectDays);
-  document.getElementById('perfect-count').textContent = ps;
-  document.getElementById('level-display').textContent = `Lv.${lv.level}`;
-  document.getElementById('level-title').textContent   = lv.title;
-  document.getElementById('freeze-count').textContent  = `×${meta.freezeTokens}`;
-  document.getElementById('xp-fill').style.width       = getXpProgress(meta.xp) + '%';
-  document.getElementById('xp-text').textContent       = `${meta.xp} XP`;
-  const nextLv = LEVELS[lv.level]?.min;
-  document.getElementById('xp-next').textContent = nextLv ? `→ ${nextLv} XP` : 'MAX LEVEL 👑';
+function updateStats(){
+  const meta=loadMeta(), lvIdx=getLevel(meta.xp), ps=calcPerfectStreak(meta.perfectDays);
+  const levelTitles = (I18N[currentLang]||I18N.en).levels;
+  document.getElementById('perfect-count').textContent  = ps;
+  document.getElementById('level-display').textContent  = `Lv.${lvIdx+1}`;
+  document.getElementById('level-title').textContent    = levelTitles[lvIdx] || levelTitles[0];
+  document.getElementById('freeze-count').textContent   = `×${meta.freezeTokens}`;
+  document.getElementById('xp-fill').style.width        = getXpProgress(meta.xp)+'%';
+  document.getElementById('xp-text').textContent        = `${meta.xp} XP`;
+  const nxt=LEVELS[lvIdx+1];
+  document.getElementById('xp-next').textContent = nxt ? t('nextXP',nxt) : t('maxLevel');
 }
 
-/* ── Toast notification ── */
-let toastTimer = null;
-function showNotif(emoji, title, sub, borderColor, duration = 3500) {
+/* ════════════════════════════════════════════
+   Toast
+   ════════════════════════════════════════════ */
+let toastTimer=null;
+function showNotif(emoji,title,sub,borderColor,duration=3500){
   document.getElementById('toast-emoji').textContent = emoji;
   document.getElementById('toast-title').textContent = title;
   document.getElementById('toast-sub').textContent   = sub;
-  const t = document.getElementById('notif-toast');
-  t.style.borderColor = borderColor || 'var(--modal-border)';
-  t.classList.add('show');
+  const el=document.getElementById('notif-toast');
+  el.style.borderColor = borderColor||'var(--modal-border)';
+  el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), duration);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),duration);
 }
 
-/* ── Floating XP text ── */
-function showFloatingXP(amount, targetEl) {
-  const rect = targetEl.getBoundingClientRect();
-  const el = document.createElement('div');
-  el.className = 'xp-float';
-  el.textContent = `+${amount} XP`;
-  el.style.left = (rect.left + rect.width / 2 - 16) + 'px';
-  el.style.top  = (rect.top + window.scrollY - 4) + 'px';
+/* ════════════════════════════════════════════
+   Floating XP
+   ════════════════════════════════════════════ */
+function showFloatingXP(amount,targetEl){
+  const r=targetEl.getBoundingClientRect(), el=document.createElement('div');
+  el.className='xp-float';
+  el.textContent=`+${amount} XP`;
+  el.style.left=(r.left+r.width/2-16)+'px';
+  el.style.top=(r.top+window.scrollY-4)+'px';
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 1200);
+  setTimeout(()=>el.remove(),1200);
 }
 
-/* ── Confetti ── */
-function launchConfetti() {
-  const palettes = {
-    dark:    ['#7c6af7','#a89bf7','#ffd93d','#6bcb77','#ff6b6b','#4d96ff','#fff'],
-    light:   ['#6c5ce7','#a29bfe','#fdcb6e','#00b894','#e17055','#0984e3'],
-    github:  ['#238636','#3fb950','#ffd700','#58a6ff','#d2a8ff','#ff7b72','#fff'],
-    classic: ['#e94560','#ff6b81','#ffd700','#4cc9f0','#c77dff','#eee'],
+/* ════════════════════════════════════════════
+   Confetti
+   ════════════════════════════════════════════ */
+function launchConfetti(){
+  const palettes={
+    dark:['#7c6af7','#a89bf7','#ffd93d','#6bcb77','#ff6b6b','#4d96ff','#fff'],
+    light:['#6c5ce7','#a29bfe','#fdcb6e','#00b894','#e17055','#0984e3'],
+    github:['#238636','#3fb950','#ffd700','#58a6ff','#d2a8ff','#ff7b72','#fff'],
+    classic:['#e94560','#ff6b81','#ffd700','#4cc9f0','#c77dff','#eee'],
   };
-  const colors = palettes[currentTheme] || palettes.dark;
-  const canvas = document.getElementById('confetti-canvas');
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-  canvas.style.display = 'block';
-  const ctx = canvas.getContext('2d');
-
-  const particles = Array.from({ length: 170 }, () => ({
-    x: Math.random() * canvas.width,
-    y: -10 - Math.random() * 180,
-    color: colors[Math.floor(Math.random() * colors.length)],
-    speed: Math.random() * 4 + 2,
-    swing: Math.random() * 2.5,
-    swingSpeed: Math.random() * .04 + .01,
-    angle: Math.random() * Math.PI * 2,
-    rot: Math.random() * Math.PI * 2,
-    rotSpeed: (Math.random() - .5) * .15,
-    w: Math.random() * 9 + 4,
-    h: Math.random() * 5 + 3,
-    shape: Math.random() > .4 ? 'rect' : 'circle',
-    opacity: 1,
+  const colors=palettes[currentTheme]||palettes.dark;
+  const canvas=document.getElementById('confetti-canvas');
+  canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+  canvas.style.display='block';
+  const ctx=canvas.getContext('2d');
+  const particles=Array.from({length:170},()=>({
+    x:Math.random()*canvas.width, y:-10-Math.random()*180,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    speed:Math.random()*4+2, swing:Math.random()*2.5,
+    swingSpeed:Math.random()*.04+.01, angle:Math.random()*Math.PI*2,
+    rot:Math.random()*Math.PI*2, rotSpeed:(Math.random()-.5)*.15,
+    w:Math.random()*9+4, h:Math.random()*5+3,
+    shape:Math.random()>.4?'rect':'circle', opacity:1,
   }));
-
-  let frame = 0;
-  (function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let alive = false;
-    particles.forEach(p => {
-      if (p.opacity <= 0) return;
-      p.y += p.speed; p.x += Math.sin(p.angle) * p.swing;
-      p.angle += p.swingSpeed; p.rot += p.rotSpeed;
-      if (frame > 110) p.opacity = Math.max(0, p.opacity - .013);
-      if (p.y > canvas.height) p.opacity = 0;
-      alive = true;
-      ctx.save(); ctx.globalAlpha = p.opacity; ctx.fillStyle = p.color;
-      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
-      if (p.shape === 'rect') ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-      else { ctx.beginPath(); ctx.ellipse(0, 0, p.w/2, p.h/2, 0, 0, Math.PI*2); ctx.fill(); }
+  let frame=0;
+  (function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive=false;
+    particles.forEach(p=>{
+      if(p.opacity<=0)return;
+      p.y+=p.speed; p.x+=Math.sin(p.angle)*p.swing; p.angle+=p.swingSpeed; p.rot+=p.rotSpeed;
+      if(frame>110) p.opacity=Math.max(0,p.opacity-.013);
+      if(p.y>canvas.height) p.opacity=0;
+      alive=true;
+      ctx.save(); ctx.globalAlpha=p.opacity; ctx.fillStyle=p.color;
+      ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+      if(p.shape==='rect') ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      else{ ctx.beginPath(); ctx.ellipse(0,0,p.w/2,p.h/2,0,0,Math.PI*2); ctx.fill(); }
       ctx.restore();
     });
     frame++;
-    if (alive) requestAnimationFrame(animate);
-    else canvas.style.display = 'none';
+    if(alive) requestAnimationFrame(animate); else canvas.style.display='none';
   })();
 }
 
-/* ── Perfect day check ── */
-let perfectCelebrated = false;
+/* ════════════════════════════════════════════
+   Perfect day
+   ════════════════════════════════════════════ */
+let perfectCelebrated=false;
 
-function checkPerfectDay() {
-  if (habits.length === 0) return;
-  const data = loadData();
-  const allDone = habits.every(h => (data[h.id]?.dates || []).includes(TODAY));
-  if (!allDone || perfectCelebrated) return;
-  perfectCelebrated = true;
+function checkPerfectDay(){
+  if(!habits.length) return;
+  const data=loadData();
+  if(!habits.every(h=>(data[h.id]?.dates||[]).includes(TODAY))) return;
+  if(perfectCelebrated) return;
+  perfectCelebrated=true;
 
-  const meta = loadMeta();
-  const prevXP = meta.xp;
-  const alreadyCounted = meta.perfectDays.includes(TODAY);
-
-  if (!alreadyCounted) {
+  const meta=loadMeta(), prevXP=meta.xp, alreadyCounted=meta.perfectDays.includes(TODAY);
+  if(!alreadyCounted){
     meta.perfectDays.push(TODAY);
-    meta.xp += 50;
-
-    // Award freeze token every 7 consecutive perfect days
-    const ps = calcPerfectStreak(meta.perfectDays);
-    if (ps > 0 && ps % 7 === 0) {
+    meta.xp+=50;
+    const ps=calcPerfectStreak(meta.perfectDays);
+    if(ps>0&&ps%7===0){
       meta.freezeTokens++;
-      setTimeout(() => showNotif('❄️', 'Streak Freeze 获得!', `你已连续完美 ${ps} 天 · 护盾 ×${meta.freezeTokens}`, '#64d8ff'), 2200);
+      setTimeout(()=>showNotif('❄️',t('freezeEarned'),t('freezeEarnedSub',ps,meta.freezeTokens),'#64d8ff'),2200);
     }
     saveMeta(meta);
-
-    // Level up?
-    const prevLv = getLevel(prevXP);
-    const newLv  = getLevel(meta.xp);
-    if (newLv.level > prevLv.level) {
-      setTimeout(() => showNotif('⚡', `Level Up!  Lv.${newLv.level}`, `${newLv.title} · ${newLv.label}`, '#ffd700', 4000), 1600);
+    const prevLvIdx=getLevel(prevXP), newLvIdx=getLevel(meta.xp);
+    if(newLvIdx>prevLvIdx){
+      const titles=(I18N[currentLang]||I18N.en).levels;
+      setTimeout(()=>showNotif('⚡',t('levelUp'),`Lv.${newLvIdx+1} ${titles[newLvIdx]}`,'#ffd700',4000),1600);
     }
   }
-
   launchConfetti();
-  showNotif('🎉', 'Perfect Day!', `全部习惯完成 · ${alreadyCounted ? '' : '+50 bonus '}XP`, 'var(--accent)', 4500);
+  showNotif('🎉',t('perfectDay'),t('perfectDaySub',!alreadyCounted),'var(--accent)',4500);
   updateStats();
 }
 
-/* ── Progress ── */
-function updateProgress() {
-  const data  = loadData();
-  const done  = habits.filter(h => (data[h.id]?.dates || []).includes(TODAY)).length;
-  const total = habits.length;
-  const pct   = total > 0 ? (done / total) * 100 : 0;
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = `${done} / ${total}`;
+/* ════════════════════════════════════════════
+   Progress & dots
+   ════════════════════════════════════════════ */
+function updateProgress(){
+  const data=loadData(), done=habits.filter(h=>(data[h.id]?.dates||[]).includes(TODAY)).length;
+  const total=habits.length, pct=total>0?(done/total)*100:0;
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-text').textContent=`${done} / ${total}`;
 }
 
-/* ── Dots ── */
-function renderDots(dates, container) {
-  const days = last7(), set = new Set(dates);
-  container.innerHTML = '';
-  days.forEach(day => {
-    const dot = document.createElement('div');
-    dot.className = 'dot';
-    if (day === TODAY)     dot.classList.add(set.has(day) ? 'today-done' : 'today-empty');
-    else if (set.has(day)) dot.classList.add('past');
+function renderDots(dates,container){
+  const days=last7(), set=new Set(dates);
+  container.innerHTML='';
+  days.forEach(day=>{
+    const dot=document.createElement('div'); dot.className='dot';
+    if(day===TODAY) dot.classList.add(set.has(day)?'today-done':'today-empty');
+    else if(set.has(day)) dot.classList.add('past');
     container.appendChild(dot);
   });
 }
 
-function streakLabel(n) { return `${n > 0 ? '🔥' : '○'} ${n} day streak`; }
-
-function getStreakBadge(s) {
-  if (s >= 100) return { cls: 's100', text: '👑 100+' };
-  if (s >= 30)  return { cls: 's30',  text: '💎 30+'  };
-  if (s >= 14)  return { cls: 's14',  text: '⚡ 14+'  };
-  if (s >= 7)   return { cls: 's7',   text: '🔥 7+'   };
-  if (s >= 3)   return { cls: 's3',   text: '🌱 3+'   };
+function getStreakBadge(s){
+  if(s>=100) return{cls:'s100',text:'👑 100+'};
+  if(s>=30)  return{cls:'s30', text:'💎 30+'};
+  if(s>=14)  return{cls:'s14', text:'⚡ 14+'};
+  if(s>=7)   return{cls:'s7',  text:'🔥 7+'};
+  if(s>=3)   return{cls:'s3',  text:'🌱 3+'};
   return null;
 }
 
-function buildTimeText(h) {
-  if (h.timeStart && h.timeEnd) return `${h.timeStart} – ${h.timeEnd}`;
-  if (h.timeStart) return `From ${h.timeStart}`;
-  return '';
+function buildTimeText(h){
+  if(h.timeStart&&h.timeEnd) return`${h.timeStart} – ${h.timeEnd}`;
+  if(h.timeStart) return`${t('from')} ${h.timeStart}`;
+  return'';
 }
 
-/* ── Settings popover management ── */
-let openPop = null;
-function closeAllPops() { if (openPop) { openPop.classList.remove('open'); openPop = null; } }
+/* ════════════════════════════════════════════
+   Popover management
+   ════════════════════════════════════════════ */
+let openPop=null;
+function closeAllPops(){ if(openPop){openPop.classList.remove('open');openPop=null;} }
+function closeAll(){ themeMenu.classList.remove('open'); langMenu.classList.remove('open'); closeAllPops(); }
 
-/* ── Recovery banner ── */
-let recoveryDismissed = false;
+/* ════════════════════════════════════════════
+   Recovery banner
+   ════════════════════════════════════════════ */
+let recoveryDismissed=false;
 
-function checkRecovery() {
-  if (recoveryDismissed) return;
-  const data = loadData();
-  const oneWeekAgo = last7()[0];
-  let missed = 0;
-  habits.forEach(h => {
-    const dates = data[h.id]?.dates || [];
-    const hasHist = dates.some(d => d >= oneWeekAgo);
-    if (hasHist && !dates.includes(prevDay(TODAY)) && !dates.includes(TODAY)) missed++;
+function checkRecovery(){
+  if(recoveryDismissed) return;
+  const data=loadData(), wago=last7()[0];
+  let missed=0;
+  habits.forEach(h=>{
+    const dates=data[h.id]?.dates||[];
+    if(dates.some(d=>d>=wago)&&!dates.includes(prevDay(TODAY))&&!dates.includes(TODAY)) missed++;
   });
-  const banner = document.getElementById('recovery-banner');
-  if (missed > 0) {
-    document.getElementById('recovery-msg').textContent = `昨日 ${missed} 项习惯未完成`;
+  const banner=document.getElementById('recovery-banner');
+  if(missed>0){
+    document.getElementById('recovery-msg').textContent = t('recoveryMsg',missed);
+    document.getElementById('recovery-sub').textContent = t('recoverySub');
     banner.classList.add('show');
   } else {
     banner.classList.remove('show');
   }
 }
 
-document.getElementById('recovery-close').addEventListener('click', () => {
-  recoveryDismissed = true;
+document.getElementById('recovery-close').addEventListener('click',()=>{
+  recoveryDismissed=true;
   document.getElementById('recovery-banner').classList.remove('show');
 });
 
-/* ── Build ── */
-function build() {
-  const container = document.getElementById('habits');
-  const data = loadData();
-  const meta = loadMeta();
-  const oneWeekAgo = last7()[0];
-  container.innerHTML = '';
+/* ════════════════════════════════════════════
+   Build habit cards
+   ════════════════════════════════════════════ */
+function build(){
+  const container=document.getElementById('habits');
+  const data=loadData(), meta=loadMeta(), wago=last7()[0];
+  container.innerHTML='';
 
-  habits.forEach(habit => {
-    const hdata   = data[habit.id] || { dates: [] };
-    const checked = hdata.dates.includes(TODAY);
-    const streak  = calcStreak(hdata.dates);
-
-    // Missed yesterday?
-    const hasRecentHist = hdata.dates.some(d => d >= oneWeekAgo);
-    const missedYesterday = hasRecentHist && !hdata.dates.includes(prevDay(TODAY)) && !checked;
-
-    // Can use freeze?
-    const canFreeze = meta.freezeTokens > 0 && missedYesterday;
+  habits.forEach(habit=>{
+    const hdata=data[habit.id]||{dates:[]};
+    const checked=hdata.dates.includes(TODAY);
+    const streak=calcStreak(hdata.dates);
+    const hasRecentHist=hdata.dates.some(d=>d>=wago);
+    const missedYesterday=hasRecentHist&&!hdata.dates.includes(prevDay(TODAY))&&!checked;
+    const canFreeze=meta.freezeTokens>0&&missedYesterday;
 
     /* Card */
-    const card = document.createElement('div');
-    card.className = 'habit-card' + (checked ? ' done' : '') + (missedYesterday ? ' missed-pulse' : '');
+    const card=document.createElement('div');
+    card.className='habit-card'+(checked?' done':'')+(missedYesterday?' missed-pulse':'');
 
     /* Checkbox */
-    const cbWrap = document.createElement('label');
-    cbWrap.className = 'cb-wrap';
-    cbWrap.innerHTML = `
-      <input type="checkbox" ${checked ? 'checked' : ''} />
-      <div class="cb-face">
-        <svg class="check-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 7.5L5.5 11L12 3" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>`;
-    const input  = cbWrap.querySelector('input');
-    const cbFace = cbWrap.querySelector('.cb-face');
+    const cbWrap=document.createElement('label'); cbWrap.className='cb-wrap';
+    cbWrap.innerHTML=`<input type="checkbox" ${checked?'checked':''}/>
+      <div class="cb-face"><svg class="check-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 7.5L5.5 11L12 3" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
+    const input=cbWrap.querySelector('input'), cbFace=cbWrap.querySelector('.cb-face');
 
     /* Info */
-    const info = document.createElement('div');
-    info.className = 'habit-info';
+    const info=document.createElement('div'); info.className='habit-info';
 
-    function refreshInfo(h) {
-      const d2 = (loadData()[h.id] || { dates: [] }).dates;
-      const s2  = calcStreak(d2);
-      const badge = getStreakBadge(s2);
-      const tt    = buildTimeText(h);
-      const hasHist2 = d2.some(x => x >= oneWeekAgo);
-      const missed2  = hasHist2 && !d2.includes(prevDay(TODAY)) && !d2.includes(TODAY);
-      info.innerHTML = `
+    function refreshInfo(h){
+      const d2=(loadData()[h.id]||{dates:[]}).dates;
+      const s2=calcStreak(d2), badge=getStreakBadge(s2), tt=buildTimeText(h);
+      const hasHist2=d2.some(x=>x>=wago);
+      const missed2=hasHist2&&!d2.includes(prevDay(TODAY))&&!d2.includes(TODAY);
+      info.innerHTML=`
         <div class="habit-name">${h.name}</div>
         <div class="habit-streak-label">
-          ${streakLabel(s2)}
-          ${badge ? `<span class="streak-badge ${badge.cls}">${badge.text}</span>` : ''}
+          ${t('dayStreak',s2)}
+          ${badge?`<span class="streak-badge ${badge.cls}">${badge.text}</span>`:''}
         </div>
-        ${missed2 ? '<div class="missed-label">⚡ 昨日中断</div>' : ''}
-        ${tt ? `<div class="habit-time-label">⏰ ${tt}</div>` : ''}`;
+        ${missed2?`<div class="missed-label">${t('missedYesterday')}</div>`:''}
+        ${tt?`<div class="habit-time-label">⏰ ${tt}</div>`:''}`;
     }
     refreshInfo(habit);
 
     /* Dots */
-    const dots = document.createElement('div');
-    dots.className = 'week-dots';
-    renderDots(hdata.dates, dots);
+    const dots=document.createElement('div'); dots.className='week-dots';
+    renderDots(hdata.dates,dots);
 
     /* Settings */
-    const settingsWrap = document.createElement('div');
-    settingsWrap.className = 'settings-wrap';
+    const sw=document.createElement('div'); sw.className='settings-wrap';
+    const sb=document.createElement('button'); sb.className='settings-btn'; sb.title='Settings';
+    sb.innerHTML=`<svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="currentColor"/></svg>`;
 
-    const settingsBtn = document.createElement('button');
-    settingsBtn.className = 'settings-btn';
-    settingsBtn.title = 'Settings';
-    settingsBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="currentColor"/></svg>`;
-
-    const pop = document.createElement('div');
-    pop.className = 'settings-pop';
-    pop.innerHTML = `
+    const pop=document.createElement('div'); pop.className='settings-pop';
+    pop.innerHTML=`
       <div class="settings-section">
-        <div class="settings-label">Time range</div>
+        <div class="settings-label">${t('timeRange')}</div>
         <div class="time-row">
-          <input class="time-input" type="time" value="${habit.timeStart || ''}" data-field="start" />
+          <input class="time-input" type="time" value="${habit.timeStart||''}" data-field="start"/>
           <span>–</span>
-          <input class="time-input" type="time" value="${habit.timeEnd || ''}" data-field="end" />
+          <input class="time-input" type="time" value="${habit.timeEnd||''}" data-field="end"/>
         </div>
       </div>
       <div class="settings-divider"></div>
-      ${canFreeze ? `<button class="settings-action settings-freeze">❄️ Use Streak Freeze (×${meta.freezeTokens})</button><div class="settings-divider"></div>` : ''}
+      ${canFreeze?`<button class="settings-action settings-freeze">${t('useFreeze',meta.freezeTokens)}</button><div class="settings-divider"></div>`:''}
       <button class="settings-action settings-delete">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-        Delete habit
+        ${t('deleteHabit')}
       </button>`;
 
-    pop.querySelectorAll('.time-input').forEach(ti => {
-      ti.addEventListener('click', e => e.stopPropagation());
-      ti.addEventListener('change', e => {
+    pop.querySelectorAll('.time-input').forEach(ti=>{
+      ti.addEventListener('click',e=>e.stopPropagation());
+      ti.addEventListener('change',e=>{
         e.stopPropagation();
-        const idx = habits.findIndex(h => h.id === habit.id);
-        if (idx === -1) return;
-        if (ti.dataset.field === 'start') habits[idx].timeStart = ti.value;
-        else habits[idx].timeEnd = ti.value;
-        saveHabits(habits);
-        refreshInfo(habits[idx]);
+        const idx=habits.findIndex(h=>h.id===habit.id); if(idx===-1)return;
+        if(ti.dataset.field==='start') habits[idx].timeStart=ti.value;
+        else habits[idx].timeEnd=ti.value;
+        saveHabits(habits); refreshInfo(habits[idx]);
       });
     });
 
-    if (canFreeze) {
-      pop.querySelector('.settings-freeze').addEventListener('click', e => {
+    if(canFreeze){
+      pop.querySelector('.settings-freeze').addEventListener('click',e=>{
         e.stopPropagation();
-        const storage = loadData();
-        const hd = storage[habit.id] || { dates: [] };
-        const yest = prevDay(TODAY);
-        if (!hd.dates.includes(yest)) hd.dates.push(yest);
-        storage[habit.id] = hd;
-        saveData(storage);
-        const m2 = loadMeta(); m2.freezeTokens--; saveMeta(m2);
+        const storage=loadData(), hd=storage[habit.id]||{dates:[]};
+        const yest=prevDay(TODAY);
+        if(!hd.dates.includes(yest)) hd.dates.push(yest);
+        storage[habit.id]=hd; saveData(storage);
+        const m2=loadMeta(); m2.freezeTokens--; saveMeta(m2);
         closeAllPops();
-        showNotif('❄️', 'Streak 已保护!', `护盾消耗 · 剩余 ×${m2.freezeTokens}`, '#64d8ff', 3000);
+        showNotif('❄️',t('freezeUsed'),t('freezeUsedSub',m2.freezeTokens),'#64d8ff',3000);
         build(); updateStats();
       });
     }
 
-    pop.querySelector('.settings-delete').addEventListener('click', e => {
+    pop.querySelector('.settings-delete').addEventListener('click',e=>{
       e.stopPropagation();
-      const idx = habits.findIndex(h => h.id === habit.id);
-      if (idx !== -1) { habits.splice(idx, 1); saveHabits(habits); }
-      const d2 = loadData(); delete d2[habit.id]; saveData(d2);
+      const idx=habits.findIndex(h=>h.id===habit.id);
+      if(idx!==-1){habits.splice(idx,1);saveHabits(habits);}
+      const d2=loadData(); delete d2[habit.id]; saveData(d2);
       closeAllPops(); build();
     });
 
-    settingsBtn.addEventListener('click', e => {
+    sb.addEventListener('click',e=>{
       e.stopPropagation();
-      if (openPop === pop) closeAllPops();
-      else { closeAllPops(); pop.classList.add('open'); openPop = pop; }
+      if(openPop===pop) closeAllPops();
+      else{closeAll();pop.classList.add('open');openPop=pop;}
     });
-    pop.addEventListener('click', e => e.stopPropagation());
-    settingsWrap.appendChild(settingsBtn);
-    settingsWrap.appendChild(pop);
+    pop.addEventListener('click',e=>e.stopPropagation());
+    sw.appendChild(sb); sw.appendChild(pop);
 
-    card.appendChild(cbWrap);
-    card.appendChild(info);
-    card.appendChild(dots);
-    card.appendChild(settingsWrap);
+    card.appendChild(cbWrap); card.appendChild(info);
+    card.appendChild(dots);   card.appendChild(sw);
     container.appendChild(card);
 
     /* Checkbox interaction */
-    input.addEventListener('change', () => {
-      const storage = loadData();
-      const hd = storage[habit.id] || { dates: [] };
+    input.addEventListener('change',()=>{
+      const storage=loadData(), hd=storage[habit.id]||{dates:[]};
+      if(input.checked){
+        if(!hd.dates.includes(TODAY)) hd.dates.push(TODAY);
+        card.classList.add('done'); card.classList.remove('missed-pulse');
 
-      if (input.checked) {
-        if (!hd.dates.includes(TODAY)) hd.dates.push(TODAY);
-        card.classList.add('done');
-        card.classList.remove('missed-pulse');
-
-        // Ripple & pop
-        const rip = document.createElement('span');
-        rip.className = 'ripple';
-        cbFace.appendChild(rip);
-        rip.addEventListener('animationend', () => rip.remove());
-        card.classList.remove('popping');
-        void card.offsetWidth;
+        const rip=document.createElement('span'); rip.className='ripple';
+        cbFace.appendChild(rip); rip.addEventListener('animationend',()=>rip.remove());
+        card.classList.remove('popping'); void card.offsetWidth;
         card.classList.add('popping');
-        card.addEventListener('animationend', () => card.classList.remove('popping'), { once: true });
+        card.addEventListener('animationend',()=>card.classList.remove('popping'),{once:true});
 
-        // XP
-        storage[habit.id] = hd;
-        saveData(storage);
+        storage[habit.id]=hd; saveData(storage);
 
-        const m = loadMeta();
-        const prevXP = m.xp;
-        let earned = 10;
-        const newStreak = calcStreak(hd.dates);
+        const m=loadMeta(), prevXP=m.xp, prevLvIdx=getLevel(prevXP);
+        let earned=10, milestoneDay=0, milestoneXP=0;
+        const ns=calcStreak(hd.dates);
+        if(ns===100){earned+=500;milestoneDay=100;milestoneXP=500;}
+        else if(ns===30){earned+=100;milestoneDay=30;milestoneXP=100;}
+        else if(ns===14){earned+=50;milestoneDay=14;milestoneXP=50;}
+        else if(ns===7){earned+=30;milestoneDay=7;milestoneXP=30;}
+        else if(ns===3){earned+=10;milestoneDay=3;milestoneXP=10;}
+        m.xp+=earned; saveMeta(m);
 
-        // Milestone bonus XP
-        let milestoneMsg = '';
-        if (newStreak === 100) { earned += 500; milestoneMsg = '100天达成! +500 XP 🎖'; }
-        else if (newStreak === 30) { earned += 100; milestoneMsg = '30天达成! +100 XP 💎'; }
-        else if (newStreak === 14) { earned += 50; milestoneMsg = '14天达成! +50 XP ⚡'; }
-        else if (newStreak === 7)  { earned += 30; milestoneMsg = '7天达成! +30 XP 🔥'; }
-        else if (newStreak === 3)  { earned += 10; milestoneMsg = '3天连续! +10 XP 🌱'; }
+        showFloatingXP(earned,cbWrap);
+        if(milestoneDay) setTimeout(()=>showNotif('🏅',t('milestone'),t('milestoneMsg',milestoneDay,milestoneXP),'#ffd700',4000),400);
 
-        m.xp += earned;
-        const prevLv = getLevel(prevXP);
-        const newLv  = getLevel(m.xp);
-        saveMeta(m);
-
-        showFloatingXP(earned, cbWrap);
-
-        if (milestoneMsg) setTimeout(() => showNotif('🏅', '里程碑!', milestoneMsg, '#ffd700', 4000), 400);
-
-        if (newLv.level > prevLv.level) {
-          setTimeout(() => showNotif('⚡', `Level Up!  Lv.${newLv.level}`, `${newLv.title} · ${newLv.label}`, '#ffd700', 4000), 900);
+        const newLvIdx=getLevel(m.xp);
+        if(newLvIdx>prevLvIdx){
+          const titles=(I18N[currentLang]||I18N.en).levels;
+          setTimeout(()=>showNotif('⚡',t('levelUp'),`Lv.${newLvIdx+1} ${titles[newLvIdx]}`,'#ffd700',4000),900);
         }
-
       } else {
-        hd.dates = hd.dates.filter(d => d !== TODAY);
-        card.classList.remove('done');
-        perfectCelebrated = false;
-        storage[habit.id] = hd;
-        saveData(storage);
+        hd.dates=hd.dates.filter(d=>d!==TODAY);
+        card.classList.remove('done'); perfectCelebrated=false;
+        storage[habit.id]=hd; saveData(storage);
       }
 
-      storage[habit.id] = hd;
-      saveData(storage);
-
-      refreshInfo(habit);
-      renderDots(hd.dates, dots);
-      updateProgress();
-      updateStats();
-      setTimeout(checkPerfectDay, 350);
+      refreshInfo(habit); renderDots(hd.dates,dots);
+      updateProgress(); updateStats();
+      setTimeout(checkPerfectDay,350);
     });
   });
 
-  updateProgress();
-  updateStats();
-  checkRecovery();
+  updateProgress(); updateStats(); checkRecovery();
 }
 
-/* ── Add habit modal ── */
-const backdrop   = document.getElementById('modal-backdrop');
-const habitInput = document.getElementById('habit-input');
-const habitStart = document.getElementById('habit-start');
-const habitEnd   = document.getElementById('habit-end');
+/* ════════════════════════════════════════════
+   Add habit modal
+   ════════════════════════════════════════════ */
+const backdrop=document.getElementById('modal-backdrop');
+const habitInput=document.getElementById('habit-input');
+const habitStart=document.getElementById('habit-start');
+const habitEnd=document.getElementById('habit-end');
 
-function openModal() { habitInput.value = ''; habitStart.value = ''; habitEnd.value = ''; backdrop.classList.add('open'); setTimeout(() => habitInput.focus(), 60); }
-function closeModal() { backdrop.classList.remove('open'); }
-function confirmAdd() {
-  const name = habitInput.value.trim();
-  if (!name) { habitInput.focus(); return; }
-  const h = { id: 'habit_' + Date.now(), name };
-  if (habitStart.value) h.timeStart = habitStart.value;
-  if (habitEnd.value)   h.timeEnd   = habitEnd.value;
-  habits.push(h); saveHabits(habits);
-  closeModal(); build();
+function openModal(){ habitInput.value=''; habitStart.value=''; habitEnd.value=''; backdrop.classList.add('open'); setTimeout(()=>habitInput.focus(),60); }
+function closeModal(){ backdrop.classList.remove('open'); }
+function confirmAdd(){
+  const name=habitInput.value.trim(); if(!name){habitInput.focus();return;}
+  const h={id:'habit_'+Date.now(),name};
+  if(habitStart.value) h.timeStart=habitStart.value;
+  if(habitEnd.value)   h.timeEnd=habitEnd.value;
+  habits.push(h); saveHabits(habits); closeModal(); build();
 }
 
-document.getElementById('add-btn').addEventListener('click', openModal);
-document.getElementById('modal-cancel').addEventListener('click', closeModal);
-document.getElementById('modal-confirm').addEventListener('click', confirmAdd);
-backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
-habitInput.addEventListener('keydown', e => { if (e.key === 'Enter') confirmAdd(); if (e.key === 'Escape') closeModal(); });
+document.getElementById('add-btn').addEventListener('click',openModal);
+document.getElementById('modal-cancel').addEventListener('click',closeModal);
+document.getElementById('modal-confirm').addEventListener('click',confirmAdd);
+backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal();});
+habitInput.addEventListener('keydown',e=>{if(e.key==='Enter')confirmAdd();if(e.key==='Escape')closeModal();});
 
-/* ── Global click ── */
-document.addEventListener('click', () => { themeMenu.classList.remove('open'); closeAllPops(); });
+/* ════════════════════════════════════════════
+   Global click → close menus
+   ════════════════════════════════════════════ */
+document.addEventListener('click', closeAll);
 
-/* ── Init ── */
-document.getElementById('date-label').textContent =
-  new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-
-build();
+/* ════════════════════════════════════════════
+   Init
+   ════════════════════════════════════════════ */
+applyLanguage(currentLang); // sets date, static strings, calls build()
 </script>
 </body>
 </html>
