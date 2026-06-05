@@ -99,6 +99,59 @@ Follow the `.settings-action` button pattern inside `build()`. Use `t()` for lab
 
 ---
 
+## Documentation Requirement — Every New Feature
+
+**After implementing any new feature, you MUST append it to `docs/features.md`.**
+
+### Why
+The doc is written so an AI assistant can re-implement the entire app on any target platform (iOS, Android, macOS, Windows) without ever seeing the source code. It must be platform-agnostic — describe *what* and *why*, not *how* (no HTML/CSS/JS specifics).
+
+### Required sections per feature entry
+
+```markdown
+## Feature: <Name>
+
+### Purpose
+One-sentence reason this feature exists and the user problem it solves.
+
+### UX Behavior
+Step-by-step description of every interaction the user can perform and what
+they see in response. Cover: trigger, visible feedback, edge cases, animations.
+
+### Data Model
+Exact key names, types, and shapes stored in persistent storage.
+Example values. Note any migration concern if data shape changes.
+
+### Business Logic
+All rules, formulas, thresholds, and state transitions written in plain English
+(or pseudocode). Must be precise enough to re-implement without guessing.
+
+### UI / Layout Specification
+Visual hierarchy, component sizes, color semantics (use role names like
+"accent", "surface", "text-dim" — never hex values), spacing rhythm,
+responsive breakpoints.
+
+### Animations & Micro-interactions
+Timing, easing curves, trigger conditions, what element is animated and how.
+If an animation is skippable (e.g. `prefers-reduced-motion`), note it.
+
+### Cross-platform Notes
+Anything a developer must watch out for when porting to:
+- **iOS / iPadOS** (SwiftUI, UIKit)
+- **Android** (Jetpack Compose, XML)
+- **macOS** (SwiftUI AppKit bridge)
+- **Windows** (WinUI 3, MAUI)
+Flag OS-specific equivalents where they differ significantly.
+```
+
+### Rules
+- Write the entry **before** the commit (not after).
+- Keep entries cumulative — never delete old feature entries.
+- If a feature is modified, add a `### Update (YYYY-MM-DD)` sub-section under the original entry.
+- The file lives at **`docs/features.md`**.
+
+---
+
 ## Quality Bar — Before Every Commit
 - [ ] No layout shift on language or theme switch
 - [ ] All interactive elements have visible hover/focus states
@@ -106,3 +159,4 @@ Follow the `.settings-action` button pattern inside `build()`. Use `t()` for lab
 - [ ] XP/streak logic is idempotent
 - [ ] No `console.error` in any theme × language combination
 - [ ] `localStorage` keys are consistent (see schema above)
+- [ ] New feature documented in `docs/features.md`
