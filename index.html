@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="white">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,6 +31,18 @@
       --toolbar-hover:#ebebeb; --modal-bg:#fff; --modal-border:#e8eaed;
       --input-bg:#f5f5fa; --input-border:#ddd; --ripple-color:rgba(108,92,231,.3);
       --stat-bg:#fff; --stat-border:#e8eaed;
+    }
+    :root[data-theme="white"] {
+      --bg:#ffffff; --surface:#ffffff; --surface-done:#fafafa;
+      --border:#e5e5e5; --border-hover:#d0d0d0; --border-done:#ebebeb;
+      --accent:#171717; --accent-light:#444; --accent-subtle:rgba(0,0,0,.04);
+      --accent-rgb:23,23,23;
+      --text:#171717; --text-dim:#737373; --text-muted:#d4d4d4;
+      --cb-border:#d4d4d4; --cb-border-hover:#a3a3a3;
+      --dot-past:#a3a3a3; --dot-empty-bg:#f5f5f5; --dot-empty-border:#e5e5e5;
+      --toolbar-hover:#f5f5f5; --modal-bg:#fff; --modal-border:#e5e5e5;
+      --input-bg:#fafafa; --input-border:#e5e5e5; --ripple-color:rgba(0,0,0,.1);
+      --stat-bg:#fafafa; --stat-border:#e5e5e5;
     }
     :root[data-theme="github"] {
       --bg:#0d1117; --surface:#161b22; --surface-done:#0d1117;
@@ -88,6 +100,7 @@
       border-radius:8px; border:none; background:transparent; color:var(--text);
       font-size:.8rem; font-family:inherit; cursor:pointer; text-align:left;
       transition:background .14s; letter-spacing:.02em; white-space:nowrap;
+      text-decoration:none;
     }
     .picker-opt:hover { background:var(--toolbar-hover); }
     .picker-opt.active { color:var(--accent); }
@@ -162,8 +175,8 @@
     /* ── Habit card ── */
     .habit-card {
       background:var(--surface); border:1px solid var(--border);
-      border-radius:18px; padding:18px 14px 18px 22px;
-      display:flex; align-items:center; gap:14px;
+      border-radius:18px; padding:18px 14px 18px 12px;
+      display:flex; align-items:center; gap:10px;
       transition:border-color .25s,background .25s; cursor:default; position:relative;
     }
     .habit-card:hover         { border-color:var(--border-hover); }
@@ -171,6 +184,25 @@
     .habit-card.missed-pulse  { border-color:rgba(255,155,30,.25); }
     @keyframes card-pop { 0%{transform:scale(1)} 40%{transform:scale(1.025)} 70%{transform:scale(.992)} 100%{transform:scale(1)} }
     .habit-card.popping { animation:card-pop .35s cubic-bezier(.34,1.56,.64,1) forwards; }
+
+    /* ── Drag handle & reorder ── */
+    .drag-handle {
+      flex-shrink:0; width:18px; align-self:stretch;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--text-dim); cursor:grab; touch-action:none;
+      opacity:.32; transition:opacity .2s,color .2s; margin-right:-2px;
+      -webkit-user-select:none; user-select:none;
+    }
+    .habit-card:hover .drag-handle { opacity:.5; }
+    .drag-handle:hover { opacity:.85; }
+    .drag-handle:active { cursor:grabbing; }
+    .drag-handle svg { width:13px; height:13px; fill:currentColor; pointer-events:none; }
+    .habit-card.dragging {
+      opacity:.92; box-shadow:0 12px 32px rgba(0,0,0,.18);
+      border-color:var(--accent); position:relative; z-index:50;
+      cursor:grabbing; -webkit-user-select:none; user-select:none;
+    }
+    .habit-card.drag-settling { transition:box-shadow .2s,border-color .2s; }
 
     /* ── Checkbox ── */
     .cb-wrap { flex-shrink:0; position:relative; width:30px; height:30px; cursor:pointer; }
@@ -239,6 +271,8 @@
     .time-row span { color:var(--text-dim); font-size:.78rem; }
     .time-input { background:var(--input-bg); border:1px solid var(--input-border); border-radius:7px; color:var(--text); font-size:.74rem; padding:4px 6px; width:76px; outline:none; font-family:inherit; transition:border-color .15s; }
     .time-input:focus { border-color:var(--accent); }
+    .name-input { width:100%; background:var(--input-bg); border:1px solid var(--input-border); border-radius:7px; color:var(--text); font-size:.78rem; padding:6px 8px; outline:none; font-family:inherit; transition:border-color .15s; }
+    .name-input:focus { border-color:var(--accent); }
     .settings-divider { height:1px; background:var(--border); margin:6px 0; }
     .settings-action { width:100%; padding:7px 10px; border-radius:8px; border:none; background:transparent; font-size:.8rem; cursor:pointer; text-align:left; transition:background .14s; font-family:inherit; display:flex; align-items:center; gap:7px; }
     .settings-delete { color:#e05050; }
@@ -447,6 +481,154 @@
       opacity:var(--fill-opacity,0);
     }
     .cal-legend-labels { display:flex; justify-content:space-between; flex:1; }
+
+    /* ── Login button (toolbar, guest mode) ── */
+    .login-btn {
+      font-size:.78rem; font-weight:600; letter-spacing:.03em;
+      padding:0 14px !important; color:#fff !important;
+      background:#0a0a0a !important; border-radius:8px !important;
+    }
+    :root[data-theme="light"] .login-btn { background:#111 !important; }
+
+    /* ── User avatar initials ── */
+    .user-avatar-initials {
+      width:22px; height:22px; border-radius:50%;
+      background:var(--accent); color:#fff;
+      font-size:.68rem; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      text-transform:uppercase; line-height:1;
+    }
+
+    /* ── Login Modal ── */
+    .lm-overlay {
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.45);
+      backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+      display:flex; align-items:center; justify-content:center;
+      z-index:900; padding:16px;
+      opacity:0; pointer-events:none;
+      transition:opacity .2s;
+    }
+    .lm-overlay.open { opacity:1; pointer-events:auto; }
+    .lm-card {
+      background:#fff; border-radius:16px;
+      width:100%; max-width:400px;
+      padding:32px 28px 24px;
+      box-shadow:0 24px 80px rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.05);
+      position:relative;
+      transform:scale(.96) translateY(10px);
+      transition:transform .22s cubic-bezier(.22,1,.36,1);
+    }
+    .lm-overlay.open .lm-card { transform:scale(1) translateY(0); }
+    .lm-close {
+      position:absolute; top:14px; right:14px;
+      width:28px; height:28px; border-radius:50%;
+      border:none; background:#f0f0f0; color:#666;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition:background .15s;
+    }
+    .lm-close:hover { background:#e4e4e4; }
+    .lm-brand { display:flex; align-items:center; gap:10px; margin-bottom:24px; }
+    .lm-brand-mark {
+      width:34px; height:34px; border-radius:9px;
+      background:linear-gradient(135deg,#7c6af7,#a89bf7);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1rem; color:#fff;
+      box-shadow:0 3px 10px rgba(124,106,247,.35);
+    }
+    .lm-brand-name { font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#0a0a0a; }
+    .lm-brand-sub  { font-size:.62rem; color:#999; margin-top:1px; }
+    .lm-social { display:flex; flex-direction:column; gap:10px; margin-bottom:18px; }
+    .lm-social-btn {
+      width:100%; height:44px; border-radius:10px;
+      font-size:.84rem; font-weight:500; font-family:inherit;
+      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
+      transition:opacity .15s, transform .1s; letter-spacing:.01em;
+    }
+    .lm-social-btn:hover { opacity:.88; transform:translateY(-1px); }
+    .lm-social-btn:active { transform:translateY(0); }
+    .lm-btn-google { background:#000; color:#fff; border:none; }
+    .lm-btn-github { background:#fff; color:#0a0a0a; border:1.5px solid #d0d0d0; }
+    .lm-divider {
+      display:flex; align-items:center; gap:12px;
+      margin:2px 0 18px; color:#bbb; font-size:.74rem;
+    }
+    .lm-divider::before, .lm-divider::after { content:''; flex:1; height:1px; background:#e8e8e8; }
+    .lm-input {
+      width:100%; height:44px;
+      border:1.5px solid #e0e0e0; border-radius:10px;
+      padding:0 14px; font-size:.9rem; font-family:inherit;
+      outline:none; background:#fff; color:#0a0a0a;
+      transition:border-color .18s, box-shadow .18s;
+    }
+    .lm-input:focus { border-color:#7c6af7; box-shadow:0 0 0 3px rgba(124,106,247,.1); }
+    .lm-input::placeholder { color:#bbb; }
+    .lm-continue-btn {
+      width:100%; height:44px; margin-top:10px;
+      border-radius:10px; border:none;
+      background:#d0d0d0; color:#888;
+      font-size:.84rem; font-weight:500; font-family:inherit;
+      cursor:pointer; transition:background .18s, color .18s, transform .1s;
+      display:flex; align-items:center; justify-content:center; gap:6px;
+    }
+    .lm-continue-btn.active { background:#000; color:#fff; cursor:pointer; }
+    .lm-continue-btn.active:hover { opacity:.88; transform:translateY(-1px); }
+    .lm-continue-btn:disabled { cursor:not-allowed; }
+    .lm-step2 { display:none; }
+    .lm-step2.visible { display:block; }
+    .lm-back-btn {
+      background:none; border:none; cursor:pointer;
+      color:#888; font-size:.78rem; font-family:inherit;
+      display:flex; align-items:center; gap:4px;
+      margin-bottom:14px; padding:0; transition:color .15s;
+    }
+    .lm-back-btn:hover { color:#0a0a0a; }
+    .lm-email-tag {
+      font-size:.82rem; color:#444; margin-bottom:12px;
+      padding:6px 10px; background:#f5f5f5; border-radius:6px;
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    }
+    .lm-primary-btn {
+      width:100%; height:44px; margin-top:10px;
+      background:#000; color:#fff; border:none; border-radius:10px;
+      font-size:.84rem; font-weight:500; font-family:inherit;
+      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
+      transition:opacity .15s, transform .1s;
+    }
+    .lm-primary-btn:hover:not(:disabled) { opacity:.88; transform:translateY(-1px); }
+    .lm-primary-btn:disabled { opacity:.5; cursor:not-allowed; }
+    .lm-signup-link {
+      text-align:center; margin-top:12px;
+      font-size:.76rem; color:#888;
+    }
+    .lm-signup-link button {
+      background:none; border:none; cursor:pointer;
+      color:#7c6af7; font-family:inherit; font-size:.76rem; font-weight:500;
+      margin-left:4px; transition:opacity .15s;
+    }
+    .lm-signup-link button:hover { opacity:.75; }
+    .lm-msg {
+      font-size:.78rem; border-radius:8px; padding:8px 12px;
+      margin-top:10px; display:none; align-items:flex-start; gap:8px;
+    }
+    .lm-msg.error { display:flex; background:#fff0f0; border:1px solid #fccaca; color:#c0392b; }
+    .lm-msg.success { display:flex; background:#f0fff5; border:1px solid #a8e6bf; color:#27ae60; }
+    .lm-msg.info { display:flex; background:#f5f0ff; border:1px solid #cbbdf7; color:#6c5ce7; }
+    .lm-footer {
+      margin-top:20px; padding-top:16px; border-top:1px solid #f0f0f0;
+      font-size:.72rem; color:#bbb; text-align:center;
+    }
+    .lm-spinner {
+      width:14px; height:14px; border-radius:50%;
+      border:2px solid rgba(255,255,255,.3); border-top-color:#fff;
+      animation:spin .6s linear infinite; display:none; flex-shrink:0;
+    }
+    .lm-loading .lm-spinner { display:block; }
+    .lm-loading .lm-btn-text { display:none; }
+    @media (max-width:480px) {
+      .lm-overlay { align-items:flex-end; padding:0; }
+      .lm-card { border-radius:16px 16px 0 0; max-width:100%; padding:28px 20px 32px; }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
@@ -486,6 +668,7 @@
       <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
     </button>
     <div class="picker-menu" id="theme-menu">
+      <button class="picker-opt" data-theme="white"><span class="theme-dot" style="background:#fff;border:1.5px solid #d4d4d4"></span>White</button>
       <button class="picker-opt" data-theme="dark"><span class="theme-dot" style="background:#7c6af7"></span>Dark</button>
       <button class="picker-opt" data-theme="light"><span class="theme-dot" style="background:#6c5ce7;opacity:.5"></span>Light</button>
       <button class="picker-opt" data-theme="github"><span class="theme-dot" style="background:#238636"></span>GitHub</button>
@@ -517,6 +700,9 @@
     <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
   </a>
 
+  <!-- Login button (guest mode) -->
+  <button class="toolbar-btn login-btn" id="login-btn" style="display:none" title="Sign in">Login</button>
+
   <!-- User account -->
   <div class="picker-wrap" id="user-picker-wrap">
     <button class="toolbar-btn user-avatar-btn" id="user-btn" title="Account" aria-label="Account">
@@ -528,6 +714,12 @@
         <div class="user-menu-email" id="user-menu-email">—</div>
       </div>
       <div class="settings-divider"></div>
+      <a class="picker-opt" id="profile-link" href="profile.html">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="opacity:.7">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+        <span id="profile-link-label">My Profile</span>
+      </a>
       <button class="picker-opt" id="sign-out-btn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="opacity:.7">
           <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
@@ -613,6 +805,64 @@
   </div>
 </div>
 
+<!-- Login Modal -->
+<div class="lm-overlay" id="login-modal" aria-modal="true" role="dialog" aria-label="Sign in">
+  <div class="lm-card">
+    <button class="lm-close" id="lm-close" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <div class="lm-brand">
+      <div class="lm-brand-mark">✦</div>
+      <div>
+        <div class="lm-brand-name">Habit</div>
+        <div class="lm-brand-sub">Build better every day</div>
+      </div>
+    </div>
+
+    <div class="lm-social">
+      <button class="lm-social-btn lm-btn-google" id="lm-google">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path fill="#fff" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#fff" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#fff" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#fff" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+      <button class="lm-social-btn lm-btn-github" id="lm-github">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="#0a0a0a"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        Continue with GitHub
+      </button>
+    </div>
+
+    <div class="lm-divider"><span>or</span></div>
+
+    <div id="lm-step1">
+      <input class="lm-input" type="email" id="lm-email" placeholder="Email address" autocomplete="email" />
+      <button class="lm-continue-btn" id="lm-email-continue" disabled>
+        <span class="lm-btn-text">Continue with Email →</span>
+        <span class="lm-spinner"></span>
+      </button>
+    </div>
+
+    <div class="lm-step2" id="lm-step2">
+      <button class="lm-back-btn" id="lm-back">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div class="lm-email-tag" id="lm-email-tag"></div>
+      <input class="lm-input" type="password" id="lm-password" placeholder="Password" autocomplete="current-password" />
+      <button class="lm-primary-btn" id="lm-submit">
+        <span class="lm-btn-text" id="lm-submit-label">Sign In</span>
+        <span class="lm-spinner"></span>
+      </button>
+      <div class="lm-signup-link">
+        <span id="lm-toggle-text">No account?</span>
+        <button id="lm-toggle-mode">Create one →</button>
+      </div>
+    </div>
+
+    <div class="lm-msg" id="lm-msg"></div>
+    <div class="lm-footer">🔒 Your data is safe &amp; private</div>
+  </div>
+</div>
+
 <script>
 /* ════════════════════════════════════════════
    i18n — 7 languages
@@ -627,7 +877,7 @@ const I18N = {
     missedYesterday:'⚡ Streak broken',
     recoveryMsg: n => `You missed ${n} habit${n>1?'s':''} yesterday`,
     recoverySub:"Start fresh today, you've got this! 💪",
-    timeRange:'Time range', deleteHabit:'Delete habit',
+    nameLabel:'Habit name', timeRange:'Time range', deleteHabit:'Delete habit',
     useFreeze: n => `❄️ Use Streak Freeze (×${n})`,
     perfectDay:'Perfect Day!',
     perfectDaySub: bonus => `All habits done${bonus?' · +50 bonus H':''}`,
@@ -640,7 +890,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d}-day streak! +${xp} H`,
     maxLevel:'MAX LEVEL 👑', nextH: n => `→ ${n} H`,
     levels:['Newcomer','Consistent','Dedicated','Focused','Master','Champion','Legend'],
-    calTitle:'Calendar', calLess:'Less', calMore:'More',
+    calTitle:'Calendar', calLess:'Less', calMore:'More', myProfile:'My Profile',
     calNoData:'No habits yet',
   },
   zh: {
@@ -652,7 +902,7 @@ const I18N = {
     missedYesterday:'⚡ 昨日中断',
     recoveryMsg: n => `昨日 ${n} 项习惯未完成`,
     recoverySub:'今天重新出发，你可以的 💪',
-    timeRange:'时间范围', deleteHabit:'删除习惯',
+    nameLabel:'习惯名称', timeRange:'时间范围', deleteHabit:'删除习惯',
     useFreeze: n => `❄️ 使用护盾 (×${n})`,
     perfectDay:'完美一天！',
     perfectDaySub: bonus => `全部习惯完成${bonus?' · +50 H 奖励':''}`,
@@ -665,7 +915,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d} 天达成！+${xp} H`,
     maxLevel:'最高等级 👑', nextH: n => `→ ${n} H`,
     levels:['新手','稳定','专注','精进','大师','强者','传奇'],
-    calTitle:'打卡日历', calLess:'少', calMore:'多', calNoData:'还没有习惯',
+    calTitle:'打卡日历', calLess:'少', calMore:'多', calNoData:'还没有习惯', myProfile:'我的主页',
   },
   es: {
     title:'Hábitos Diarios', today:'Hoy', footer:'Datos guardados localmente',
@@ -676,7 +926,7 @@ const I18N = {
     missedYesterday:'⚡ Racha rota',
     recoveryMsg: n => `Ayer fallaste ${n} hábito${n>1?'s':''}`,
     recoverySub:'¡Empieza de nuevo hoy, tú puedes! 💪',
-    timeRange:'Horario', deleteHabit:'Eliminar hábito',
+    nameLabel:'Nombre del hábito', timeRange:'Horario', deleteHabit:'Eliminar hábito',
     useFreeze: n => `❄️ Usar escudo (×${n})`,
     perfectDay:'¡Día perfecto!',
     perfectDaySub: bonus => `Todos los hábitos hechos${bonus?' · +50 H extra':''}`,
@@ -689,7 +939,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `¡${d} días seguidos! +${xp} H`,
     maxLevel:'NIVEL MÁXIMO 👑', nextH: n => `→ ${n} H`,
     levels:['Novato','Constante','Dedicado','Enfocado','Maestro','Campeón','Leyenda'],
-    calTitle:'Calendario', calLess:'Menos', calMore:'Más', calNoData:'Sin hábitos aún',
+    calTitle:'Calendario', calLess:'Menos', calMore:'Más', calNoData:'Sin hábitos aún', myProfile:'Mi perfil',
   },
   ko: {
     title:'매일 습관', today:'오늘', footer:'데이터가 로컬에 저장됩니다',
@@ -700,7 +950,7 @@ const I18N = {
     missedYesterday:'⚡ 어제 중단',
     recoveryMsg: n => `어제 ${n}개 습관을 놓쳤어요`,
     recoverySub:'오늘 다시 시작해요, 할 수 있어요! 💪',
-    timeRange:'시간 범위', deleteHabit:'습관 삭제',
+    nameLabel:'습관 이름', timeRange:'시간 범위', deleteHabit:'습관 삭제',
     useFreeze: n => `❄️ 보호막 사용 (×${n})`,
     perfectDay:'완벽한 하루!',
     perfectDaySub: bonus => `모든 습관 완료${bonus?' · +50 보너스 H':''}`,
@@ -713,7 +963,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d}일 달성! +${xp} H`,
     maxLevel:'최고 레벨 👑', nextH: n => `→ ${n} H`,
     levels:['초보자','꾸준함','헌신','집중','달인','챔피언','전설'],
-    calTitle:'달력', calLess:'적음', calMore:'많음', calNoData:'아직 습관 없음',
+    calTitle:'달력', calLess:'적음', calMore:'많음', calNoData:'아직 습관 없음', myProfile:'내 프로필',
   },
   ja: {
     title:'毎日の習慣', today:'今日', footer:'データはローカルに保存されます',
@@ -724,7 +974,7 @@ const I18N = {
     missedYesterday:'⚡ 昨日中断',
     recoveryMsg: n => `昨日${n}個の習慣を達成できませんでした`,
     recoverySub:'今日また頑張りましょう 💪',
-    timeRange:'時間帯', deleteHabit:'習慣を削除',
+    nameLabel:'習慣の名前', timeRange:'時間帯', deleteHabit:'習慣を削除',
     useFreeze: n => `❄️ シールドを使用 (×${n})`,
     perfectDay:'完璧な一日！',
     perfectDaySub: bonus => `全習慣達成${bonus?' · +50 ボーナス H':''}`,
@@ -737,7 +987,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d}日達成！+${xp} H`,
     maxLevel:'最高レベル 👑', nextH: n => `→ ${n} H`,
     levels:['初心者','安定','専念','精進','達人','強者','伝説'],
-    calTitle:'カレンダー', calLess:'少', calMore:'多', calNoData:'習慣がまだありません',
+    calTitle:'カレンダー', calLess:'少', calMore:'多', calNoData:'習慣がまだありません', myProfile:'マイプロフィール',
   },
   vi: {
     title:'Thói Quen Hàng Ngày', today:'Hôm nay', footer:'Dữ liệu được lưu cục bộ',
@@ -748,7 +998,7 @@ const I18N = {
     missedYesterday:'⚡ Bị gián đoạn',
     recoveryMsg: n => `Hôm qua bạn bỏ lỡ ${n} thói quen`,
     recoverySub:'Bắt đầu lại hôm nay, bạn làm được! 💪',
-    timeRange:'Khoảng thời gian', deleteHabit:'Xóa thói quen',
+    nameLabel:'Tên thói quen', timeRange:'Khoảng thời gian', deleteHabit:'Xóa thói quen',
     useFreeze: n => `❄️ Dùng bảo vệ (×${n})`,
     perfectDay:'Ngày hoàn hảo!',
     perfectDaySub: bonus => `Hoàn thành tất cả${bonus?' · +50 H thưởng':''}`,
@@ -761,7 +1011,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d} ngày liên tiếp! +${xp} H`,
     maxLevel:'CẤP TỐI ĐA 👑', nextH: n => `→ ${n} H`,
     levels:['Người mới','Kiên định','Chuyên tâm','Tập trung','Bậc thầy','Vô địch','Huyền thoại'],
-    calTitle:'Lịch', calLess:'Ít', calMore:'Nhiều', calNoData:'Chưa có thói quen',
+    calTitle:'Lịch', calLess:'Ít', calMore:'Nhiều', calNoData:'Chưa có thói quen', myProfile:'Hồ sơ của tôi',
   },
   th: {
     title:'นิสัยประจำวัน', today:'วันนี้', footer:'บันทึกข้อมูลในเครื่อง',
@@ -772,7 +1022,7 @@ const I18N = {
     missedYesterday:'⚡ หยุดเมื่อวาน',
     recoveryMsg: n => `เมื่อวานพลาด ${n} นิสัย`,
     recoverySub:'เริ่มใหม่วันนี้ คุณทำได้! 💪',
-    timeRange:'ช่วงเวลา', deleteHabit:'ลบนิสัย',
+    nameLabel:'ชื่อนิสัย', timeRange:'ช่วงเวลา', deleteHabit:'ลบนิสัย',
     useFreeze: n => `❄️ ใช้โล่ (×${n})`,
     perfectDay:'วันสมบูรณ์แบบ!',
     perfectDaySub: bonus => `ทำครบทุกนิสัย${bonus?' · +50 H โบนัส':''}`,
@@ -785,7 +1035,7 @@ const I18N = {
     milestoneMsg: (d,xp) => `${d} วันต่อเนื่อง! +${xp} H`,
     maxLevel:'เลเวลสูงสุด 👑', nextH: n => `→ ${n} H`,
     levels:['มือใหม่','สม่ำเสมอ','ทุ่มเท','มุ่งมั่น','เชี่ยวชาญ','แชมป์','ตำนาน'],
-    calTitle:'ปฏิทิน', calLess:'น้อย', calMore:'มาก', calNoData:'ยังไม่มีนิสัย',
+    calTitle:'ปฏิทิน', calLess:'น้อย', calMore:'มาก', calNoData:'ยังไม่มีนิสัย', myProfile:'โปรไฟล์ของฉัน',
   },
 };
 
@@ -826,13 +1076,28 @@ let _profileCache   = null;
 
 // ── Sync wrappers (read/write cache; DB sync handled separately) ──
 function loadHabits()  { return habits; }
-function saveHabits(l) { habits = l; }
+function saveHabits(l) {
+  habits = l;
+  if (!currentUser) localStorage.setItem('habitList', JSON.stringify(l));
+}
 function loadData()    { return _habitDataCache; }
-function saveData(d)   { _habitDataCache = d; }
+function saveData(d)   {
+  _habitDataCache = d;
+  if (!currentUser) localStorage.setItem('habitData', JSON.stringify(d));
+}
 function loadMeta()    { return _metaCache; }
 function saveMeta(m)   {
   _metaCache = m;
-  _dbSaveMeta(m).catch(e => console.warn('meta sync:', e));
+  if (currentUser) {
+    _dbSaveMeta(m).catch(e => console.warn('meta sync:', e));
+  } else {
+    localStorage.setItem('habitMeta', JSON.stringify(m));
+  }
+}
+
+function seedDefaultHabitsLocal() {
+  habits = DEFAULT_HABITS.map(h => ({ ...h }));
+  localStorage.setItem('habitList', JSON.stringify(habits));
 }
 
 // ── Supabase DB functions ─────────────────────────────────────────
@@ -911,7 +1176,7 @@ async function _seedDefaultHabits() {
 /* ════════════════════════════════════════════
    Active state
    ════════════════════════════════════════════ */
-let currentTheme = localStorage.getItem('habitTheme') || 'dark';
+let currentTheme = localStorage.getItem('habitTheme') || 'white';
 let currentLang  = localStorage.getItem('habitLang')  || 'en';
 
 function t(key, ...args){
@@ -964,6 +1229,7 @@ function applyLanguage(lang){
   document.getElementById('label-freeze').textContent  = t('freeze');
   document.getElementById('recovery-sub').textContent  = t('recoverySub');
   document.getElementById('cal-header-title').textContent = t('calTitle');
+  document.getElementById('profile-link-label').textContent = t('myProfile');
 
   // Date with locale
   document.getElementById('date-label').textContent =
@@ -1078,6 +1344,7 @@ function showFloatingH(amount,targetEl){
    ════════════════════════════════════════════ */
 function launchConfetti(){
   const palettes={
+    white:['#171717','#525252','#f59e0b','#10b981','#ef4444','#3b82f6','#8b5cf6'],
     dark:['#7c6af7','#a89bf7','#ffd93d','#6bcb77','#ff6b6b','#4d96ff','#fff'],
     light:['#6c5ce7','#a29bfe','#fdcb6e','#00b894','#e17055','#0984e3'],
     github:['#238636','#3fb950','#ffd700','#58a6ff','#d2a8ff','#ff7b72','#fff'],
@@ -1229,12 +1496,95 @@ document.getElementById('recovery-close').addEventListener('click',()=>{
 });
 
 /* ════════════════════════════════════════════
+   Drag-to-reorder (Pointer Events — mouse + touch)
+   ════════════════════════════════════════════ */
+let _drag=null;
+
+function attachDragHandle(handle, card){
+  handle.addEventListener('pointerdown', e=>{
+    if(habits.length<2) return;          // nothing to reorder
+    e.preventDefault(); e.stopPropagation();
+    closeAllPops();
+    const container=document.getElementById('habits');
+    _drag={ card, container };
+    card.classList.add('dragging');
+    // Listen on document (not handle): the card+handle move in the DOM during
+    // reorder, which would break pointer capture on the handle itself.
+    document.addEventListener('pointermove', onDragMove);
+    document.addEventListener('pointerup', onDragEnd);
+    document.addEventListener('pointercancel', onDragEnd);
+  });
+}
+
+function onDragMove(e){
+  if(!_drag) return;
+  const container=_drag.container, card=_drag.card, y=e.clientY;
+  const others=[...container.querySelectorAll('.habit-card:not(.dragging)')];
+  const next=others.find(s=>{
+    const r=s.getBoundingClientRect();
+    return y < r.top + r.height/2;
+  })||null;
+
+  if(card.nextElementSibling===next) return;   // no positional change → skip
+
+  // FLIP: record each card's top before the move…
+  const all=[...container.querySelectorAll('.habit-card')];
+  const firstTop=new Map(all.map(c=>[c, c.getBoundingClientRect().top]));
+
+  container.insertBefore(card, next);
+
+  // …then invert + play the displaced siblings so they glide into place.
+  all.forEach(c=>{
+    if(c===card) return;
+    const delta=firstTop.get(c)-c.getBoundingClientRect().top;
+    if(!delta) return;
+    c.style.transition='none';
+    c.style.transform=`translateY(${delta}px)`;
+    requestAnimationFrame(()=>{
+      c.style.transition='transform .34s cubic-bezier(.25,.8,.3,1)';
+      c.style.transform='';
+    });
+  });
+}
+
+function onDragEnd(e){
+  if(!_drag) return;
+  document.removeEventListener('pointermove', onDragMove);
+  document.removeEventListener('pointerup', onDragEnd);
+  document.removeEventListener('pointercancel', onDragEnd);
+
+  const card=_drag.card, container=_drag.container;
+  card.classList.remove('dragging'); card.classList.add('drag-settling');
+  setTimeout(()=>card.classList.remove('drag-settling'),220);
+  // Clear any in-flight FLIP transforms left on siblings
+  container.querySelectorAll('.habit-card').forEach(c=>{ c.style.transition=''; c.style.transform=''; });
+
+  // Rebuild habits[] to match new DOM order
+  const order=[...container.querySelectorAll('.habit-card')].map(c=>c.dataset.habitId);
+  const before=habits.map(h=>h.id).join(',');
+  habits.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
+  _drag=null;
+
+  if(habits.map(h=>h.id).join(',')===before) return;   // no change
+  saveHabits(habits);
+  if(currentUser) habits.forEach((h,i)=>_dbSaveHabit(h,i).catch(console.error));
+}
+
+/* ════════════════════════════════════════════
    Build habit cards
    ════════════════════════════════════════════ */
 function build(){
   const container=document.getElementById('habits');
   const data=loadData(), meta=loadMeta(), wago=last7()[0];
   container.innerHTML='';
+
+  if(habits.length===0){
+    container.innerHTML=`<div style="text-align:center;padding:64px 0 32px;color:var(--text-dim);">
+      <div style="font-size:2rem;margin-bottom:16px;">✦</div>
+      <div style="font-size:.9rem;letter-spacing:.04em;">Add your first habit to get started</div>
+    </div>`;
+    updateProgress(); updateStats(); return;
+  }
 
   habits.forEach(habit=>{
     const hdata=data[habit.id]||{dates:[]};
@@ -1247,6 +1597,13 @@ function build(){
     /* Card */
     const card=document.createElement('div');
     card.className='habit-card'+(checked?' done':'')+(missedYesterday?' missed-pulse':'');
+    card.dataset.habitId=habit.id;
+
+    /* Drag handle */
+    const handle=document.createElement('div');
+    handle.className='drag-handle'; handle.title='Drag to reorder';
+    handle.innerHTML=`<svg viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>`;
+    attachDragHandle(handle, card);
 
     /* Checkbox */
     const cbWrap=document.createElement('label'); cbWrap.className='cb-wrap';
@@ -1286,6 +1643,11 @@ function build(){
     const pop=document.createElement('div'); pop.className='settings-pop';
     pop.innerHTML=`
       <div class="settings-section">
+        <div class="settings-label">${t('nameLabel')}</div>
+        <input class="name-input" type="text" maxlength="60" value="${(habit.name||'').replace(/"/g,'&quot;')}"/>
+      </div>
+      <div class="settings-divider"></div>
+      <div class="settings-section">
         <div class="settings-label">${t('timeRange')}</div>
         <div class="time-row">
           <input class="time-input" type="time" value="${habit.timeStart||''}" data-field="start"/>
@@ -1308,8 +1670,24 @@ function build(){
         if(ti.dataset.field==='start') habits[idx].timeStart=ti.value;
         else habits[idx].timeEnd=ti.value;
         saveHabits(habits); refreshInfo(habits[idx]);
+        if(currentUser) _dbSaveHabit(habits[idx], idx).catch(console.error);
       });
     });
+
+    const nameInput=pop.querySelector('.name-input');
+    nameInput.addEventListener('click',e=>e.stopPropagation());
+    nameInput.addEventListener('keydown',e=>{ e.stopPropagation(); if(e.key==='Enter') nameInput.blur(); });
+    const commitName=()=>{
+      const idx=habits.findIndex(h=>h.id===habit.id); if(idx===-1)return;
+      const newName=nameInput.value.trim();
+      if(!newName || newName===habits[idx].name){ nameInput.value=habits[idx].name; return; }
+      habits[idx].name=newName;
+      saveHabits(habits);
+      refreshInfo(habit);
+      if(currentUser) _dbSaveHabit(habits[idx], idx).catch(console.error);
+    };
+    nameInput.addEventListener('change',e=>{ e.stopPropagation(); commitName(); });
+    nameInput.addEventListener('blur',commitName);
 
     if(canFreeze){
       pop.querySelector('.settings-freeze').addEventListener('click',e=>{
@@ -1330,7 +1708,8 @@ function build(){
       const idx=habits.findIndex(h=>h.id===habit.id);
       if(idx!==-1) habits.splice(idx,1);
       delete _habitDataCache[habit.id];
-      _dbDeleteHabit(habit.id).catch(console.error);
+      saveHabits(habits); saveData(_habitDataCache);
+      if(currentUser) _dbDeleteHabit(habit.id).catch(console.error);
       closeAllPops(); build();
     });
 
@@ -1342,6 +1721,7 @@ function build(){
     pop.addEventListener('click',e=>e.stopPropagation());
     sw.appendChild(sb); sw.appendChild(pop);
 
+    card.appendChild(handle);
     card.appendChild(cbWrap); card.appendChild(info);
     card.appendChild(dots);   card.appendChild(sw);
     container.appendChild(card);
@@ -1352,6 +1732,7 @@ function build(){
       if(input.checked){
         if(!hd.dates.includes(TODAY)) hd.dates.push(TODAY);
         _habitDataCache[habit.id] = hd;
+        if(!currentUser) localStorage.setItem('habitData', JSON.stringify(_habitDataCache));
         card.classList.add('done'); card.classList.remove('missed-pulse');
 
         const rip=document.createElement('span'); rip.className='ripple';
@@ -1360,8 +1741,7 @@ function build(){
         card.classList.add('popping');
         card.addEventListener('animationend',()=>card.classList.remove('popping'),{once:true});
 
-        // Sync to Supabase (fire-and-forget)
-        _dbToggleCheckin(habit.id, TODAY, true).catch(console.error);
+        if(currentUser) _dbToggleCheckin(habit.id, TODAY, true).catch(console.error);
 
         const m=loadMeta(), prevXP=m.xp, prevLvIdx=getLevel(prevXP);
         let earned=10, milestoneDay=0, milestoneXP=0;
@@ -1384,8 +1764,9 @@ function build(){
       } else {
         hd.dates=hd.dates.filter(d=>d!==TODAY);
         _habitDataCache[habit.id]=hd;
+        if(!currentUser) localStorage.setItem('habitData', JSON.stringify(_habitDataCache));
         card.classList.remove('done'); perfectCelebrated=false;
-        _dbToggleCheckin(habit.id, TODAY, false).catch(console.error);
+        if(currentUser) _dbToggleCheckin(habit.id, TODAY, false).catch(console.error);
       }
 
       refreshInfo(habit); renderDots(hd.dates,dots);
@@ -1412,7 +1793,9 @@ function confirmAdd(){
   const h={id:'habit_'+Date.now(),name};
   if(habitStart.value) h.timeStart=habitStart.value;
   if(habitEnd.value)   h.timeEnd=habitEnd.value;
-  habits.push(h); saveHabits(habits); closeModal(); build();
+  habits.push(h); saveHabits(habits);
+  if(currentUser) _dbSaveHabit(h, habits.length-1).catch(console.error);
+  closeModal(); build();
 }
 
 document.getElementById('add-btn').addEventListener('click',openModal);
@@ -1620,10 +2003,34 @@ function hideLoader() {
   setTimeout(() => { el.style.display = 'none'; }, 300);
 }
 
+function showGuestUI() {
+  document.getElementById('login-btn').style.display = '';
+  document.getElementById('user-picker-wrap').style.display = 'none';
+}
+
+function showLoggedInUI(user) {
+  document.getElementById('login-btn').style.display = 'none';
+  document.getElementById('user-picker-wrap').style.display = '';
+  const initials = (user.email || '?').slice(0, 2).toUpperCase();
+  document.getElementById('user-avatar-display').innerHTML =
+    `<span class="user-avatar-initials">${initials}</span>`;
+}
+
 async function initApp() {
   try {
     const { data: { session } } = await sb.auth.getSession();
-    if (!session) { window.location.replace('auth.html'); return; }
+
+    if (!session) {
+      // Guest mode: load from localStorage
+      habits          = JSON.parse(localStorage.getItem('habitList') || '[]');
+      _habitDataCache = JSON.parse(localStorage.getItem('habitData') || '{}');
+      _metaCache      = JSON.parse(localStorage.getItem('habitMeta') ||
+        '{"xp":0,"perfectDays":[],"freezeTokens":0}');
+      showGuestUI();
+      applyLanguage(currentLang);
+      hideLoader();
+      return;
+    }
 
     currentUser = session.user;
 
@@ -1647,6 +2054,7 @@ async function initApp() {
       profile?.display_name || session.user.email?.split('@')[0] || '—';
     document.getElementById('user-menu-email').textContent = session.user.email || '—';
 
+    showLoggedInUI(session.user);
     applyLanguage(currentLang);
     hideLoader();
   } catch(e) {
@@ -1665,15 +2073,159 @@ document.getElementById('user-btn').addEventListener('click', e => {
 // Sign out
 document.getElementById('sign-out-btn').addEventListener('click', async () => {
   await sb.auth.signOut();
-  window.location.replace('auth.html');
+  window.location.reload();
 });
 
 // Handle session expiry mid-session
 sb.auth.onAuthStateChange((event, session) => {
-  if (event === 'SIGNED_OUT') window.location.replace('auth.html');
+  if (event === 'SIGNED_OUT') window.location.reload();
 });
 
 initApp();
+
+/* ════════════════════════════════════════════
+   Login Modal
+   ════════════════════════════════════════════ */
+(function(){
+  const overlay  = document.getElementById('login-modal');
+  const emailEl  = document.getElementById('lm-email');
+  const pwEl     = document.getElementById('lm-password');
+  const step1    = document.getElementById('lm-step1');
+  const step2    = document.getElementById('lm-step2');
+  const contBtn  = document.getElementById('lm-email-continue');
+  const submitBtn= document.getElementById('lm-submit');
+  const submitLbl= document.getElementById('lm-submit-label');
+  const emailTag = document.getElementById('lm-email-tag');
+  const msgEl    = document.getElementById('lm-msg');
+  const toggleBtn= document.getElementById('lm-toggle-mode');
+  const toggleTxt= document.getElementById('lm-toggle-text');
+  let emailMode  = 'signin'; // 'signin' | 'signup'
+
+  function openLoginModal() {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    resetModal();
+    setTimeout(() => emailEl.focus(), 120);
+  }
+  function closeLoginModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function resetModal() {
+    showStep(1);
+    emailEl.value = '';
+    pwEl.value = '';
+    clearMsg();
+    emailMode = 'signin';
+    submitLbl.textContent = 'Sign In';
+    toggleTxt.textContent = 'No account?';
+    toggleBtn.textContent = 'Create one →';
+  }
+  function showStep(n) {
+    step1.style.display = n === 1 ? '' : 'none';
+    step2.classList.toggle('visible', n === 2);
+  }
+  function showMsg(text, type = 'error') {
+    msgEl.textContent = text;
+    msgEl.className = `lm-msg ${type}`;
+  }
+  function clearMsg() { msgEl.className = 'lm-msg'; msgEl.textContent = ''; }
+  function setLoading(btn, on) {
+    btn.disabled = on;
+    btn.classList.toggle('lm-loading', on);
+  }
+
+  // Open: Login button in toolbar
+  document.getElementById('login-btn').addEventListener('click', openLoginModal);
+
+  // Close
+  document.getElementById('lm-close').addEventListener('click', closeLoginModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeLoginModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeLoginModal(); });
+
+  // Email input → activate Continue button
+  emailEl.addEventListener('input', () => {
+    const hasEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim());
+    contBtn.disabled = !hasEmail;
+    contBtn.classList.toggle('active', hasEmail);
+  });
+  emailEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); if (!contBtn.disabled) goToStep2(); }
+  });
+
+  function goToStep2() {
+    clearMsg();
+    emailTag.textContent = emailEl.value.trim();
+    showStep(2);
+    setTimeout(() => pwEl.focus(), 80);
+  }
+  contBtn.addEventListener('click', goToStep2);
+
+  // Back to step 1
+  document.getElementById('lm-back').addEventListener('click', () => { showStep(1); clearMsg(); });
+
+  // Toggle signin/signup
+  toggleBtn.addEventListener('click', () => {
+    if (emailMode === 'signin') {
+      emailMode = 'signup';
+      submitLbl.textContent = 'Create Account';
+      toggleTxt.textContent = 'Have an account?';
+      toggleBtn.textContent = 'Sign in →';
+      pwEl.autocomplete = 'new-password';
+    } else {
+      emailMode = 'signin';
+      submitLbl.textContent = 'Sign In';
+      toggleTxt.textContent = 'No account?';
+      toggleBtn.textContent = 'Create one →';
+      pwEl.autocomplete = 'current-password';
+    }
+    clearMsg();
+  });
+
+  // Email submit
+  submitBtn.addEventListener('click', async () => {
+    const email    = emailEl.value.trim();
+    const password = pwEl.value;
+    clearMsg();
+    if (!password || password.length < 6) {
+      showMsg('Password must be at least 6 characters.'); return;
+    }
+    setLoading(submitBtn, true);
+    if (emailMode === 'signin') {
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      setLoading(submitBtn, false);
+      if (error) {
+        if (error.message.toLowerCase().includes('invalid')) {
+          showMsg('Wrong email or password. No account? Click "Create one" below.', 'error');
+        } else {
+          showMsg(error.message);
+        }
+      } else {
+        closeLoginModal();
+        window.location.reload();
+      }
+    } else {
+      const { error } = await sb.auth.signUp({ email, password });
+      setLoading(submitBtn, false);
+      if (error) {
+        showMsg(error.message);
+      } else {
+        showMsg('Account created! Signing you in…', 'success');
+        setTimeout(() => { closeLoginModal(); window.location.reload(); }, 1200);
+      }
+    }
+  });
+  pwEl.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
+
+  // Social auth
+  async function socialAuth(provider) {
+    const redirectTo = new URL('auth.html', window.location.href).href;
+    const { error } = await sb.auth.signInWithOAuth({ provider, options: { redirectTo } });
+    if (error) showMsg(error.message);
+  }
+  document.getElementById('lm-google').addEventListener('click', () => socialAuth('google'));
+  document.getElementById('lm-github').addEventListener('click', () => socialAuth('github'));
+})();
 </script>
 </body>
 </html>
