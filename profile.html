@@ -8,7 +8,6 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Themes (mirror of index.html) ── */
     :root {
       --bg:#0a0a0a; --surface:#131313; --border:#1c1c1c; --border-hover:#2a2a2a;
       --accent:#7c6af7; --accent-light:#a89bf7; --accent-rgb:124,106,247;
@@ -49,11 +48,11 @@
       background:var(--bg); color:var(--text);
       font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
       min-height:100vh; display:flex; flex-direction:column; align-items:center;
-      padding:56px 16px 64px; transition:background .3s,color .3s;
+      padding:56px 16px 80px; transition:background .3s,color .3s;
     }
 
     /* ── Top bar ── */
-    .top-bar { position:fixed; top:14px; left:18px; right:18px; display:flex; align-items:center; justify-content:space-between; z-index:200; }
+    .top-bar { position:fixed; top:14px; left:18px; right:18px; display:flex; align-items:center; z-index:200; }
     .icon-btn {
       height:34px; min-width:34px; border-radius:10px; border:none; background:transparent;
       color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center;
@@ -71,14 +70,30 @@
     /* ── Profile card ── */
     .profile { width:100%; max-width:440px; display:flex; flex-direction:column; align-items:center; }
 
+    /* ── Avatar ── */
+    .avatar-wrap {
+      position:relative; margin-bottom:18px; cursor:pointer; border-radius:50%;
+      -webkit-tap-highlight-color:transparent;
+    }
     .avatar {
-      width:84px; height:84px; border-radius:50%;
+      width:88px; height:88px; border-radius:50%;
       background:var(--accent); color:#fff;
       display:flex; align-items:center; justify-content:center;
-      font-size:2rem; font-weight:700; text-transform:uppercase;
-      box-shadow:0 8px 24px rgba(var(--accent-rgb),.3); margin-bottom:18px;
+      font-size:2.2rem; font-weight:700; text-transform:uppercase;
+      overflow:hidden; user-select:none; transition:filter .2s;
     }
+    .avatar img { width:100%; height:100%; object-fit:cover; display:block; border-radius:50%; }
+    .avatar-overlay {
+      position:absolute; inset:0; border-radius:50%;
+      background:rgba(0,0,0,.42);
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; transition:opacity .2s;
+    }
+    .avatar-wrap:hover .avatar-overlay { opacity:1; }
+    .avatar-overlay svg { width:22px; height:22px; fill:#fff; }
+    #avatar-input { display:none; }
 
+    /* ── Name ── */
     .name-row { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
     .display-name { font-size:1.4rem; font-weight:700; letter-spacing:-.01em; color:var(--text); }
     .edit-btn { background:none; border:none; cursor:pointer; color:var(--text-dim); padding:4px; display:flex; transition:color .15s; }
@@ -92,31 +107,64 @@
     }
     .name-input:focus { border-color:var(--accent); }
 
-    .level-tag { font-size:.84rem; color:var(--text-dim); margin-bottom:28px; letter-spacing:.02em; }
+    /* ── Level ── */
+    .level-tag { font-size:.84rem; color:var(--text-dim); margin-bottom:10px; letter-spacing:.02em; }
     .level-tag b { color:var(--accent); font-weight:600; }
 
-    /* ── Stat grid ── */
-    .stat-grid {
-      width:100%; display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:28px;
+    /* ── Bio / motto ── */
+    .bio-wrap { margin-bottom:28px; min-height:26px; display:flex; align-items:center; justify-content:center; }
+    .bio-text {
+      font-size:.84rem; color:var(--text-dim); text-align:center; cursor:pointer;
+      padding:3px 10px; border-radius:8px; border:1px dashed transparent;
+      transition:border-color .15s, color .15s; display:inline-block;
     }
-    .stat {
-      background:var(--stat-bg); border:1px solid var(--stat-border); border-radius:14px;
-      padding:16px 14px; display:flex; flex-direction:column; gap:4px;
+    .bio-text:hover { border-color:var(--border-hover); color:var(--text); }
+    .bio-text.empty { color:var(--text-muted); font-style:italic; }
+    .bio-input {
+      font-size:.84rem; text-align:center;
+      background:var(--input-bg); border:1.5px solid var(--accent); border-radius:8px;
+      color:var(--text); font-family:inherit; padding:4px 14px; outline:none;
+      max-width:260px; width:100%;
     }
+
+    /* ── Stats ── */
+    .stat-grid { width:100%; display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:32px; }
+    .stat { background:var(--stat-bg); border:1px solid var(--stat-border); border-radius:14px; padding:16px 14px; display:flex; flex-direction:column; gap:4px; }
     .stat-val { font-size:1.5rem; font-weight:700; color:var(--text); letter-spacing:-.02em; }
     .stat-val .unit { font-size:.85rem; font-weight:600; color:var(--text-dim); margin-left:3px; }
     .stat-label { font-size:.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em; }
 
-    /* ── Habit list ── */
-    .section-label { width:100%; font-size:.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:.07em; margin-bottom:10px; }
-    .habit-row {
-      width:100%; display:flex; align-items:center; justify-content:space-between;
-      background:var(--surface); border:1px solid var(--border); border-radius:12px;
-      padding:12px 16px; margin-bottom:8px;
+    /* ── Section label ── */
+    .section-label { width:100%; font-size:.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:.07em; margin-bottom:12px; }
+
+    /* ── Heatmap ── */
+    .heatmap { display:flex; gap:3px; width:100%; margin-bottom:32px; }
+    .heatmap-week { display:flex; flex-direction:column; gap:3px; flex:1; min-width:0; }
+    .heatmap-cell { aspect-ratio:1; border-radius:2px; background:var(--border); }
+    .heatmap-cell[data-level="1"] { background:rgba(var(--accent-rgb),.18); }
+    .heatmap-cell[data-level="2"] { background:rgba(var(--accent-rgb),.42); }
+    .heatmap-cell[data-level="3"] { background:rgba(var(--accent-rgb),.70); }
+    .heatmap-cell[data-level="4"] { background:var(--accent); }
+
+    /* ── Achievements ── */
+    .achievement-grid { width:100%; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+    .badge {
+      display:flex; flex-direction:column; align-items:center; gap:5px;
+      padding:14px 6px 12px; border-radius:14px;
+      border:1.5px solid var(--border); background:var(--stat-bg);
+      transition:border-color .25s, transform .15s; position:relative; overflow:hidden;
     }
-    .habit-row-name { font-size:.9rem; font-weight:500; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .habit-row-streak { font-size:.82rem; color:var(--text-dim); flex-shrink:0; margin-left:12px; }
-    .empty-habits { width:100%; text-align:center; color:var(--text-dim); font-size:.85rem; padding:24px 0; }
+    .badge.unlocked { border-color:rgba(var(--accent-rgb),.35); }
+    .badge.unlocked:hover { transform:translateY(-2px); border-color:rgba(var(--accent-rgb),.65); }
+    .badge.locked { opacity:.28; filter:grayscale(1); }
+    .badge-icon { font-size:1.55rem; line-height:1; }
+    .badge-name { font-size:.62rem; font-weight:700; color:var(--text); text-align:center; letter-spacing:.01em; line-height:1.3; }
+    .badge-desc { font-size:.58rem; color:var(--text-dim); text-align:center; line-height:1.3; }
+    .badge.unlocked::after {
+      content:''; position:absolute; top:-12px; right:-12px;
+      width:32px; height:32px; border-radius:50%;
+      background:rgba(var(--accent-rgb),.1);
+    }
 
     /* ── Toast ── */
     .toast {
@@ -131,17 +179,26 @@
 <body>
 
 <div id="loading"><div class="ring"></div></div>
+<input type="file" id="avatar-input" accept="image/*" />
 
 <div class="top-bar">
-  <a class="icon-btn" href="index.html" aria-label="Back to habits">
+  <a class="icon-btn" href="index.html" aria-label="Back">
     <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
     <span id="t-back">Habits</span>
   </a>
 </div>
 
 <div class="profile" id="profile" style="display:none">
-  <div class="avatar" id="avatar">?</div>
 
+  <!-- Avatar -->
+  <div class="avatar-wrap" id="avatar-wrap" title="Change photo">
+    <div class="avatar" id="avatar">?</div>
+    <div class="avatar-overlay">
+      <svg viewBox="0 0 24 24"><path d="M12 15.2A3.2 3.2 0 0 1 8.8 12 3.2 3.2 0 0 1 12 8.8 3.2 3.2 0 0 1 15.2 12 3.2 3.2 0 0 1 12 15.2M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+    </div>
+  </div>
+
+  <!-- Name -->
   <div class="name-row">
     <span class="display-name" id="display-name">—</span>
     <button class="edit-btn" id="edit-name-btn" aria-label="Edit name">
@@ -151,53 +208,140 @@
 
   <div class="level-tag" id="level-tag">—</div>
 
-  <div class="stat-grid">
-    <div class="stat">
-      <div class="stat-val" id="stat-h">0<span class="unit">H</span></div>
-      <div class="stat-label" id="t-totalh">Total H</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val" id="stat-streak">0</div>
-      <div class="stat-label" id="t-beststreak">Best streak</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val" id="stat-perfect">0</div>
-      <div class="stat-label" id="t-perfectdays">Perfect days</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val" id="stat-habits">0</div>
-      <div class="stat-label" id="t-habits">Habits</div>
-    </div>
+  <!-- Bio -->
+  <div class="bio-wrap" id="bio-wrap">
+    <span class="bio-text empty" id="bio-text"></span>
   </div>
 
-  <div class="section-label" id="t-yourhabits">Your habits</div>
-  <div id="habit-list"></div>
+  <!-- Stats -->
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-val" id="stat-h">0<span class="unit">H</span></div><div class="stat-label" id="t-totalh">Total H</div></div>
+    <div class="stat"><div class="stat-val" id="stat-streak">0</div><div class="stat-label" id="t-beststreak">Best streak</div></div>
+    <div class="stat"><div class="stat-val" id="stat-perfect">0</div><div class="stat-label" id="t-perfectdays">Perfect days</div></div>
+    <div class="stat"><div class="stat-val" id="stat-habits">0</div><div class="stat-label" id="t-habits">Habits</div></div>
+  </div>
+
+  <!-- Activity heatmap -->
+  <div class="section-label" id="t-activity">Activity · 12 weeks</div>
+  <div class="heatmap" id="heatmap"></div>
+
+  <!-- Achievements -->
+  <div class="section-label" id="t-achievements">Achievements</div>
+  <div class="achievement-grid" id="achievement-grid"></div>
+
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-/* ════════════════════════════════════════════
-   Config + theme + i18n (ported subset)
-   ════════════════════════════════════════════ */
 const SUPABASE_URL      = 'https://gwxncicsscmaxjxolvwu.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_iuVW38hMMD6IHa1r0SAHbA_aQg3XnGv';
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Apply saved theme immediately
 const theme = localStorage.getItem('habitTheme') || 'white';
 document.documentElement.setAttribute('data-theme', theme);
 
 const lang = localStorage.getItem('habitLang') || 'en';
 const I18N = {
-  en:{ back:'Habits', totalH:'Total H', best:'Best streak', perfect:'Perfect days', habits:'Habits', yours:'Your habits', noHabits:'No habits yet', dayStreak:n=>`${n>0?'🔥':'○'} ${n} day streak`, lv:'Lv.', saved:'Name updated', levels:['Newcomer','Consistent','Dedicated','Focused','Master','Champion','Legend'] },
-  zh:{ back:'习惯', totalH:'总 H', best:'最长连续', perfect:'完美日', habits:'习惯数', yours:'你的习惯', noHabits:'还没有习惯', dayStreak:n=>`${n>0?'🔥':'○'} 连续 ${n} 天`, lv:'Lv.', saved:'名字已更新', levels:['新手','稳定','专注','精进','大师','强者','传奇'] },
-  es:{ back:'Hábitos', totalH:'H total', best:'Mejor racha', perfect:'Días perfectos', habits:'Hábitos', yours:'Tus hábitos', noHabits:'Aún sin hábitos', dayStreak:n=>`${n>0?'🔥':'○'} ${n} días seguidos`, lv:'Nv.', saved:'Nombre actualizado', levels:['Novato','Constante','Dedicado','Enfocado','Maestro','Campeón','Leyenda'] },
-  ko:{ back:'습관', totalH:'총 H', best:'최고 연속', perfect:'완벽한 날', habits:'습관', yours:'내 습관', noHabits:'아직 습관이 없습니다', dayStreak:n=>`${n>0?'🔥':'○'} ${n}일 연속`, lv:'Lv.', saved:'이름이 업데이트됨', levels:['초보자','꾸준함','헌신','집중','달인','챔피언','전설'] },
-  ja:{ back:'習慣', totalH:'合計 H', best:'最長連続', perfect:'完璧な日', habits:'習慣', yours:'あなたの習慣', noHabits:'まだ習慣がありません', dayStreak:n=>`${n>0?'🔥':'○'} ${n}日連続`, lv:'Lv.', saved:'名前を更新しました', levels:['初心者','安定','専念','精進','達人','強者','伝説'] },
-  vi:{ back:'Thói quen', totalH:'Tổng H', best:'Chuỗi tốt nhất', perfect:'Ngày hoàn hảo', habits:'Thói quen', yours:'Thói quen của bạn', noHabits:'Chưa có thói quen', dayStreak:n=>`${n>0?'🔥':'○'} ${n} ngày liên tiếp`, lv:'Cấp', saved:'Đã cập nhật tên', levels:['Người mới','Kiên định','Chuyên tâm','Tập trung','Bậc thầy','Vô địch','Huyền thoại'] },
-  th:{ back:'นิสัย', totalH:'H รวม', best:'สถิติดีสุด', perfect:'วันสมบูรณ์', habits:'นิสัย', yours:'นิสัยของคุณ', noHabits:'ยังไม่มีนิสัย', dayStreak:n=>`${n>0?'🔥':'○'} ${n} วันติด`, lv:'Lv.', saved:'อัปเดตชื่อแล้ว', levels:['มือใหม่','สม่ำเสมอ','ทุ่มเท','มุ่งมั่น','เชี่ยวชาญ','แชมป์','ตำนาน'] },
+  en:{ back:'Habits', totalH:'Total H', best:'Best streak', perfect:'Perfect days', habits:'Habits',
+    activity:'Activity · 12 weeks', achievements:'Achievements',
+    bioPlaceholder:'Add a motto…', saved:'Name updated', avatarSaved:'Avatar updated ✓', bioSaved:'Motto saved ✓',
+    lv:'Lv.', levels:['Newcomer','Consistent','Dedicated','Focused','Master','Champion','Legend'],
+    badges:[
+      {name:'First Step',    desc:'First check-in'},
+      {name:'On Fire',       desc:'7-day streak'},
+      {name:'Streak Master', desc:'30-day streak'},
+      {name:'H Hunter',      desc:'Earn 500 H'},
+      {name:'Perfectionist', desc:'7 perfect days'},
+      {name:'Master',        desc:'Reach Level 5'},
+      {name:'Habit Builder', desc:'Track 5+ habits'},
+      {name:'Legend',        desc:'Reach Level 7'},
+    ]},
+  zh:{ back:'习惯', totalH:'总 H', best:'最长连续', perfect:'完美日', habits:'习惯数',
+    activity:'打卡记录 · 12周', achievements:'成就',
+    bioPlaceholder:'添加一句格言…', saved:'名字已更新', avatarSaved:'头像已更新 ✓', bioSaved:'格言已保存 ✓',
+    lv:'Lv.', levels:['新手','稳定','专注','精进','大师','强者','传奇'],
+    badges:[
+      {name:'第一步',   desc:'完成第一次打卡'},
+      {name:'燃起来',  desc:'连续 7 天'},
+      {name:'连续大师', desc:'连续 30 天'},
+      {name:'H 猎手',  desc:'获得 500 H'},
+      {name:'完美主义', desc:'7 个完美日'},
+      {name:'大师',    desc:'达到 5 级'},
+      {name:'习惯达人', desc:'追踪 5+ 习惯'},
+      {name:'传奇',    desc:'达到 7 级'},
+    ]},
+  es:{ back:'Hábitos', totalH:'H total', best:'Mejor racha', perfect:'Días perfectos', habits:'Hábitos',
+    activity:'Actividad · 12 semanas', achievements:'Logros',
+    bioPlaceholder:'Añade un lema…', saved:'Nombre actualizado', avatarSaved:'Avatar actualizado ✓', bioSaved:'Lema guardado ✓',
+    lv:'Nv.', levels:['Novato','Constante','Dedicado','Enfocado','Maestro','Campeón','Leyenda'],
+    badges:[
+      {name:'Primer paso',   desc:'Primer check-in'},
+      {name:'En llamas',     desc:'Racha 7 días'},
+      {name:'Maestro racha', desc:'Racha 30 días'},
+      {name:'Cazador H',     desc:'500 H ganados'},
+      {name:'Perfeccionista',desc:'7 días perfectos'},
+      {name:'Maestro',       desc:'Nivel 5'},
+      {name:'Constructor',   desc:'5+ hábitos'},
+      {name:'Leyenda',       desc:'Nivel 7'},
+    ]},
+  ko:{ back:'습관', totalH:'총 H', best:'최고 연속', perfect:'완벽한 날', habits:'습관',
+    activity:'활동 · 12주', achievements:'업적',
+    bioPlaceholder:'좌우명 추가…', saved:'이름 업데이트됨', avatarSaved:'아바타 업데이트됨 ✓', bioSaved:'좌우명 저장됨 ✓',
+    lv:'Lv.', levels:['초보자','꾸준함','헌신','집중','달인','챔피언','전설'],
+    badges:[
+      {name:'첫 걸음',    desc:'첫 체크인'},
+      {name:'불타는',    desc:'7일 연속'},
+      {name:'연속 마스터',desc:'30일 연속'},
+      {name:'H 헌터',    desc:'500 H 획득'},
+      {name:'완벽주의자', desc:'완벽한 날 7일'},
+      {name:'마스터',    desc:'레벨 5'},
+      {name:'습관 빌더',  desc:'5개+ 습관'},
+      {name:'전설',      desc:'레벨 7'},
+    ]},
+  ja:{ back:'習慣', totalH:'合計 H', best:'最長連続', perfect:'完璧な日', habits:'習慣',
+    activity:'アクティビティ · 12週', achievements:'実績',
+    bioPlaceholder:'モットーを追加…', saved:'名前を更新', avatarSaved:'アバターを更新 ✓', bioSaved:'モットーを保存 ✓',
+    lv:'Lv.', levels:['初心者','安定','専念','精進','達人','強者','伝説'],
+    badges:[
+      {name:'最初の一歩',  desc:'初チェックイン'},
+      {name:'燃えてる',   desc:'7日連続'},
+      {name:'連続マスター',desc:'30日連続'},
+      {name:'Hハンター',  desc:'500 H獲得'},
+      {name:'完璧主義者',  desc:'完璧な日7日'},
+      {name:'達人',       desc:'レベル5'},
+      {name:'習慣ビルダー',desc:'5つ以上の習慣'},
+      {name:'伝説',       desc:'レベル7'},
+    ]},
+  vi:{ back:'Thói quen', totalH:'Tổng H', best:'Chuỗi tốt nhất', perfect:'Ngày hoàn hảo', habits:'Thói quen',
+    activity:'Hoạt động · 12 tuần', achievements:'Thành tích',
+    bioPlaceholder:'Thêm phương châm…', saved:'Đã cập nhật tên', avatarSaved:'Đã cập nhật ảnh ✓', bioSaved:'Đã lưu phương châm ✓',
+    lv:'Cấp', levels:['Người mới','Kiên định','Chuyên tâm','Tập trung','Bậc thầy','Vô địch','Huyền thoại'],
+    badges:[
+      {name:'Bước đầu',    desc:'Check-in đầu tiên'},
+      {name:'Bùng cháy',   desc:'Chuỗi 7 ngày'},
+      {name:'Bậc thầy',    desc:'Chuỗi 30 ngày'},
+      {name:'Săn H',       desc:'Kiếm 500 H'},
+      {name:'Hoàn hảo',    desc:'7 ngày hoàn hảo'},
+      {name:'Thầy',        desc:'Cấp 5'},
+      {name:'Xây dựng',    desc:'5+ thói quen'},
+      {name:'Huyền thoại', desc:'Cấp 7'},
+    ]},
+  th:{ back:'นิสัย', totalH:'H รวม', best:'สถิติดีสุด', perfect:'วันสมบูรณ์', habits:'นิสัย',
+    activity:'กิจกรรม · 12 สัปดาห์', achievements:'ความสำเร็จ',
+    bioPlaceholder:'เพิ่มคำขวัญ…', saved:'อัปเดตชื่อแล้ว', avatarSaved:'อัปเดตอวตารแล้ว ✓', bioSaved:'บันทึกคำขวัญแล้ว ✓',
+    lv:'Lv.', levels:['มือใหม่','สม่ำเสมอ','ทุ่มเท','มุ่งมั่น','เชี่ยวชาญ','แชมป์','ตำนาน'],
+    badges:[
+      {name:'ก้าวแรก',     desc:'เช็คอินครั้งแรก'},
+      {name:'ลุกไหม้',    desc:'ต่อเนื่อง 7 วัน'},
+      {name:'ปรมาจารย์',  desc:'ต่อเนื่อง 30 วัน'},
+      {name:'ล่า H',      desc:'ได้รับ 500 H'},
+      {name:'สมบูรณ์แบบ', desc:'7 วันสมบูรณ์'},
+      {name:'ปรมาจารย์',  desc:'ถึงระดับ 5'},
+      {name:'สร้างนิสัย',  desc:'5+ นิสัย'},
+      {name:'ตำนาน',      desc:'ถึงระดับ 7'},
+    ]},
 };
 const T = I18N[lang] || I18N.en;
 
@@ -207,121 +351,224 @@ function getLevel(xp){ let idx=0; for(let i=LEVELS.length-1;i>=0;i--){ if(xp>=LE
 const TODAY = (()=>{ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })();
 function prevDay(s){ const d=new Date(s+'T00:00:00'); d.setDate(d.getDate()-1); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 function calcStreak(dates){ const set=new Set(dates); let cur=set.has(TODAY)?TODAY:prevDay(TODAY); if(!set.has(cur))return 0; let n=0; while(set.has(cur)){n++;cur=prevDay(cur);} return n; }
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-/* ════════════════════════════════════════════
-   Apply static i18n labels
-   ════════════════════════════════════════════ */
-document.getElementById('t-back').textContent       = T.back;
-document.getElementById('t-totalh').textContent      = T.totalH;
-document.getElementById('t-beststreak').textContent  = T.best;
-document.getElementById('t-perfectdays').textContent = T.perfect;
-document.getElementById('t-habits').textContent      = T.habits;
-document.getElementById('t-yourhabits').textContent  = T.yours;
+/* Apply i18n */
+document.getElementById('t-back').textContent         = T.back;
+document.getElementById('t-totalh').textContent       = T.totalH;
+document.getElementById('t-beststreak').textContent   = T.best;
+document.getElementById('t-perfectdays').textContent  = T.perfect;
+document.getElementById('t-habits').textContent       = T.habits;
+document.getElementById('t-activity').textContent     = T.activity;
+document.getElementById('t-achievements').textContent = T.achievements;
+document.getElementById('bio-text').textContent       = T.bioPlaceholder;
 
 let currentUser = null;
 
-/* ════════════════════════════════════════════
-   Toast
-   ════════════════════════════════════════════ */
+/* ── Toast ── */
 let toastTimer = null;
 function toast(msg){
   const el = document.getElementById('toast');
   el.textContent = msg; el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>el.classList.remove('show'), 2200);
+  toastTimer = setTimeout(()=>el.classList.remove('show'), 2400);
 }
 
-/* ════════════════════════════════════════════
-   Render
-   ════════════════════════════════════════════ */
-function render(profile, meta, habits, checkinsByHabit){
-  const name = profile?.display_name || currentUser.email?.split('@')[0] || 'You';
-  document.getElementById('display-name').textContent = name;
-  document.getElementById('avatar').textContent = (name||'?').slice(0,2);
+/* ── Avatar upload ── */
+function initAvatar(userId){
+  const wrap  = document.getElementById('avatar-wrap');
+  const input = document.getElementById('avatar-input');
+  wrap.addEventListener('click', ()=>input.click());
+  input.addEventListener('change', async e=>{
+    const file = e.target.files[0]; if(!file) return;
+    const dataUrl = await cropSquare(file, 160);
+    setAvatarImg(dataUrl);
+    localStorage.setItem('habitAvatar_'+userId, dataUrl);
+    toast(T.avatarSaved);
+    input.value = '';
+  });
+}
 
-  const xp = meta?.xp || 0;
-  const lvIdx = getLevel(xp);
-  document.getElementById('level-tag').innerHTML = `<b>${T.lv}${lvIdx+1}</b> · ${T.levels[lvIdx]}`;
+function cropSquare(file, size){
+  return new Promise(resolve=>{
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = ()=>{
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      const ctx = c.getContext('2d');
+      const min = Math.min(img.width, img.height);
+      ctx.drawImage(img, (img.width-min)/2, (img.height-min)/2, min, min, 0, 0, size, size);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg', 0.82));
+    };
+    img.src = url;
+  });
+}
 
-  document.getElementById('stat-h').innerHTML = `${xp.toLocaleString()}<span class="unit">H</span>`;
-  document.getElementById('stat-perfect').textContent = (meta?.perfectDays?.length) || 0;
-  document.getElementById('stat-habits').textContent = habits.length;
+function setAvatarImg(src){
+  document.getElementById('avatar').innerHTML = `<img src="${src}" alt="avatar">`;
+}
 
-  // Best current streak across all habits
-  let best = 0;
-  habits.forEach(h=>{ const s = calcStreak(checkinsByHabit[h.id]||[]); if(s>best) best=s; });
-  document.getElementById('stat-streak').textContent = best;
+/* ── Bio / motto ── */
+function initBio(userId){
+  const bio = localStorage.getItem('habitBio_'+userId) || '';
+  renderBio(bio);
+  document.getElementById('bio-text').addEventListener('click', ()=>startBioEdit(userId));
+}
 
-  // Habit list with per-habit streak
-  const list = document.getElementById('habit-list');
-  if(habits.length === 0){
-    list.innerHTML = `<div class="empty-habits">${T.noHabits}</div>`;
-  } else {
-    list.innerHTML = habits.map(h=>{
-      const s = calcStreak(checkinsByHabit[h.id]||[]);
-      return `<div class="habit-row">
-        <span class="habit-row-name">${escapeHtml(h.name)}</span>
-        <span class="habit-row-streak">${T.dayStreak(s)}</span>
-      </div>`;
-    }).join('');
+function renderBio(bio){
+  const el = document.getElementById('bio-text');
+  if(bio){ el.textContent = bio; el.classList.remove('empty'); }
+  else  { el.textContent = T.bioPlaceholder; el.classList.add('empty'); }
+}
+
+function startBioEdit(userId){
+  const cur = localStorage.getItem('habitBio_'+userId) || '';
+  const wrap = document.getElementById('bio-wrap');
+  wrap.innerHTML = `<input class="bio-input" id="bio-input" maxlength="60" placeholder="${escapeHtml(T.bioPlaceholder)}" value="${escapeHtml(cur)}">`;
+  const input = document.getElementById('bio-input');
+  input.focus(); input.select();
+  let done = false;
+  const commit = ()=>{
+    if(done) return; done = true;
+    const val = input.value.trim();
+    localStorage.setItem('habitBio_'+userId, val);
+    wrap.innerHTML = `<span class="bio-text${val?'':' empty'}" id="bio-text"></span>`;
+    renderBio(val);
+    document.getElementById('bio-text').addEventListener('click', ()=>startBioEdit(userId));
+    if(val !== cur) toast(T.bioSaved);
+  };
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); input.blur(); } if(e.key==='Escape'){ input.value=cur; input.blur(); } });
+  input.addEventListener('blur', commit);
+}
+
+/* ── Heatmap ── */
+function renderHeatmap(checkinsByHabit, habitCount){
+  const dateCount = {};
+  Object.values(checkinsByHabit).forEach(dates=>dates.forEach(d=>{ dateCount[d]=(dateCount[d]||0)+1; }));
+
+  const anchor = new Date(); anchor.setHours(0,0,0,0);
+  const weeks = [];
+  let week = [];
+  for(let i=83; i>=0; i--){
+    const d = new Date(anchor.getTime()); d.setDate(anchor.getDate()-i);
+    const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const cnt = dateCount[ds]||0;
+    let level = 0;
+    if(habitCount>0 && cnt>0){ const r=cnt/habitCount; level=r<0.34?1:r<0.67?2:r<1?3:4; }
+    week.push({ds,level});
+    if(week.length===7){ weeks.push(week); week=[]; }
   }
+  if(week.length) weeks.push(week);
+
+  document.getElementById('heatmap').innerHTML = weeks.map(w=>
+    `<div class="heatmap-week">${w.map(c=>`<div class="heatmap-cell" data-level="${c.level}" title="${c.ds}"></div>`).join('')}</div>`
+  ).join('');
 }
 
-function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+/* ── Achievements ── */
+const BADGE_DEFS = [
+  { icon:'🌱', check:d=>d.totalCheckins>=1  },
+  { icon:'🔥', check:d=>d.bestStreak>=7     },
+  { icon:'💎', check:d=>d.bestStreak>=30    },
+  { icon:'⚡', check:d=>d.xp>=500          },
+  { icon:'🎯', check:d=>d.perfectDays>=7   },
+  { icon:'🏆', check:d=>d.level>=5         },
+  { icon:'🌟', check:d=>d.habitCount>=5    },
+  { icon:'👑', check:d=>d.level>=7         },
+];
 
-/* ════════════════════════════════════════════
-   Inline name edit
-   ════════════════════════════════════════════ */
+function renderAchievements(data){
+  document.getElementById('achievement-grid').innerHTML = BADGE_DEFS.map((def,i)=>{
+    const ok = def.check(data);
+    const b  = T.badges[i];
+    return `<div class="badge ${ok?'unlocked':'locked'}">
+      <div class="badge-icon">${def.icon}</div>
+      <div class="badge-name">${escapeHtml(b.name)}</div>
+      <div class="badge-desc">${escapeHtml(b.desc)}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ── Inline name edit ── */
 function startEditName(){
   const cur = document.getElementById('display-name').textContent;
   const row = document.querySelector('.name-row');
   row.innerHTML = `<input class="name-input" id="name-input" maxlength="40" value="${escapeHtml(cur)}"/>`;
   const input = document.getElementById('name-input');
   input.focus(); input.select();
+  let done = false;
   const commit = async ()=>{
+    if(done) return; done = true;
     const val = input.value.trim();
-    if(val && val !== cur){
-      await sb.from('profiles').update({ display_name: val, updated_at: new Date().toISOString() }).eq('id', currentUser.id);
+    if(val && val!==cur){
+      await sb.from('profiles').update({display_name:val, updated_at:new Date().toISOString()}).eq('id',currentUser.id);
       toast(T.saved);
     }
-    rebuildNameRow(val || cur);
+    rebuildNameRow(val||cur);
   };
-  input.addEventListener('keydown', e=>{ if(e.key==='Enter') input.blur(); if(e.key==='Escape'){ input.value=cur; input.blur(); } });
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); input.blur(); } if(e.key==='Escape'){input.value=cur;input.blur();} });
   input.addEventListener('blur', commit);
 }
 
 function rebuildNameRow(name){
-  const row = document.querySelector('.name-row');
-  row.innerHTML = `<span class="display-name" id="display-name">${escapeHtml(name)}</span>
-    <button class="edit-btn" id="edit-name-btn" aria-label="Edit name">
-      <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-    </button>`;
-  document.getElementById('avatar').textContent = (name||'?').slice(0,2);
+  document.querySelector('.name-row').innerHTML =
+    `<span class="display-name" id="display-name">${escapeHtml(name)}</span>
+     <button class="edit-btn" id="edit-name-btn" aria-label="Edit name">
+       <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+     </button>`;
+  const av = document.getElementById('avatar');
+  if(!av.querySelector('img')) av.textContent = (name||'?').slice(0,2);
   document.getElementById('edit-name-btn').addEventListener('click', startEditName);
 }
 
-/* ════════════════════════════════════════════
-   Init
-   ════════════════════════════════════════════ */
+/* ── Render ── */
+function render(profile, meta, habits, checkinsByHabit){
+  const name = profile?.display_name || currentUser.email?.split('@')[0] || 'You';
+  document.getElementById('display-name').textContent = name;
+
+  // Avatar
+  const saved = localStorage.getItem('habitAvatar_'+currentUser.id) || profile?.avatar_url;
+  if(saved) setAvatarImg(saved);
+  else document.getElementById('avatar').textContent = (name||'?').slice(0,2);
+
+  const xp    = meta?.xp||0;
+  const lvIdx = getLevel(xp);
+  document.getElementById('level-tag').innerHTML = `<b>${T.lv}${lvIdx+1}</b> · ${T.levels[lvIdx]}`;
+  document.getElementById('stat-h').innerHTML    = `${xp.toLocaleString()}<span class="unit">H</span>`;
+  document.getElementById('stat-perfect').textContent = (meta?.perfectDays?.length)||0;
+  document.getElementById('stat-habits').textContent  = habits.length;
+
+  let best=0, totalCheckins=0;
+  habits.forEach(h=>{ const s=calcStreak(checkinsByHabit[h.id]||[]); if(s>best)best=s; totalCheckins+=(checkinsByHabit[h.id]||[]).length; });
+  document.getElementById('stat-streak').textContent = best;
+
+  renderHeatmap(checkinsByHabit, habits.length);
+  renderAchievements({ xp, level:lvIdx+1, bestStreak:best, totalCheckins, perfectDays:(meta?.perfectDays?.length)||0, habitCount:habits.length });
+}
+
+/* ── Init ── */
 async function init(){
   const { data:{ session } } = await sb.auth.getSession();
   if(!session){ window.location.replace('index.html'); return; }
   currentUser = session.user;
 
   const [profileRes, metaRes, habitsRes, checkinsRes] = await Promise.all([
-    sb.from('profiles').select('*').eq('id', currentUser.id).single(),
-    sb.from('user_meta').select('*').eq('user_id', currentUser.id).single(),
+    sb.from('profiles').select('*').eq('id',currentUser.id).single(),
+    sb.from('user_meta').select('*').eq('user_id',currentUser.id).single(),
     sb.from('habits').select('*').order('sort_order'),
     sb.from('check_ins').select('habit_id,check_date'),
   ]);
 
   const profile = profileRes.data;
-  const meta = metaRes.data ? { xp:metaRes.data.xp, perfectDays:metaRes.data.perfect_days||[] } : { xp:0, perfectDays:[] };
-  const habits = (habitsRes.data||[]).map(r=>({ id:r.id, name:r.name }));
+  const meta    = metaRes.data ? {xp:metaRes.data.xp, perfectDays:metaRes.data.perfect_days||[]} : {xp:0, perfectDays:[]};
+  const habits  = (habitsRes.data||[]).map(r=>({id:r.id, name:r.name}));
   const checkinsByHabit = {};
-  (checkinsRes.data||[]).forEach(row=>{ (checkinsByHabit[row.habit_id]=checkinsByHabit[row.habit_id]||[]).push(row.check_date); });
+  (checkinsRes.data||[]).forEach(r=>{ (checkinsByHabit[r.habit_id]=checkinsByHabit[r.habit_id]||[]).push(r.check_date); });
 
   render(profile, meta, habits, checkinsByHabit);
+  initAvatar(currentUser.id);
+  initBio(currentUser.id);
   document.getElementById('edit-name-btn').addEventListener('click', startEditName);
 
   document.getElementById('profile').style.display = 'flex';
