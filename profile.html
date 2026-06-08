@@ -146,26 +146,6 @@
     .heatmap-cell[data-level="3"] { background:rgba(var(--accent-rgb),.70); }
     .heatmap-cell[data-level="4"] { background:var(--accent); }
 
-    /* ── Achievements ── */
-    .achievement-grid { width:100%; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-    .badge {
-      display:flex; flex-direction:column; align-items:center; gap:5px;
-      padding:14px 6px 12px; border-radius:14px;
-      border:1.5px solid var(--border); background:var(--stat-bg);
-      transition:border-color .25s, transform .15s; position:relative; overflow:hidden;
-    }
-    .badge.unlocked { border-color:rgba(var(--accent-rgb),.35); }
-    .badge.unlocked:hover { transform:translateY(-2px); border-color:rgba(var(--accent-rgb),.65); }
-    .badge.locked { opacity:.28; filter:grayscale(1); }
-    .badge-icon { font-size:1.55rem; line-height:1; }
-    .badge-name { font-size:.62rem; font-weight:700; color:var(--text); text-align:center; letter-spacing:.01em; line-height:1.3; }
-    .badge-desc { font-size:.58rem; color:var(--text-dim); text-align:center; line-height:1.3; }
-    .badge.unlocked::after {
-      content:''; position:absolute; top:-12px; right:-12px;
-      width:32px; height:32px; border-radius:50%;
-      background:rgba(var(--accent-rgb),.1);
-    }
-
     /* ── Toast ── */
     .toast {
       position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
@@ -225,9 +205,6 @@
   <div class="section-label" id="t-activity">Activity · 12 weeks</div>
   <div class="heatmap" id="heatmap"></div>
 
-  <!-- Achievements -->
-  <div class="section-label" id="t-achievements">Achievements</div>
-  <div class="achievement-grid" id="achievement-grid"></div>
 
 </div>
 
@@ -245,103 +222,33 @@ document.documentElement.setAttribute('data-theme', theme);
 const lang = localStorage.getItem('habitLang') || 'en';
 const I18N = {
   en:{ back:'Habits', totalH:'Total H', best:'Best streak', perfect:'Perfect days', habits:'Habits',
-    activity:'Activity · 12 weeks', achievements:'Achievements',
+    activity:'Activity · 12 weeks',
     bioPlaceholder:'Add a motto…', saved:'Name updated', avatarSaved:'Avatar updated ✓', bioSaved:'Motto saved ✓',
-    lv:'Lv.', levels:['Newcomer','Consistent','Dedicated','Focused','Master','Champion','Legend'],
-    badges:[
-      {name:'First Step',    desc:'First check-in'},
-      {name:'On Fire',       desc:'7-day streak'},
-      {name:'Streak Master', desc:'30-day streak'},
-      {name:'H Hunter',      desc:'Earn 500 H'},
-      {name:'Perfectionist', desc:'7 perfect days'},
-      {name:'Master',        desc:'Reach Level 5'},
-      {name:'Habit Builder', desc:'Track 5+ habits'},
-      {name:'Legend',        desc:'Reach Level 7'},
-    ]},
+    lv:'Lv.', levels:['Newcomer','Consistent','Dedicated','Focused','Master','Champion','Legend'] },
   zh:{ back:'习惯', totalH:'总 H', best:'最长连续', perfect:'完美日', habits:'习惯数',
-    activity:'打卡记录 · 12周', achievements:'成就',
+    activity:'打卡记录 · 12周',
     bioPlaceholder:'添加一句格言…', saved:'名字已更新', avatarSaved:'头像已更新 ✓', bioSaved:'格言已保存 ✓',
-    lv:'Lv.', levels:['新手','稳定','专注','精进','大师','强者','传奇'],
-    badges:[
-      {name:'第一步',   desc:'完成第一次打卡'},
-      {name:'燃起来',  desc:'连续 7 天'},
-      {name:'连续大师', desc:'连续 30 天'},
-      {name:'H 猎手',  desc:'获得 500 H'},
-      {name:'完美主义', desc:'7 个完美日'},
-      {name:'大师',    desc:'达到 5 级'},
-      {name:'习惯达人', desc:'追踪 5+ 习惯'},
-      {name:'传奇',    desc:'达到 7 级'},
-    ]},
+    lv:'Lv.', levels:['新手','稳定','专注','精进','大师','强者','传奇'] },
   es:{ back:'Hábitos', totalH:'H total', best:'Mejor racha', perfect:'Días perfectos', habits:'Hábitos',
-    activity:'Actividad · 12 semanas', achievements:'Logros',
+    activity:'Actividad · 12 semanas',
     bioPlaceholder:'Añade un lema…', saved:'Nombre actualizado', avatarSaved:'Avatar actualizado ✓', bioSaved:'Lema guardado ✓',
-    lv:'Nv.', levels:['Novato','Constante','Dedicado','Enfocado','Maestro','Campeón','Leyenda'],
-    badges:[
-      {name:'Primer paso',   desc:'Primer check-in'},
-      {name:'En llamas',     desc:'Racha 7 días'},
-      {name:'Maestro racha', desc:'Racha 30 días'},
-      {name:'Cazador H',     desc:'500 H ganados'},
-      {name:'Perfeccionista',desc:'7 días perfectos'},
-      {name:'Maestro',       desc:'Nivel 5'},
-      {name:'Constructor',   desc:'5+ hábitos'},
-      {name:'Leyenda',       desc:'Nivel 7'},
-    ]},
+    lv:'Nv.', levels:['Novato','Constante','Dedicado','Enfocado','Maestro','Campeón','Leyenda'] },
   ko:{ back:'습관', totalH:'총 H', best:'최고 연속', perfect:'완벽한 날', habits:'습관',
-    activity:'활동 · 12주', achievements:'업적',
+    activity:'활동 · 12주',
     bioPlaceholder:'좌우명 추가…', saved:'이름 업데이트됨', avatarSaved:'아바타 업데이트됨 ✓', bioSaved:'좌우명 저장됨 ✓',
-    lv:'Lv.', levels:['초보자','꾸준함','헌신','집중','달인','챔피언','전설'],
-    badges:[
-      {name:'첫 걸음',    desc:'첫 체크인'},
-      {name:'불타는',    desc:'7일 연속'},
-      {name:'연속 마스터',desc:'30일 연속'},
-      {name:'H 헌터',    desc:'500 H 획득'},
-      {name:'완벽주의자', desc:'완벽한 날 7일'},
-      {name:'마스터',    desc:'레벨 5'},
-      {name:'습관 빌더',  desc:'5개+ 습관'},
-      {name:'전설',      desc:'레벨 7'},
-    ]},
+    lv:'Lv.', levels:['초보자','꾸준함','헌신','집중','달인','챔피언','전설'] },
   ja:{ back:'習慣', totalH:'合計 H', best:'最長連続', perfect:'完璧な日', habits:'習慣',
-    activity:'アクティビティ · 12週', achievements:'実績',
+    activity:'アクティビティ · 12週',
     bioPlaceholder:'モットーを追加…', saved:'名前を更新', avatarSaved:'アバターを更新 ✓', bioSaved:'モットーを保存 ✓',
-    lv:'Lv.', levels:['初心者','安定','専念','精進','達人','強者','伝説'],
-    badges:[
-      {name:'最初の一歩',  desc:'初チェックイン'},
-      {name:'燃えてる',   desc:'7日連続'},
-      {name:'連続マスター',desc:'30日連続'},
-      {name:'Hハンター',  desc:'500 H獲得'},
-      {name:'完璧主義者',  desc:'完璧な日7日'},
-      {name:'達人',       desc:'レベル5'},
-      {name:'習慣ビルダー',desc:'5つ以上の習慣'},
-      {name:'伝説',       desc:'レベル7'},
-    ]},
+    lv:'Lv.', levels:['初心者','安定','専念','精進','達人','強者','伝説'] },
   vi:{ back:'Thói quen', totalH:'Tổng H', best:'Chuỗi tốt nhất', perfect:'Ngày hoàn hảo', habits:'Thói quen',
-    activity:'Hoạt động · 12 tuần', achievements:'Thành tích',
+    activity:'Hoạt động · 12 tuần',
     bioPlaceholder:'Thêm phương châm…', saved:'Đã cập nhật tên', avatarSaved:'Đã cập nhật ảnh ✓', bioSaved:'Đã lưu phương châm ✓',
-    lv:'Cấp', levels:['Người mới','Kiên định','Chuyên tâm','Tập trung','Bậc thầy','Vô địch','Huyền thoại'],
-    badges:[
-      {name:'Bước đầu',    desc:'Check-in đầu tiên'},
-      {name:'Bùng cháy',   desc:'Chuỗi 7 ngày'},
-      {name:'Bậc thầy',    desc:'Chuỗi 30 ngày'},
-      {name:'Săn H',       desc:'Kiếm 500 H'},
-      {name:'Hoàn hảo',    desc:'7 ngày hoàn hảo'},
-      {name:'Thầy',        desc:'Cấp 5'},
-      {name:'Xây dựng',    desc:'5+ thói quen'},
-      {name:'Huyền thoại', desc:'Cấp 7'},
-    ]},
+    lv:'Cấp', levels:['Người mới','Kiên định','Chuyên tâm','Tập trung','Bậc thầy','Vô địch','Huyền thoại'] },
   th:{ back:'นิสัย', totalH:'H รวม', best:'สถิติดีสุด', perfect:'วันสมบูรณ์', habits:'นิสัย',
-    activity:'กิจกรรม · 12 สัปดาห์', achievements:'ความสำเร็จ',
+    activity:'กิจกรรม · 12 สัปดาห์',
     bioPlaceholder:'เพิ่มคำขวัญ…', saved:'อัปเดตชื่อแล้ว', avatarSaved:'อัปเดตอวตารแล้ว ✓', bioSaved:'บันทึกคำขวัญแล้ว ✓',
-    lv:'Lv.', levels:['มือใหม่','สม่ำเสมอ','ทุ่มเท','มุ่งมั่น','เชี่ยวชาญ','แชมป์','ตำนาน'],
-    badges:[
-      {name:'ก้าวแรก',     desc:'เช็คอินครั้งแรก'},
-      {name:'ลุกไหม้',    desc:'ต่อเนื่อง 7 วัน'},
-      {name:'ปรมาจารย์',  desc:'ต่อเนื่อง 30 วัน'},
-      {name:'ล่า H',      desc:'ได้รับ 500 H'},
-      {name:'สมบูรณ์แบบ', desc:'7 วันสมบูรณ์'},
-      {name:'ปรมาจารย์',  desc:'ถึงระดับ 5'},
-      {name:'สร้างนิสัย',  desc:'5+ นิสัย'},
-      {name:'ตำนาน',      desc:'ถึงระดับ 7'},
-    ]},
+    lv:'Lv.', levels:['มือใหม่','สม่ำเสมอ','ทุ่มเท','มุ่งมั่น','เชี่ยวชาญ','แชมป์','ตำนาน'] },
 };
 const T = I18N[lang] || I18N.en;
 
@@ -359,9 +266,8 @@ document.getElementById('t-totalh').textContent       = T.totalH;
 document.getElementById('t-beststreak').textContent   = T.best;
 document.getElementById('t-perfectdays').textContent  = T.perfect;
 document.getElementById('t-habits').textContent       = T.habits;
-document.getElementById('t-activity').textContent     = T.activity;
-document.getElementById('t-achievements').textContent = T.achievements;
-document.getElementById('bio-text').textContent       = T.bioPlaceholder;
+document.getElementById('t-activity').textContent = T.activity;
+document.getElementById('bio-text').textContent   = T.bioPlaceholder;
 
 let currentUser = null;
 
@@ -466,30 +372,6 @@ function renderHeatmap(checkinsByHabit, habitCount){
   ).join('');
 }
 
-/* ── Achievements ── */
-const BADGE_DEFS = [
-  { icon:'🌱', check:d=>d.totalCheckins>=1  },
-  { icon:'🔥', check:d=>d.bestStreak>=7     },
-  { icon:'💎', check:d=>d.bestStreak>=30    },
-  { icon:'⚡', check:d=>d.xp>=500          },
-  { icon:'🎯', check:d=>d.perfectDays>=7   },
-  { icon:'🏆', check:d=>d.level>=5         },
-  { icon:'🌟', check:d=>d.habitCount>=5    },
-  { icon:'👑', check:d=>d.level>=7         },
-];
-
-function renderAchievements(data){
-  document.getElementById('achievement-grid').innerHTML = BADGE_DEFS.map((def,i)=>{
-    const ok = def.check(data);
-    const b  = T.badges[i];
-    return `<div class="badge ${ok?'unlocked':'locked'}">
-      <div class="badge-icon">${def.icon}</div>
-      <div class="badge-name">${escapeHtml(b.name)}</div>
-      <div class="badge-desc">${escapeHtml(b.desc)}</div>
-    </div>`;
-  }).join('');
-}
-
 /* ── Inline name edit ── */
 function startEditName(){
   const cur = document.getElementById('display-name').textContent;
@@ -539,12 +421,11 @@ function render(profile, meta, habits, checkinsByHabit){
   document.getElementById('stat-perfect').textContent = (meta?.perfectDays?.length)||0;
   document.getElementById('stat-habits').textContent  = habits.length;
 
-  let best=0, totalCheckins=0;
-  habits.forEach(h=>{ const s=calcStreak(checkinsByHabit[h.id]||[]); if(s>best)best=s; totalCheckins+=(checkinsByHabit[h.id]||[]).length; });
+  let best=0;
+  habits.forEach(h=>{ const s=calcStreak(checkinsByHabit[h.id]||[]); if(s>best)best=s; });
   document.getElementById('stat-streak').textContent = best;
 
   renderHeatmap(checkinsByHabit, habits.length);
-  renderAchievements({ xp, level:lvIdx+1, bestStreak:best, totalCheckins, perfectDays:(meta?.perfectDays?.length)||0, habitCount:habits.length });
 }
 
 /* ── Init ── */
