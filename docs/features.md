@@ -757,5 +757,104 @@ weekdayOffset(year, month):
 
 ---
 
-*Last updated: 2026-06-05*
+## Feature: Profile Page — Avatar Upload
+
+### Purpose
+Let the user personalize their profile with a custom avatar photo, replacing the default initials placeholder.
+
+### UX Behavior
+1. User taps the avatar circle on the profile page — a file picker opens (accepts image/*).
+2. Selected image is compressed client-side to JPEG at 80% quality, max 400×400 px.
+3. Compressed image is stored in `localStorage` as a base64 data URL.
+4. Avatar circle immediately updates to show the photo; a thin accent-colored ring appears around it.
+5. On subsequent page loads, the saved photo is restored from storage.
+6. If no photo is stored, the circle shows the user's initials (first letter of first and last name) on a dark background.
+
+### Data Model
+- Key: `habitAvatar` · Type: `string` (base64 JPEG data URL, e.g. `data:image/jpeg;base64,...`)
+- No migration concern; absence of key falls back to initials gracefully.
+
+### Business Logic
+- Resize: if image width or height > 400 px, draw onto a 400×400 canvas preserving aspect ratio (centered crop).
+- Compress: `canvas.toDataURL('image/jpeg', 0.8)`.
+- Store immediately on selection; no "save" confirmation needed.
+
+### UI / Layout Specification
+- Avatar: 80 dp circle, `border-radius: 50%`.
+- Photo fill: `object-fit: cover` equivalent (canvas center-crop).
+- Ring: 3 dp border, `accent` color, visible only when a photo is uploaded.
+- Tap target: the full 80 dp circle area.
+- Edit indicator: small camera icon overlay at bottom-right of avatar (20 dp, semi-transparent).
+
+### Animations & Micro-interactions
+- Fade-in: avatar image fades in after load, 200 ms ease.
+- No animation on ring appear (instant).
+
+### Cross-platform Notes
+- **iOS**: `UIImagePickerController` / `PHPickerViewController`. Compress with `UIImage.jpegData(compressionQuality:)`.
+- **Android**: `ActivityResultContracts.GetContent`. Compress with `Bitmap.compress(JPEG, 80, stream)`.
+- **macOS/Windows**: Native file picker dialog. Resize/compress before storing.
+- Storage: use platform keychain or local file (not localStorage equivalent) for larger images on native platforms.
+
+---
+
+## Feature: Profile Page — Share Card & Bottom Sheet
+
+### Purpose
+Allow users to share their Habit profile as a beautiful, premium dark card image or via social platforms, accessible from a share icon in the top-right corner of the profile page.
+
+### UX Behavior
+1. User taps the share icon (top-right of profile top-bar).
+2. A bottom sheet slides up from the bottom of the screen with a blurred backdrop.
+3. Inside the sheet: a "Share" title, close (×) button, a thumbnail preview of the generated share card, and 5 action buttons: Copy link · X · LinkedIn · Reddit · Save card.
+4. The share card is generated asynchronously on open (Canvas API, 1080×1350 px). A "generating…" placeholder shows while it renders.
+5. **Copy link**: copies the current profile page URL to clipboard, shows toast "Link copied ✓", closes sheet.
+6. **X (Twitter)**: opens `https://x.com/intent/tweet?text=…&url=…` in a new tab.
+7. **LinkedIn**: opens `https://www.linkedin.com/sharing/share-offsite/?url=…` in a new tab.
+8. **Reddit**: opens `https://reddit.com/submit?url=…&title=…` in a new tab.
+9. **Save card**: triggers PNG download of the 1080×1350 share card via an `<a download>` click.
+10. Tapping the backdrop closes the sheet.
+
+### Data Model
+No new persistent storage. The card is generated on-demand from existing profile data (name, XP, level, bio, check-in history).
+
+### Business Logic
+**Card layout** (1080×1350 canvas, always dark regardless of user's app theme):
+- Background: three-stop radial gradient from deep navy/black center to near-black edges.
+- Purple radial glow behind avatar area: `rgba(124, 106, 247, 0.18)` at center.
+- "HABIT" wordmark near top: spaced uppercase letters, `rgba(255,255,255,0.17)`.
+- Thin horizontal rule below wordmark.
+- Avatar ring: `rgba(124,106,247,0.22)` circle. Inside: user photo (clipped to circle) or initials on `#1e1a3d` background.
+- Name: bold, `rgba(255,255,255,0.92)`.
+- Level string (e.g. "Lv.5 · Master"): `rgba(255,255,255,0.4)`.
+- Bio/motto (if set): italic-weight, `rgba(255,255,255,0.28)`.
+- Stats surface: frosted-glass rounded rect with 2×2 grid (Total H · Best Streak / Perfect Days · Habits).
+- "ACTIVITY" section label (spaced).
+- Heatmap: 12 weeks × 7 days grid of small rounded rectangles. Empty cells: `rgba(255,255,255,0.04)`. Filled cells: purple tints by intensity (level 1–4). Level-4 cells get a glow effect.
+- Footer: thin rule + "habit" wordmark left-aligned + current date right-aligned.
+
+**Letter spacing on canvas**: implemented via manual character-by-character drawing (measure each glyph width + add gap) to work across all browsers including Safari (which doesn't support `ctx.letterSpacing`).
+
+### UI / Layout Specification
+- Bottom sheet: `border-radius: 22px 22px 0 0`, `background: var(--surface)`, `border: 1px solid var(--border)` (no bottom border), max-width 460 px, centered.
+- Drag handle: 36×4 dp pill, `var(--border)` color, centered at top.
+- Card thumbnail: fixed 170 dp height, `aspect-ratio: 4/5`, centered, `border-radius: 14px`.
+- Action row: 5 equally-spaced buttons, each with a 50 dp circular icon container (`var(--stat-bg)` fill, `var(--border)` border) and a label below (0.62 rem, `var(--text-dim)`).
+- Sheet follows the website's active theme (white/dark/github/classic) — NOT a fixed dark style.
+
+### Animations & Micro-interactions
+- Backdrop: fade in, `opacity: 0 → 1`, 250 ms ease.
+- Sheet slide-up: `translateY(100%) → translateY(0)`, 280 ms `cubic-bezier(0.4,0,0.2,1)` on open; spring easing `cubic-bezier(0.34,1.15,0.64,1)` at 340 ms on settle.
+- Close: reverse of open (translateY(0) → translateY(100%)), backdrop fades out.
+
+### Cross-platform Notes
+- **iOS (SwiftUI)**: Use `.sheet(isPresented:)` with `presentationDetents`. Generate card with `UIGraphicsImageRenderer` (1080×1350). Share via `UIActivityViewController`.
+- **Android (Compose)**: `ModalBottomSheet`. Generate card with `Canvas` + `Bitmap`. Share via `Intent.ACTION_SEND`.
+- **macOS/Windows**: Replace bottom sheet with a popover or modal dialog. Share card generation same logic (native canvas/graphics API). Social share URLs work identically.
+- Canvas letter-spacing: native platforms handle this natively; only web requires the manual character-draw workaround.
+- Clipboard API: `navigator.clipboard.writeText()` requires a secure context (HTTPS or localhost). On non-secure contexts, fall back to `document.execCommand('copy')`.
+
+---
+
+*Last updated: 2026-06-08*
 *Maintained by: Claude Sonnet (AI pair programmer)*
