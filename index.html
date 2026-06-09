@@ -631,6 +631,7 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
 </head>
 <body>
 
@@ -1538,12 +1539,7 @@ function onDragMove(e){
     if(c===card) return;
     const delta=firstTop.get(c)-c.getBoundingClientRect().top;
     if(!delta) return;
-    c.style.transition='none';
-    c.style.transform=`translateY(${delta}px)`;
-    requestAnimationFrame(()=>{
-      c.style.transition='transform .34s cubic-bezier(.25,.8,.3,1)';
-      c.style.transform='';
-    });
+    gsap.fromTo(c, {y: delta}, {y: 0, duration: 0.34, ease: 'power2.out', overwrite: 'auto'});
   });
 }
 
@@ -1556,8 +1552,11 @@ function onDragEnd(e){
   const card=_drag.card, container=_drag.container;
   card.classList.remove('dragging'); card.classList.add('drag-settling');
   setTimeout(()=>card.classList.remove('drag-settling'),220);
-  // Clear any in-flight FLIP transforms left on siblings
-  container.querySelectorAll('.habit-card').forEach(c=>{ c.style.transition=''; c.style.transform=''; });
+  // Kill any in-flight GSAP FLIP tweens on siblings
+  container.querySelectorAll('.habit-card').forEach(c=>{
+    gsap.killTweensOf(c, 'y');
+    gsap.set(c, {clearProps: 'y'});
+  });
 
   // Rebuild habits[] to match new DOM order
   const order=[...container.querySelectorAll('.habit-card')].map(c=>c.dataset.habitId);
@@ -1568,6 +1567,42 @@ function onDragEnd(e){
   if(habits.map(h=>h.id).join(',')===before) return;   // no change
   saveHabits(habits);
   if(currentUser) habits.forEach((h,i)=>_dbSaveHabit(h,i).catch(console.error));
+}
+
+/* ════════════════════════════════════════════
+   GSAP Card Animations
+   ════════════════════════════════════════════ */
+const _prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function wireCardGSAP(card) {
+  if (_prefersReduced) return;
+  card.addEventListener('mousemove', _onCardMove);
+  card.addEventListener('mouseleave', _onCardLeave);
+}
+
+function _onCardMove(e) {
+  if (_drag) return;   // no tilt while reordering
+  const card = e.currentTarget;
+  const r    = card.getBoundingClientRect();
+  // Normalise -1 → +1 relative to card centre
+  const dx   = ((e.clientX - r.left) / r.width  - 0.5) * 2;
+  const dy   = ((e.clientY - r.top)  / r.height - 0.5) * 2;
+  gsap.to(card, {
+    rotationY:         dx *  7,   // ±7 ° left/right
+    rotationX:        -dy *  4,   // ±4 ° up/down
+    scale:             1.018,
+    transformPerspective: 900,
+    duration: 0.35, ease: 'power2.out', overwrite: 'auto'
+  });
+}
+
+function _onCardLeave(e) {
+  if (_drag) return;
+  gsap.to(e.currentTarget, {
+    rotationY: 0, rotationX: 0, scale: 1,
+    transformPerspective: 900,
+    duration: 0.5, ease: 'power3.out', overwrite: 'auto'
+  });
 }
 
 /* ════════════════════════════════════════════
@@ -1725,6 +1760,7 @@ function build(){
     card.appendChild(cbWrap); card.appendChild(info);
     card.appendChild(dots);   card.appendChild(sw);
     container.appendChild(card);
+    wireCardGSAP(card);
 
     /* Checkbox interaction */
     input.addEventListener('change', async ()=>{
@@ -1737,9 +1773,9 @@ function build(){
 
         const rip=document.createElement('span'); rip.className='ripple';
         cbFace.appendChild(rip); rip.addEventListener('animationend',()=>rip.remove());
-        card.classList.remove('popping'); void card.offsetWidth;
-        card.classList.add('popping');
-        card.addEventListener('animationend',()=>card.classList.remove('popping'),{once:true});
+        gsap.timeline({defaults:{overwrite:'auto'}})
+          .to(card, {scale:1.03, duration:0.13, ease:'power2.out'})
+          .to(card, {scale:1,    duration:0.55, ease:'elastic.out(1,0.5)'});
 
         if(currentUser) _dbToggleCheckin(habit.id, TODAY, true).catch(console.error);
 
@@ -1776,6 +1812,14 @@ function build(){
   });
 
   updateProgress(); updateStats(); checkRecovery();
+
+  // GSAP staggered entrance
+  if (!_prefersReduced) {
+    gsap.from(container.querySelectorAll('.habit-card'), {
+      y: 14, opacity: 0, duration: 0.38,
+      stagger: 0.06, ease: 'power2.out', clearProps: 'all'
+    });
+  }
 }
 
 /* ════════════════════════════════════════════

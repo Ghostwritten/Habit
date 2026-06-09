@@ -154,6 +154,7 @@
       backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
     }
     .share-overlay.open { opacity:1; pointer-events:all; }
+    /* Mobile: bottom sheet */
     .share-sheet {
       width:100%; max-width:460px; margin:0 8px;
       background:var(--surface); border:1px solid var(--border); border-bottom:none;
@@ -166,10 +167,25 @@
       transform:translateY(0);
       transition:transform .34s cubic-bezier(.34,1.15,.64,1);
     }
+    /* Drag handle (mobile only) */
     .share-sheet::before {
       content:''; display:block; width:36px; height:4px;
       background:var(--border); border-radius:2px;
       margin:0 auto 16px;
+    }
+    /* Desktop: centered modal */
+    @media (min-width:640px) {
+      .share-overlay { align-items:center; }
+      .share-sheet {
+        max-width:420px; border:1px solid var(--border); border-bottom:1px solid var(--border);
+        border-radius:20px; padding:20px 24px 28px; max-height:88vh;
+        transform:translateY(16px) scale(.97);
+      }
+      .share-overlay.open .share-sheet {
+        transform:translateY(0) scale(1);
+        transition:transform .3s cubic-bezier(.34,1.15,.64,1), opacity .25s;
+      }
+      .share-sheet::before { display:none; }
     }
     .share-header {
       display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;
@@ -182,14 +198,13 @@
     .share-close:hover { color:var(--text); background:var(--toolbar-hover); }
     .share-close svg { width:18px; height:18px; fill:currentColor; }
 
-    /* Card preview */
+    /* Card preview — width-based, always centered */
     .card-preview {
-      width:auto; height:170px; border-radius:14px; overflow:hidden; margin-bottom:14px;
-      background:#07070f; aspect-ratio:4/5; position:relative;
+      width:56%; aspect-ratio:4/5; border-radius:14px; overflow:hidden;
+      margin:0 auto 16px; background:#07070f; position:relative;
       display:flex; align-items:center; justify-content:center;
-      margin-left:auto; margin-right:auto;
     }
-    .card-preview canvas { height:100% !important; width:auto !important; display:block; }
+    .card-preview canvas { width:100% !important; height:auto !important; display:block; }
     .card-preview-loading {
       color:rgba(255,255,255,.22); font-size:.68rem;
       letter-spacing:.1em; text-transform:uppercase;
